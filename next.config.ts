@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true
+  reactStrictMode: true,
+  output: "export",
+  basePath: "/system-atlas",
+  images: {
+    unoptimized: true
+  }
 };
 
 export default nextConfig;
