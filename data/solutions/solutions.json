@@ -1,0 +1,633 @@
+{
+  "id": "solution-space",
+  "title": "方案空间",
+  "type": "domain",
+  "description": "用于解决常见系统问题的技术和模式集合。",
+  "systemRole": "收纳面对系统压力时可复用的架构动作。",
+  "problemSolved": "把故障模式转成具体解决方案。",
+  "tradeOffs": [
+    "方案高度依赖上下文，不能盲目照搬。"
+  ],
+  "tags": [
+    "方案",
+    "模式",
+    "架构"
+  ],
+  "links": [
+    "problem-space",
+    "backend-system",
+    "database-system",
+    "network-system"
+  ],
+  "children": [
+    {
+      "id": "caching",
+      "title": "缓存",
+      "type": "concept",
+      "description": "把昂贵结果保存起来，避免重复工作。",
+      "systemRole": "一种广义的性能和减压手段。",
+      "problemSolved": "降低延迟和源头压力。",
+      "tradeOffs": [
+        "新鲜度和失效是最难的部分。"
+      ],
+      "tags": [
+        "缓存",
+        "性能",
+        "新鲜度"
+      ],
+      "links": [
+        "cache-invalidation",
+        "redis-cache",
+        "cdn-cache"
+      ],
+      "children": [
+        {
+          "id": "redis-cache",
+          "title": "Redis 缓存",
+          "type": "solution",
+          "description": "使用内存存储加速重复读取。",
+          "systemRole": "把热点数据从主存储中卸载出来。",
+          "problemSolved": "降低延迟和数据库压力。",
+          "tradeOffs": [
+            "缓存一致性和淘汰策略需要认真设计。"
+          ],
+          "tags": [
+            "缓存",
+            "内存",
+            "性能"
+          ],
+          "links": [
+            "cache-invalidation",
+            "buffering"
+          ]
+        },
+        {
+          "id": "cache-invalidation",
+          "title": "缓存失效",
+          "type": "problem",
+          "description": "判断缓存何时已经不再有效。",
+          "systemRole": "分布式和前端缓存里最难的问题之一。",
+          "problemSolved": "让用户不至于看到旧数据。",
+          "tradeOffs": [
+            "失效过猛会增加负载，失效过弱会损害正确性。"
+          ],
+          "tags": [
+            "缓存",
+            "一致性",
+            "性能"
+          ],
+          "links": [
+            "redis-cache",
+            "cdn-cache",
+            "stale-read"
+          ]
+        },
+        {
+          "id": "memoization",
+          "title": "记忆化",
+          "type": "solution",
+          "description": "按输入缓存纯函数的计算结果。",
+          "systemRole": "避免重复本地计算。",
+          "problemSolved": "加速重复出现的 CPU 密集型变换。",
+          "tradeOffs": [
+            "缓存结果会消耗更多内存。"
+          ],
+          "tags": [
+            "CPU",
+            "缓存",
+            "函数"
+          ],
+          "links": [
+            "bundle-size",
+            "state-colocation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "title": "交付",
+      "type": "concept",
+      "description": "更高效地把代码和内容送到用户手中。",
+      "systemRole": "降低从源站到终端用户的延迟。",
+      "problemSolved": "改善页面加载和资源交付。",
+      "tradeOffs": [
+        "分发和失效会更复杂。"
+      ],
+      "tags": [
+        "CDN",
+        "边缘",
+        "交付"
+      ],
+      "links": [
+        "cdn-cache",
+        "edge-compute",
+        "http-caching"
+      ],
+      "children": [
+        {
+          "id": "edge-compute",
+          "title": "边缘计算",
+          "type": "solution",
+          "description": "在更靠近用户的网络边缘运行代码。",
+          "systemRole": "缩短常见请求的往返时间。",
+          "problemSolved": "把动态工作放到更靠近客户端的位置。",
+          "tradeOffs": [
+            "边缘运行时的约束更严格。"
+          ],
+          "tags": [
+            "边缘",
+            "延迟",
+            "运行时"
+          ],
+          "links": [
+            "cdn-cache",
+            "streaming-ssr"
+          ]
+        },
+        {
+          "id": "compression",
+          "title": "压缩",
+          "type": "solution",
+          "description": "在传输前缩小数据体积。",
+          "systemRole": "减少带宽和传输时间。",
+          "problemSolved": "帮助大型 HTML、JSON 和资源更快传输。",
+          "tradeOffs": [
+            "压缩会消耗 CPU，对已压缩资源帮助有限。"
+          ],
+          "tags": [
+            "带宽",
+            "性能",
+            "传输"
+          ],
+          "links": [
+            "bundle-size",
+            "http-caching"
+          ]
+        },
+        {
+          "id": "prefetching",
+          "title": "预取",
+          "type": "solution",
+          "description": "在真正需要之前先把资源拉下来。",
+          "systemRole": "用空闲时间隐藏未来延迟。",
+          "problemSolved": "让导航体验更快。",
+          "tradeOffs": [
+            "预取可能浪费带宽和内存。"
+          ],
+          "tags": [
+            "性能",
+            "体验",
+            "网络"
+          ],
+          "links": [
+            "optimistic-ui",
+            "request-coalescing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consistency",
+      "title": "一致性",
+      "type": "concept",
+      "description": "让副本和参与方对当前状态保持一致。",
+      "systemRole": "管理分布式边界上的正确性。",
+      "problemSolved": "把分布式争议变成可定义行为。",
+      "tradeOffs": [
+        "强一致性通常要牺牲延迟和可用性。"
+      ],
+      "tags": [
+        "一致性",
+        "分布式",
+        "事务"
+      ],
+      "links": [
+        "eventual-consistency",
+        "optimistic-locking",
+        "mvcc"
+      ],
+      "children": [
+        {
+          "id": "optimistic-locking",
+          "title": "乐观锁",
+          "type": "solution",
+          "description": "不提前阻塞，而是在提交时检测写冲突。",
+          "systemRole": "帮助并发更新在碰撞时快速失败。",
+          "problemSolved": "以较低的竞争成本防止丢失更新。",
+          "tradeOffs": [
+            "冲突会变成应用可见的错误。"
+          ],
+          "tags": [
+            "并发",
+            "一致性",
+            "数据库"
+          ],
+          "links": [
+            "race-condition",
+            "transaction-isolation"
+          ]
+        },
+        {
+          "id": "quorum",
+          "title": "Quorum",
+          "type": "solution",
+          "description": "要求至少一部分节点同意后才继续。",
+          "systemRole": "在故障下提供分布式一致性判断。",
+          "problemSolved": "降低脑裂风险。",
+          "tradeOffs": [
+            "网络分区时可用性会下降。"
+          ],
+          "tags": [
+            "分布式",
+            "共识",
+            "可用性"
+          ],
+          "links": [
+            "split-brain",
+            "leader-election"
+          ]
+        },
+        {
+          "id": "leader-election",
+          "title": "领导者选举",
+          "type": "solution",
+          "description": "选出一个权威节点负责协调集群。",
+          "systemRole": "为协调提供单一决策者。",
+          "problemSolved": "简化写入和状态切换。",
+          "tradeOffs": [
+            "Leader 故障转移会增加复杂度和延迟。"
+          ],
+          "tags": [
+            "分布式",
+            "协调",
+            "共识"
+          ],
+          "links": [
+            "split-brain",
+            "quorum"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flow-control",
+      "title": "流量控制",
+      "type": "concept",
+      "description": "控制工作进入系统的速度以及缓存上限。",
+      "systemRole": "保持上下游容量平衡。",
+      "problemSolved": "防止过载、队列爆炸和内存压力。",
+      "tradeOffs": [
+        "减慢生产者会降低峰值吞吐。"
+      ],
+      "tags": [
+        "流控",
+        "吞吐",
+        "背压"
+      ],
+      "links": [
+        "buffering",
+        "bulkhead",
+        "rate-limiting"
+      ],
+      "children": [
+        {
+          "id": "buffering",
+          "title": "缓冲",
+          "type": "solution",
+          "description": "先把数据攒起来，再统一处理或下发。",
+          "systemRole": "平滑突发生产者和下游背压。",
+          "problemSolved": "处理吞吐错配和瞬时尖峰。",
+          "tradeOffs": [
+            "缓冲会占用内存，也可能掩盖慢消费者。"
+          ],
+          "tags": [
+            "流式",
+            "内存",
+            "吞吐"
+          ],
+          "links": [
+            "backpressure",
+            "queue-workers"
+          ]
+        },
+        {
+          "id": "bulkhead",
+          "title": "隔舱",
+          "type": "solution",
+          "description": "把资源隔离开，避免一处失败拖垮整体。",
+          "systemRole": "限制故障半径。",
+          "problemSolved": "在局部故障时保住无关流量。",
+          "tradeOffs": [
+            "资源切分会降低效率。"
+          ],
+          "tags": [
+            "韧性",
+            "隔离",
+            "容量"
+          ],
+          "links": [
+            "noisy-neighbor",
+            "circuit-breaker"
+          ]
+        },
+        {
+          "id": "throttling",
+          "title": "节流",
+          "type": "solution",
+          "description": "故意放慢请求或操作，保护系统。",
+          "systemRole": "在压力下维持稳定。",
+          "problemSolved": "避免过载继续升级。",
+          "tradeOffs": [
+            "会影响正常突发流量和体验。"
+          ],
+          "tags": [
+            "流控",
+            "限速",
+            "保护"
+          ],
+          "links": [
+            "rate-limiting",
+            "thundering-herd"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reliability-patterns",
+      "title": "可靠性模式",
+      "type": "concept",
+      "description": "面对故障和不稳定时的常见应对方式。",
+      "systemRole": "收纳事故和降级时的标准动作。",
+      "problemSolved": "把故障转成可控回退。",
+      "tradeOffs": [
+        "韧性模式会增加分支和状态。"
+      ],
+      "tags": [
+        "韧性",
+        "故障",
+        "事故"
+      ],
+      "links": [
+        "circuit-breaker",
+        "retries-with-backoff",
+        "outbox-pattern"
+      ],
+      "children": [
+        {
+          "id": "circuit-breaker",
+          "title": "熔断器",
+          "type": "solution",
+          "description": "当依赖持续失败时，暂时停止调用。",
+          "systemRole": "避免重复失败浪费容量。",
+          "problemSolved": "防止级联故障。",
+          "tradeOffs": [
+            "阈值不合适时，快速失败会被误解为不可靠。"
+          ],
+          "tags": [
+            "韧性",
+            "故障",
+            "依赖"
+          ],
+          "links": [
+            "tail-latency",
+            "bulkhead"
+          ]
+        },
+        {
+          "id": "retries-with-backoff",
+          "title": "退避重试",
+          "type": "solution",
+          "description": "失败后按递增等待时间重试。",
+          "systemRole": "缓和短暂依赖故障。",
+          "problemSolved": "提高不稳定上游的成功率。",
+          "tradeOffs": [
+            "重试在事故中可能放大压力。"
+          ],
+          "tags": [
+            "重试",
+            "韧性",
+            "网络"
+          ],
+          "links": [
+            "idempotency-keys",
+            "thundering-herd"
+          ]
+        },
+        {
+          "id": "fallback",
+          "title": "回退方案",
+          "type": "solution",
+          "description": "主路径失败时，提供降级但仍可用的行为。",
+          "systemRole": "在局部故障时保住用户价值。",
+          "problemSolved": "防止依赖不可用导致全站失败。",
+          "tradeOffs": [
+            "回退路径可能过时，且测试不足。"
+          ],
+          "tags": [
+            "韧性",
+            "降级",
+            "体验"
+          ],
+          "links": [
+            "dark-launch",
+            "feature-flags"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "webpack",
+      "title": "Webpack",
+      "type": "solution",
+      "description": "功能强大的模块打包工具。",
+      "systemRole": "把分散的前端资源整理成可部署的静态文件。",
+      "problemSolved": "处理模块依赖、资源优化和构建流程。",
+      "tradeOffs": [
+        "配置复杂度高，构建速度有上限。"
+      ],
+      "tags": [
+        "构建",
+        "打包",
+        "前端"
+      ],
+      "links": [
+        "build-tools",
+        "bundle-size",
+        "vite"
+      ],
+      "children": [
+        {
+          "id": "vite",
+          "title": "Vite",
+          "type": "solution",
+          "description": "基于 ESM 的下一代前端构建工具。",
+          "systemRole": "提供极快的开发启动和热更新体验。",
+          "problemSolved": "解决 Webpack 在大型项目中的开发速度瓶颈。",
+          "tradeOffs": [
+            "生产打包依赖 Rollup，插件生态仍在成长。"
+          ],
+          "tags": [
+            "构建",
+            "开发",
+            "前端"
+          ],
+          "links": [
+            "build-tools",
+            "webpack",
+            "turbopack"
+          ],
+          "children": [
+            {
+              "id": "turbopack",
+              "title": "Turbopack",
+              "type": "solution",
+              "description": "基于 Rust 的增量构建工具。",
+              "systemRole": "为大型 Next.js 项目提供极速构建。",
+              "problemSolved": "扩展构建速度的物理极限。",
+              "tradeOffs": [
+                "生态尚在早期，与 Webpack 插件的兼容有限。"
+              ],
+              "tags": [
+                "构建",
+                "性能",
+                "Next.js"
+              ],
+              "links": [
+                "build-tools",
+                "vite",
+                "nextjs"
+              ]
+            },
+            {
+              "id": "vitest",
+              "title": "Vitest",
+              "type": "solution",
+              "description": "基于 Vite 的高性能测试框架。",
+              "systemRole": "提供与 Vite 生态原生集成的单元测试能力。",
+              "problemSolved": "让测试运行速度和开发体验对齐。",
+              "tradeOffs": [
+                "与 Jest 的生态兼容性仍有差异。"
+              ],
+              "tags": [
+                "测试",
+                "Vite",
+                "前端"
+              ],
+              "links": [
+                "testing-engineering",
+                "vite"
+              ],
+              "children": [
+                {
+                  "id": "playwright",
+                  "title": "Playwright",
+                  "type": "solution",
+                  "description": "微软开源的跨浏览器端到端测试框架。",
+                  "systemRole": "在多浏览器中自动化验证用户流程。",
+                  "problemSolved": "可靠地测试现代 Web 应用的完整交互。",
+                  "tradeOffs": [
+                    "端到端测试的维护和运行成本较高。"
+                  ],
+                  "tags": [
+                    "测试",
+                    "E2E",
+                    "浏览器"
+                  ],
+                  "links": [
+                    "testing-engineering",
+                    "vitest"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "testcontainers",
+      "title": "Testcontainers",
+      "type": "solution",
+      "description": "在测试中启动一次性 Docker 容器作为依赖。",
+      "systemRole": "让集成测试有真实的数据存储和中间件。",
+      "problemSolved": "消除测试对共享环境的依赖。",
+      "tradeOffs": [
+        "容器启动会增加测试运行时间。"
+      ],
+      "tags": [
+        "测试",
+        "Docker",
+        "集成"
+      ],
+      "links": [
+        "testing-engineering",
+        "docker"
+      ]
+    },
+    {
+      "id": "pgvector",
+      "title": "pgvector",
+      "type": "solution",
+      "description": "PostgreSQL 的向量检索扩展。",
+      "systemRole": "在关系型数据库中原生支持相似度搜索。",
+      "problemSolved": "让向量检索和业务数据在同一事务中处理。",
+      "tradeOffs": [
+        "大规模向量的性能不如专用向量数据库。"
+      ],
+      "tags": [
+        "PostgreSQL",
+        "向量",
+        "RAG"
+      ],
+      "links": [
+        "postgresql",
+        "vector-db"
+      ],
+      "children": [
+        {
+          "id": "milvus",
+          "title": "Milvus",
+          "type": "solution",
+          "description": "开源的高性能向量数据库。",
+          "systemRole": "支撑十亿级向量的相似度检索。",
+          "problemSolved": "为大规模 RAG 和多模态检索提供存储基础。",
+          "tradeOffs": [
+            "运维复杂度和资源需求较高。"
+          ],
+          "tags": [
+            "向量",
+            "RAG",
+            "分布式"
+          ],
+          "links": [
+            "vector-db",
+            "pgvector"
+          ],
+          "children": [
+            {
+              "id": "qdrant",
+              "title": "Qdrant",
+              "type": "solution",
+              "description": "基于 Rust 的高性能向量搜索引擎。",
+              "systemRole": "提供低延迟的向量相似度检索。",
+              "problemSolved": "适合对延迟敏感的 RAG 和推荐场景。",
+              "tradeOffs": [
+                "生态较新，集成方案仍在丰富。"
+              ],
+              "tags": [
+                "向量",
+                "搜索",
+                "Rust"
+              ],
+              "links": [
+                "vector-db",
+                "milvus"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1027 @@
+{
+  "id": "database-system",
+  "title": "数据库系统",
+  "type": "domain",
+  "description": "负责持久化、并发控制、一致性和查询能力的存储层。",
+  "systemRole": "承载持久化数据与事务保证。",
+  "problemSolved": "让应用状态在故障和重启后依然可靠。",
+  "tradeOffs": [
+    "更强的一致性通常意味着更高延迟和更低写吞吐。"
+  ],
+  "tags": [
+    "数据库",
+    "存储",
+    "一致性",
+    "事务",
+    "ORM",
+    "Prisma",
+    "MyBatis"
+  ],
+  "links": [
+    "transaction-isolation",
+    "sharding",
+    "connection-pooling",
+    "prisma",
+    "mybatis",
+    "orm-layer"
+  ],
+  "children": [
+    {
+      "id": "sql-engineering",
+      "title": "SQL",
+      "type": "concept",
+      "description": "查询优化、索引、Join、事务、锁和 MVCC 的查询语言基础层。",
+      "systemRole": "承载所有关系型数据库交互的表达层。",
+      "problemSolved": "把数据访问问题转成可优化的 SQL 语句。",
+      "tradeOffs": [
+        "SQL 越复杂，调优和理解成本越高。"
+      ],
+      "tags": [
+        "SQL",
+        "查询优化",
+        "索引"
+      ],
+      "links": [
+        "query-planner",
+        "covering-index",
+        "transaction-isolation",
+        "deadlock",
+        "mvcc"
+      ]
+    },
+    {
+      "id": "database-engines",
+      "title": "数据库引擎",
+      "type": "concept",
+      "description": "PostgreSQL、MySQL、Redis、MongoDB、Elasticsearch、TimescaleDB 等存储系统。",
+      "systemRole": "承接不同类型的数据建模和访问模式。",
+      "problemSolved": "把数据结构和访问模式对应到合适的引擎。",
+      "tradeOffs": [
+        "存储类型越多，选型和治理越复杂。"
+      ],
+      "tags": [
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+        "MongoDB"
+      ],
+      "links": [
+        "postgresql",
+        "mysql",
+        "redis",
+        "mongodb",
+        "elasticsearch",
+        "timescaledb"
+      ],
+      "children": [
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "type": "solution",
+          "description": "功能丰富的开源关系型数据库。",
+          "systemRole": "适合强一致、复杂查询和扩展能力要求高的场景。",
+          "problemSolved": "提供成熟的 SQL、索引和扩展能力。",
+          "tradeOffs": [
+            "功能越强，学习和调优越复杂。"
+          ],
+          "tags": [
+            "PostgreSQL",
+            "SQL",
+            "MVCC"
+          ],
+          "links": [
+            "mvcc",
+            "query-planner",
+            "jsonb"
+          ],
+          "children": [
+            {
+              "id": "jsonb",
+              "title": "JSONB",
+              "type": "solution",
+              "description": "PostgreSQL 中高效存储和查询 JSON 的二进制格式。",
+              "systemRole": "在关系型数据库中灵活处理半结构化数据。",
+              "problemSolved": "兼顾 schema-less 灵活性和 SQL 查询能力。",
+              "tradeOffs": [
+                "索引和查询优化比纯关系型更复杂。"
+              ],
+              "tags": [
+                "PostgreSQL",
+                "JSON",
+                "半结构化"
+              ],
+              "links": [
+                "postgresql",
+                "data-modeling"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mysql",
+          "title": "MySQL",
+          "type": "solution",
+          "description": "常见的关系型数据库。",
+          "systemRole": "支撑大量 Web 业务的常规 OLTP 场景。",
+          "problemSolved": "提供稳定的事务和索引能力。",
+          "tradeOffs": [
+            "不同存储引擎和版本细节需要认真理解。"
+          ],
+          "tags": [
+            "MySQL",
+            "事务",
+            "索引"
+          ],
+          "links": [
+            "transaction-isolation",
+            "covering-index",
+            "slow-query"
+          ]
+        },
+        {
+          "id": "redis",
+          "title": "Redis",
+          "type": "solution",
+          "description": "高性能内存数据结构存储。",
+          "systemRole": "用于缓存、计数、分布式锁和消息流。",
+          "problemSolved": "为热点路径提供低延迟访问。",
+          "tradeOffs": [
+            "内存成本和持久化策略需要权衡。"
+          ],
+          "tags": [
+            "Redis",
+            "缓存",
+            "分布式"
+          ],
+          "links": [
+            "caching",
+            "cache-invalidation",
+            "distributed-lock"
+          ],
+          "children": [
+            {
+              "id": "distributed-lock",
+              "title": "分布式锁",
+              "type": "solution",
+              "description": "在分布式环境中协调对共享资源的互斥访问。",
+              "systemRole": "防止多个节点同时执行关键操作。",
+              "problemSolved": "避免重复执行和并发冲突。",
+              "tradeOffs": [
+                "锁超时和网络分区会带来新的故障模式。"
+              ],
+              "tags": [
+                "分布式",
+                "并发",
+                "Redis"
+              ],
+              "links": [
+                "redis",
+                "race-condition",
+                "leader-election"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mongodb",
+          "title": "MongoDB",
+          "type": "solution",
+          "description": "文档型数据库。",
+          "systemRole": "适合半结构化数据和快速迭代场景。",
+          "problemSolved": "降低 schema 变化成本。",
+          "tradeOffs": [
+            "文档模型在复杂联表场景里不一定占优。"
+          ],
+          "tags": [
+            "MongoDB",
+            "文档",
+            "NoSQL"
+          ],
+          "links": [
+            "data-modeling",
+            "schema-evolution"
+          ]
+        },
+        {
+          "id": "elasticsearch",
+          "title": "Elasticsearch",
+          "type": "solution",
+          "description": "面向搜索和分析的分布式引擎。",
+          "systemRole": "支撑全文检索、聚合和日志分析。",
+          "problemSolved": "解决复杂搜索和索引场景。",
+          "tradeOffs": [
+            "索引同步和集群运维成本较高。"
+          ],
+          "tags": [
+            "搜索",
+            "倒排索引",
+            "分布式"
+          ],
+          "links": [
+            "query-planner",
+            "n-plus-one-query"
+          ]
+        },
+        {
+          "id": "timescaledb",
+          "title": "TimescaleDB",
+          "type": "solution",
+          "description": "基于 PostgreSQL 的时序数据库扩展。",
+          "systemRole": "适合监控和时间序列数据分析。",
+          "problemSolved": "提升时序写入和聚合查询能力。",
+          "tradeOffs": [
+            "依赖 PostgreSQL 生态和扩展策略。"
+          ],
+          "tags": [
+            "时序",
+            "PostgreSQL",
+            "监控"
+          ],
+          "links": [
+            "backup-restore",
+            "query-planner"
+          ]
+        },
+        {
+          "id": "vector-db",
+          "title": "向量数据库",
+          "type": "concept",
+          "description": "支持向量检索与相似度搜索的存储系统。",
+          "systemRole": "服务 RAG、语义搜索和多模态检索。",
+          "problemSolved": "把非结构化语义数据变成可检索资产。",
+          "tradeOffs": [
+            "索引、召回和成本之间需要精细调优。"
+          ],
+          "tags": [
+            "向量",
+            "RAG",
+            "语义搜索"
+          ],
+          "links": [
+            "pgvector",
+            "milvus",
+            "qdrant"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "orm-layer",
+      "title": "数据访问层框架",
+      "type": "concept",
+      "description": "位于应用和数据库之间的 ORM / Mapper 层。",
+      "systemRole": "把对象、查询和持久化连接起来。",
+      "problemSolved": "减少直接写 SQL 或直接处理底层连接的复杂度。",
+      "tradeOffs": [
+        "抽象层会掩盖 SQL 细节，也可能引入性能损耗。"
+      ],
+      "tags": [
+        "ORM",
+        "Mapper",
+        "持久层"
+      ],
+      "links": [
+        "prisma",
+        "mybatis",
+        "schema-evolution",
+        "query-planner"
+      ],
+      "children": [
+        {
+          "id": "prisma",
+          "title": "Prisma",
+          "type": "solution",
+          "description": "类型安全的现代 ORM。",
+          "systemRole": "把 schema、迁移和数据访问统一起来。",
+          "problemSolved": "让 TypeScript 项目更容易获得类型安全的数据访问。",
+          "tradeOffs": [
+            "抽象层会对复杂查询和底层调优带来一定限制。"
+          ],
+          "tags": [
+            "Prisma",
+            "ORM",
+            "TypeScript"
+          ],
+          "links": [
+            "schema-evolution",
+            "connection-pooling",
+            "query-planner"
+          ],
+          "children": [
+            {
+              "id": "prisma-schema",
+              "title": "Schema 驱动",
+              "type": "concept",
+              "description": "用 schema 文件描述数据模型和关系。",
+              "systemRole": "把数据结构作为代码的一部分管理。",
+              "problemSolved": "让类型、模型和文档保持同步。",
+              "tradeOffs": [
+                "Schema 改动会直接影响迁移和客户端生成。"
+              ],
+              "tags": [
+                "Prisma",
+                "Schema",
+                "TypeScript"
+              ],
+              "links": [
+                "schema-evolution",
+                "data-modeling"
+              ]
+            },
+            {
+              "id": "prisma-migrations",
+              "title": "迁移系统",
+              "type": "concept",
+              "description": "根据 schema 变更生成并执行数据库迁移。",
+              "systemRole": "管理数据库版本演进。",
+              "problemSolved": "让结构变更可追踪、可回滚。",
+              "tradeOffs": [
+                "迁移顺序和环境差异必须谨慎处理。"
+              ],
+              "tags": [
+                "Prisma",
+                "迁移",
+                "Schema"
+              ],
+              "links": [
+                "schema-evolution",
+                "migrations",
+                "versioning"
+              ]
+            },
+            {
+              "id": "prisma-client",
+              "title": "Client 生成",
+              "type": "solution",
+              "description": "根据 schema 生成类型安全的数据库客户端。",
+              "systemRole": "把查询 API 与数据模型绑定。",
+              "problemSolved": "减少手写 SQL 对应的类型错误。",
+              "tradeOffs": [
+                "生成代码会强化工具链耦合。"
+              ],
+              "tags": [
+                "Prisma",
+                "Client",
+                "类型安全"
+              ],
+              "links": [
+                "query-planner",
+                "connection-pooling"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mybatis",
+          "title": "MyBatis",
+          "type": "solution",
+          "description": "以 SQL 映射为中心的数据访问框架。",
+          "systemRole": "让 SQL 仍然保持可控，同时减少样板代码。",
+          "problemSolved": "适合复杂 SQL、手工优化和 Java 生态。",
+          "tradeOffs": [
+            "映射文件和 SQL 维护会更显式。"
+          ],
+          "tags": [
+            "MyBatis",
+            "Mapper",
+            "Java"
+          ],
+          "links": [
+            "query-planner",
+            "migrations",
+            "transaction-isolation"
+          ],
+          "children": [
+            {
+              "id": "mybatis-mapper",
+              "title": "Mapper 接口",
+              "type": "concept",
+              "description": "通过接口方法映射到 SQL 语句。",
+              "systemRole": "定义持久层方法签名。",
+              "problemSolved": "把 Java 调用和 SQL 绑定起来。",
+              "tradeOffs": [
+                "接口和 SQL 文件需要保持严格一致。"
+              ],
+              "tags": [
+                "MyBatis",
+                "Mapper",
+                "Java"
+              ],
+              "links": [
+                "query-planner",
+                "request-lifecycle"
+              ]
+            },
+            {
+              "id": "mybatis-xml",
+              "title": "XML 映射",
+              "type": "solution",
+              "description": "在 XML 中定义 SQL、结果映射和复用片段。",
+              "systemRole": "保留 SQL 的完整表达能力。",
+              "problemSolved": "适合复杂查询和手工优化。",
+              "tradeOffs": [
+                "XML 会让维护和阅读成本更高。"
+              ],
+              "tags": [
+                "MyBatis",
+                "XML",
+                "SQL"
+              ],
+              "links": [
+                "query-planner",
+                "migrations"
+              ]
+            },
+            {
+              "id": "mybatis-dynamic-sql",
+              "title": "动态 SQL",
+              "type": "concept",
+              "description": "根据条件拼装 SQL 片段。",
+              "systemRole": "处理可选条件、分页和复杂筛选。",
+              "problemSolved": "避免为每种查询组合写大量重复 SQL。",
+              "tradeOffs": [
+                "动态拼装越多，越要防止可读性和安全问题。"
+              ],
+              "tags": [
+                "MyBatis",
+                "动态 SQL",
+                "查询"
+              ],
+              "links": [
+                "query-planner",
+                "transaction-isolation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "typeorm",
+          "title": "TypeORM",
+          "type": "solution",
+          "description": "常见的 TypeScript ORM 方案。",
+          "systemRole": "用实体和关系来组织数据访问。",
+          "problemSolved": "适合快速把对象模型映射到数据库。",
+          "tradeOffs": [
+            "复杂查询仍然会碰到 ORM 的边界。"
+          ],
+          "tags": [
+            "ORM",
+            "TypeScript",
+            "实体"
+          ],
+          "links": [
+            "schema-evolution",
+            "query-planner"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-modeling",
+      "title": "数据建模",
+      "type": "concept",
+      "description": "在表结构和约束中表达领域实体与关系。",
+      "systemRole": "决定物理与逻辑存储结构。",
+      "problemSolved": "减少歧义，让查询更高效。",
+      "tradeOffs": [
+        "规范化模型更利于一致性，但可能让读取更复杂。"
+      ],
+      "tags": [
+        "schema",
+        "normalization",
+        "design"
+      ],
+      "links": [
+        "normalization",
+        "schema-evolution",
+        "denormalization"
+      ],
+      "children": [
+        {
+          "id": "normalization",
+          "title": "规范化",
+          "type": "solution",
+          "description": "拆分数据，减少重复和更新异常。",
+          "systemRole": "保持写入一致，降低冗余。",
+          "problemSolved": "避免同一事实在多个地方出现分叉。",
+          "tradeOffs": [
+            "读取时可能需要更多连接查询。"
+          ],
+          "tags": [
+            "schema",
+            "integrity",
+            "design"
+          ],
+          "links": [
+            "denormalization",
+            "query-planner"
+          ]
+        },
+        {
+          "id": "denormalization",
+          "title": "反规范化",
+          "type": "solution",
+          "description": "复制部分数据以提升读取速度。",
+          "systemRole": "优化热点路径上的查询性能。",
+          "problemSolved": "减少连接开销，简化读模型。",
+          "tradeOffs": [
+            "写入路径需要维护更多副本的一致性。"
+          ],
+          "tags": [
+            "performance",
+            "schema",
+            "read-model"
+          ],
+          "links": [
+            "normalization",
+            "materialized-view"
+          ],
+          "children": [
+            {
+              "id": "materialized-view",
+              "title": "物化视图",
+              "type": "solution",
+              "description": "预计算并存储查询结果，加速读取。",
+              "systemRole": "用空间换时间，优化复杂聚合查询。",
+              "problemSolved": "避免重复计算昂贵的 Join 和聚合。",
+              "tradeOffs": [
+                "刷新策略影响数据新鲜度。"
+              ],
+              "tags": [
+                "SQL",
+                "查询",
+                "性能"
+              ],
+              "links": [
+                "query-planner",
+                "denormalization"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "schema-evolution",
+          "title": "模式演进",
+          "type": "concept",
+          "description": "在部署过程中安全地修改表结构。",
+          "systemRole": "保持数据库与应用版本兼容。",
+          "problemSolved": "避免新旧代码在部署时互相破坏。",
+          "tradeOffs": [
+            "前向/后向兼容需要更严格的迁移纪律。"
+          ],
+          "tags": [
+            "migrations",
+            "compatibility",
+            "schema"
+          ],
+          "links": [
+            "migrations",
+            "versioning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "transactions-and-isolation",
+      "title": "事务与隔离",
+      "type": "concept",
+      "description": "原子变更如何分组，以及它们提供什么并发保证。",
+      "systemRole": "控制写入重叠时的正确性。",
+      "problemSolved": "防止脏读、丢失更新等并发异常。",
+      "tradeOffs": [
+        "更强隔离会降低并发度。"
+      ],
+      "tags": [
+        "transactions",
+        "isolation",
+        "consistency"
+      ],
+      "links": [
+        "deadlock",
+        "mvcc",
+        "transaction-isolation"
+      ],
+      "children": [
+        {
+          "id": "transaction-isolation",
+          "title": "事务隔离",
+          "type": "concept",
+          "description": "定义并发事务之间如何相互可见的规则。",
+          "systemRole": "控制写入重叠时的正确性。",
+          "problemSolved": "防止脏读、丢失更新以及相关并发异常。",
+          "tradeOffs": [
+            "更强的隔离会降低并发度。"
+          ],
+          "tags": [
+            "concurrency",
+            "consistency",
+            "mvcc"
+          ],
+          "links": [
+            "db-lock-contention",
+            "mvcc",
+            "optimistic-locking"
+          ],
+          "children": [
+            {
+              "id": "db-lock-contention",
+              "title": "锁竞争",
+              "type": "problem",
+              "description": "多个事务争抢同一把锁，导致吞吐下降。",
+              "systemRole": "并发访问热点数据的常见瓶颈。",
+              "problemSolved": "推动锁粒度优化和无锁设计。",
+              "tradeOffs": [
+                "细粒度锁会增加复杂度和死锁风险。"
+              ],
+              "tags": [
+                "并发",
+                "锁",
+                "数据库"
+              ],
+              "links": [
+                "deadlock",
+                "transaction-isolation",
+                "mvcc"
+              ]
+            },
+            {
+              "id": "snapshot-isolation",
+              "title": "快照隔离",
+              "type": "solution",
+              "description": "每个事务看到数据库的一个一致性快照。",
+              "systemRole": "在不加锁的情况下提供一致读。",
+              "problemSolved": "避免读写冲突，提升并发能力。",
+              "tradeOffs": [
+                "写偏斜异常仍然可能发生。"
+              ],
+              "tags": [
+                "并发",
+                "MVCC",
+                "隔离"
+              ],
+              "links": [
+                "mvcc",
+                "transaction-isolation"
+              ]
+            },
+            {
+              "id": "lock-ordering",
+              "title": "锁顺序",
+              "type": "solution",
+              "description": "按固定顺序获取锁，避免循环等待。",
+              "systemRole": "从设计上预防死锁。",
+              "problemSolved": "消除最常见的死锁根因。",
+              "tradeOffs": [
+                "需要全局知道所有锁的依赖关系。"
+              ],
+              "tags": [
+                "并发",
+                "死锁",
+                "数据库"
+              ],
+              "links": [
+                "deadlock",
+                "transaction-isolation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mvcc",
+          "title": "MVCC",
+          "type": "solution",
+          "description": "多版本并发控制保留同一行的多个版本。",
+          "systemRole": "在不加全局锁的情况下支持并发。",
+          "problemSolved": "提升读写共存能力。",
+          "tradeOffs": [
+            "版本清理和存储开销会成为设计的一部分。"
+          ],
+          "tags": [
+            "concurrency",
+            "storage",
+            "database"
+          ],
+          "links": [
+            "db-lock-contention",
+            "transaction-isolation",
+            "snapshot-isolation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "indexing-and-queries",
+      "title": "索引与查询",
+      "type": "concept",
+      "description": "数据库如何找到行，以及如何执行查询计划。",
+      "systemRole": "负责读性能和访问路径选择。",
+      "problemSolved": "减少全表扫描和热点路径上的昂贵连接。",
+      "tradeOffs": [
+        "索引提升读取，但会增加写入成本和存储占用。"
+      ],
+      "tags": [
+        "index",
+        "query",
+        "performance"
+      ],
+      "links": [
+        "query-planner",
+        "covering-index",
+        "n-plus-one-query"
+      ],
+      "children": [
+        {
+          "id": "query-planner",
+          "title": "查询规划器",
+          "type": "concept",
+          "description": "数据库中负责选择执行计划的部分。",
+          "systemRole": "决定使用哪些索引和连接策略。",
+          "problemSolved": "解释为什么同一条 SQL 会随着时间表现不同。",
+          "tradeOffs": [
+            "在数据分布偏斜时，估算可能不准确。"
+          ],
+          "tags": [
+            "optimizer",
+            "sql",
+            "performance"
+          ],
+          "links": [
+            "covering-index",
+            "slow-query"
+          ],
+          "children": [
+            {
+              "id": "partitioning",
+              "title": "表分区",
+              "type": "solution",
+              "description": "把大表按范围、列表或哈希拆成多个物理片段。",
+              "systemRole": "提升大表的查询和维护性能。",
+              "problemSolved": "让 TB 级表仍能高效查询和清理。",
+              "tradeOffs": [
+                "跨分区查询和唯一约束会受限。"
+              ],
+              "tags": [
+                "数据库",
+                "扩展",
+                "性能"
+              ],
+              "links": [
+                "sharding",
+                "query-planner"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "covering-index",
+          "title": "覆盖索引",
+          "type": "solution",
+          "description": "索引本身就包含查询所需的全部字段。",
+          "systemRole": "减少读取路径中的额外表访问。",
+          "problemSolved": "用更少的 I/O 提升热点查询速度。",
+          "tradeOffs": [
+            "更大的索引会拖慢写入并占用更多内存。"
+          ],
+          "tags": [
+            "index",
+            "read",
+            "performance"
+          ],
+          "links": [
+            "query-planner",
+            "pagination"
+          ]
+        },
+        {
+          "id": "slow-query",
+          "title": "慢查询",
+          "type": "problem",
+          "description": "消耗过多时间或资源、收益却不高的查询。",
+          "systemRole": "通常说明访问路径或表结构有问题。",
+          "problemSolved": "迫使我们审查查询与执行计划。",
+          "tradeOffs": [
+            "修复有时需要调整模式或产品形态。"
+          ],
+          "tags": [
+            "performance",
+            "sql",
+            "index"
+          ],
+          "links": [
+            "query-planner",
+            "n-plus-one-query"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replication-and-scale",
+      "title": "复制与扩展",
+      "type": "concept",
+      "description": "数据如何复制和分片，以提升可用性或容量。",
+      "systemRole": "支持读扩展、故障切换和水平分区。",
+      "problemSolved": "让系统可以扩展到单机之外。",
+      "tradeOffs": [
+        "分布式一致性和故障切换比单机存储更难。"
+      ],
+      "tags": [
+        "replication",
+        "scale",
+        "distributed"
+      ],
+      "links": [
+        "read-replicas",
+        "replication-lag",
+        "sharding"
+      ],
+      "children": [
+        {
+          "id": "read-replicas",
+          "title": "只读副本",
+          "type": "solution",
+          "description": "使用副本节点处理读取流量。",
+          "systemRole": "把读压力从主库移走。",
+          "problemSolved": "提升读多场景下的吞吐与可用性。",
+          "tradeOffs": [
+            "副本延迟会带来旧数据读取。"
+          ],
+          "tags": [
+            "replication",
+            "reads",
+            "scale"
+          ],
+          "links": [
+            "replication-lag",
+            "load-balancing"
+          ]
+        },
+        {
+          "id": "replication-lag",
+          "title": "复制延迟",
+          "type": "problem",
+          "description": "副本跟不上主库的写入速度。",
+          "systemRole": "异步复制引入的一致性空窗。",
+          "problemSolved": "迫使应用显式处理旧读问题。",
+          "tradeOffs": [
+            "等待副本追平会降低吞吐。"
+          ],
+          "tags": [
+            "consistency",
+            "replication",
+            "latency"
+          ],
+          "links": [
+            "read-replicas",
+            "eventual-consistency"
+          ]
+        },
+        {
+          "id": "sharding",
+          "title": "分片",
+          "type": "solution",
+          "description": "把数据分布到多个数据库节点上。",
+          "systemRole": "突破单机容量上限。",
+          "problemSolved": "水平扩展存储和写入吞吐。",
+          "tradeOffs": [
+            "跨分片查询和事务会更昂贵。"
+          ],
+          "tags": [
+            "scaling",
+            "database",
+            "distribution"
+          ],
+          "links": [
+            "db-lock-contention",
+            "load-balancing",
+            "partitioning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reliability-ops",
+      "title": "可靠性与运维",
+      "type": "concept",
+      "description": "数据库的备份、迁移、连接和运维安全。",
+      "systemRole": "保证数据库可恢复、可维护。",
+      "problemSolved": "避免日常运维动作本身变成事故。",
+      "tradeOffs": [
+        "更高的运维安全性通常会减慢变更速度。"
+      ],
+      "tags": [
+        "backup",
+        "migrations",
+        "ops"
+      ],
+      "links": [
+        "backup-restore",
+        "connection-pooling",
+        "migrations"
+      ],
+      "children": [
+        {
+          "id": "backup-restore",
+          "title": "备份与恢复",
+          "type": "solution",
+          "description": "保存数据副本，并演练恢复流程。",
+          "systemRole": "为失败或误操作提供恢复路径。",
+          "problemSolved": "防止数据永久丢失。",
+          "tradeOffs": [
+            "备份会占用存储，并增加恢复时间。"
+          ],
+          "tags": [
+            "backup",
+            "recovery",
+            "ops"
+          ],
+          "links": [
+            "disaster-recovery",
+            "point-in-time-recovery"
+          ],
+          "children": [
+            {
+              "id": "disaster-recovery",
+              "title": "灾难恢复",
+              "type": "concept",
+              "description": "在重大故障后恢复系统正常运行的策略。",
+              "systemRole": "保证最坏情况下的业务连续性。",
+              "problemSolved": "为极端故障提供恢复路径。",
+              "tradeOffs": [
+                "灾备环境会持续消耗资源。"
+              ],
+              "tags": [
+                "运维",
+                "恢复",
+                "高可用"
+              ],
+              "links": [
+                "backup-restore",
+                "point-in-time-recovery"
+              ]
+            },
+            {
+              "id": "point-in-time-recovery",
+              "title": "时间点恢复",
+              "type": "solution",
+              "description": "将数据库恢复到过去某个时刻的状态。",
+              "systemRole": "应对误删数据和逻辑损坏。",
+              "problemSolved": "精细控制恢复目标。",
+              "tradeOffs": [
+                "需要连续的 WAL 归档存储。"
+              ],
+              "tags": [
+                "备份",
+                "恢复",
+                "数据库"
+              ],
+              "links": [
+                "backup-restore",
+                "disaster-recovery"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "connection-pooling",
+          "title": "连接池",
+          "type": "solution",
+          "description": "复用数据库连接，而不是频繁新建。",
+          "systemRole": "降低连接开销，保护数据库。",
+          "problemSolved": "避免连接风暴和启动尖峰。",
+          "tradeOffs": [
+            "连接池可能掩盖排队和饱和问题。"
+          ],
+          "tags": [
+            "connections",
+            "performance",
+            "ops"
+          ],
+          "links": [
+            "thundering-herd",
+            "load-balancing"
+          ]
+        },
+        {
+          "id": "migrations",
+          "title": "迁移",
+          "type": "solution",
+          "description": "以版本化、可控的方式应用模式变更。",
+          "systemRole": "协调数据库修改和应用发布。",
+          "problemSolved": "让模式演进可重复、可审计。",
+          "tradeOffs": [
+            "迁移可能很慢，也需要回滚规划。"
+          ],
+          "tags": [
+            "schema",
+            "ops",
+            "versioning"
+          ],
+          "links": [
+            "schema-evolution",
+            "versioning"
+          ]
+        }
+      ]
+    }
+  ]
+}

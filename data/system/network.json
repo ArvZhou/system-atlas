@@ -1,0 +1,467 @@
+{
+  "id": "network-system",
+  "title": "网络系统",
+  "type": "domain",
+  "description": "负责在边界之间搬运请求、资源和事件的传输层。",
+  "systemRole": "管理延迟、路由、交付和边缘行为。",
+  "problemSolved": "解释分布式和跨地域系统为什么会有不同表现。",
+  "tradeOffs": [
+    "更多中间层会提升弹性，但也会增加延迟和排障成本。"
+  ],
+  "tags": [
+    "网络",
+    "延迟",
+    "边缘",
+    "传输"
+  ],
+  "links": [
+    "cdn-cache",
+    "request-lifecycle",
+    "load-balancing"
+  ],
+  "children": [
+    {
+      "id": "protocol-stack",
+      "title": "协议栈",
+      "type": "concept",
+      "description": "DNS、TCP/UDP、TLS 和 HTTP 共同构成通信路径。",
+      "systemRole": "定义字节如何被命名、传输、加密和解释。",
+      "problemSolved": "帮助从第一性原理理解网络行为。",
+      "tradeOffs": [
+        "越靠底层控制，复杂度越高。"
+      ],
+      "tags": [
+        "DNS",
+        "TCP",
+        "TLS",
+        "HTTP"
+      ],
+      "links": [
+        "dns",
+        "tcp-udp",
+        "tls",
+        "http2"
+      ],
+      "children": [
+        {
+          "id": "dns",
+          "title": "DNS",
+          "type": "solution",
+          "description": "把域名解析成 IP 地址。",
+          "systemRole": "让服务可以通过人类可读的名字访问。",
+          "problemSolved": "把命名和物理地址解耦。",
+          "tradeOffs": [
+            "DNS 缓存会延缓变更传播。"
+          ],
+          "tags": [
+            "名称解析",
+            "路由",
+            "网络"
+          ],
+          "links": [
+            "cdn-cache",
+            "geo-routing"
+          ]
+        },
+        {
+          "id": "tcp-udp",
+          "title": "TCP / UDP",
+          "type": "concept",
+          "description": "两种不同可靠性和延迟取舍的传输模型。",
+          "systemRole": "应用流量的底层传输选择。",
+          "problemSolved": "解释为什么有些工作负载追求可靠，有些追求速度。",
+          "tradeOffs": [
+            "可靠性有开销，速度会放弃部分保证。"
+          ],
+          "tags": [
+            "传输",
+            "可靠性",
+            "延迟"
+          ],
+          "links": [
+            "quic",
+            "backpressure"
+          ]
+        },
+        {
+          "id": "tls",
+          "title": "TLS",
+          "type": "solution",
+          "description": "加密流量并验证端点身份。",
+          "systemRole": "保护传输中的数据。",
+          "problemSolved": "防止窃听和中间人攻击。",
+          "tradeOffs": [
+            "握手成本会增加启动延迟。"
+          ],
+          "tags": [
+            "安全",
+            "加密",
+            "传输"
+          ],
+          "links": [
+            "mtls",
+            "certificate-rotation"
+          ]
+        },
+        {
+          "id": "http2",
+          "title": "HTTP/2",
+          "type": "solution",
+          "description": "在一条连接上复用多条请求。",
+          "systemRole": "提升浏览器和 API 流量的网络效率。",
+          "problemSolved": "减少连接开销和 HTTP 层队头阻塞。",
+          "tradeOffs": [
+            "帧结构更复杂，对服务端支持要求更高。"
+          ],
+          "tags": [
+            "HTTP",
+            "复用",
+            "性能"
+          ],
+          "links": [
+            "http-caching",
+            "streaming-ssr"
+          ]
+        },
+        {
+          "id": "websocket",
+          "title": "WebSocket",
+          "type": "solution",
+          "description": "在单个 TCP 连接上提供全双工实时通信。",
+          "systemRole": "支撑聊天、协作编辑和实时推送场景。",
+          "problemSolved": "避免轮询开销，实现真正的实时双向通信。",
+          "tradeOffs": [
+            "长连接管理、重连和扩缩容更复杂。"
+          ],
+          "tags": [
+            "实时",
+            "通信",
+            "网络"
+          ],
+          "links": [
+            "protocol-stack",
+            "load-balancing",
+            "tcp-udp"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "delivery-and-edge",
+      "title": "交付与边缘",
+      "type": "concept",
+      "description": "CDN、缓存、压缩和边缘路由等内容交付能力。",
+      "systemRole": "把内容送到离用户更近的地方。",
+      "problemSolved": "降低延迟并减轻源站压力。",
+      "tradeOffs": [
+        "缓存失效和一致性规则必须非常明确。"
+      ],
+      "tags": [
+        "CDN",
+        "缓存",
+        "边缘",
+        "交付"
+      ],
+      "links": [
+        "cdn-cache",
+        "compression",
+        "http-caching"
+      ],
+      "children": [
+        {
+          "id": "cdn-cache",
+          "title": "CDN 缓存",
+          "type": "solution",
+          "description": "在边缘节点上提供静态或半静态资源。",
+          "systemRole": "把内容放到离用户更近的地方。",
+          "problemSolved": "降低延迟并减轻源站负载。",
+          "tradeOffs": [
+            "缓存失效和一致性规则必须清晰。"
+          ],
+          "tags": [
+            "CDN",
+            "缓存",
+            "边缘"
+          ],
+          "links": [
+            "tail-latency",
+            "cache-invalidation",
+            "http-caching"
+          ]
+        },
+        {
+          "id": "http-caching",
+          "title": "HTTP 缓存",
+          "type": "solution",
+          "description": "通过缓存头和校验器安全复用响应。",
+          "systemRole": "减少稳定资源的重复网络请求。",
+          "problemSolved": "提升性能并降低源站流量。",
+          "tradeOffs": [
+            "缓存规则很细，配置容易出错。"
+          ],
+          "tags": [
+            "缓存",
+            "HTTP",
+            "性能"
+          ],
+          "links": [
+            "cache-invalidation",
+            "cdn-cache"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "routing-and-load",
+      "title": "路由与负载",
+      "type": "concept",
+      "description": "如何把流量分发并导向不同服务和区域。",
+      "systemRole": "决定请求落到哪里，以及故障如何被吸收。",
+      "problemSolved": "避免某个入口成为瓶颈。",
+      "tradeOffs": [
+        "更聪明的路由会隐藏局部性，并让诊断更复杂。"
+      ],
+      "tags": [
+        "路由",
+        "负载均衡",
+        "可用性"
+      ],
+      "links": [
+        "load-balancing",
+        "geo-routing",
+        "service-mesh"
+      ],
+      "children": [
+        {
+          "id": "load-balancing",
+          "title": "负载均衡",
+          "type": "solution",
+          "description": "根据健康状态和策略，把流量分配给多个实例。",
+          "systemRole": "提升可用性和水平扩展能力。",
+          "problemSolved": "避免单个节点成为拥塞点。",
+          "tradeOffs": [
+            "路由决策会掩盖局部性和会话亲和问题。"
+          ],
+          "tags": [
+            "扩展",
+            "可用性",
+            "网络"
+          ],
+          "links": [
+            "rate-limiting",
+            "service-mesh",
+            "geo-routing"
+          ]
+        },
+        {
+          "id": "geo-routing",
+          "title": "地理路由",
+          "type": "solution",
+          "description": "把用户路由到最近或最健康的区域。",
+          "systemRole": "提升跨地域部署下的延迟和韧性。",
+          "problemSolved": "降低用户的感知延迟。",
+          "tradeOffs": [
+            "多地域一致性和故障切换更难。"
+          ],
+          "tags": [
+            "全球",
+            "路由",
+            "延迟"
+          ],
+          "links": [
+            "tail-latency",
+            "replication-lag"
+          ]
+        },
+        {
+          "id": "reverse-proxy",
+          "title": "反向代理",
+          "type": "solution",
+          "description": "接收外部流量并转发给内部服务。",
+          "systemRole": "在服务前面提供可控边界。",
+          "problemSolved": "集中处理 TLS、路由和头部控制。",
+          "tradeOffs": [
+            "代理故障或配置错误会影响全部流量。"
+          ],
+          "tags": [
+            "代理",
+            "路由",
+            "安全"
+          ],
+          "links": [
+            "api-gateway",
+            "tls"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reliability-and-flow",
+      "title": "可靠性与流控",
+      "type": "concept",
+      "description": "尾延迟、背压、重试与流式处理。",
+      "systemRole": "在负载和局部故障下稳定通信。",
+      "problemSolved": "防止流量尖峰把系统拖垮。",
+      "tradeOffs": [
+        "流控通常会降低峰值吞吐。"
+      ],
+      "tags": [
+        "可靠性",
+        "流控",
+        "延迟"
+      ],
+      "links": [
+        "backpressure",
+        "circuit-breaker",
+        "tail-latency"
+      ],
+      "children": [
+        {
+          "id": "quic",
+          "title": "QUIC",
+          "type": "solution",
+          "description": "建立在 UDP 上、带有安全和多路复用能力的现代传输协议。",
+          "systemRole": "改善连接建立和丢包恢复。",
+          "problemSolved": "减少握手和 HTTP 层队头问题。",
+          "tradeOffs": [
+            "运维成熟度和可观测性仍在演进。"
+          ],
+          "tags": [
+            "传输",
+            "HTTP3",
+            "性能"
+          ],
+          "links": [
+            "tls",
+            "http2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security-and-trust",
+      "title": "安全与信任",
+      "type": "concept",
+      "description": "网络边界如何保证机密性和调用方可信。",
+      "systemRole": "把网络从开放媒介变成受控通道。",
+      "problemSolved": "保护服务间和客户端到服务端的通信。",
+      "tradeOffs": [
+        "安全措施会增加延迟和运维成本。"
+      ],
+      "tags": [
+        "安全",
+        "信任",
+        "网络"
+      ],
+      "links": [
+        "mtls",
+        "certificate-rotation",
+        "waf"
+      ],
+      "children": [
+        {
+          "id": "mtls",
+          "title": "mTLS",
+          "type": "solution",
+          "description": "双向 TLS 让客户端和服务端都需要认证。",
+          "systemRole": "在网络层建立服务身份。",
+          "problemSolved": "减少对边界网络的信任。",
+          "tradeOffs": [
+            "证书与轮转增加运维复杂度。"
+          ],
+          "tags": [
+            "安全",
+            "身份",
+            "传输"
+          ],
+          "links": [
+            "service-mesh",
+            "certificate-rotation"
+          ]
+        },
+        {
+          "id": "certificate-rotation",
+          "title": "证书轮转",
+          "type": "solution",
+          "description": "在证书过期前刷新 TLS 凭据。",
+          "systemRole": "保证加密通道长期有效。",
+          "problemSolved": "避免因为证书过期引发故障。",
+          "tradeOffs": [
+            "自动轮转需要谨慎发布。"
+          ],
+          "tags": [
+            "安全",
+            "运维",
+            "TLS"
+          ],
+          "links": [
+            "mtls",
+            "incident-response"
+          ]
+        },
+        {
+          "id": "waf",
+          "title": "WAF",
+          "type": "solution",
+          "description": "Web 应用防火墙，用于过滤恶意请求模式。",
+          "systemRole": "在边缘增加防御层。",
+          "problemSolved": "阻止常见攻击流量进入应用。",
+          "tradeOffs": [
+            "误报和规则维护成本都不低。"
+          ],
+          "tags": [
+            "安全",
+            "边缘",
+            "过滤"
+          ],
+          "links": [
+            "rate-limiting",
+            "content-security-policy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "latency-budget",
+      "title": "延迟预算",
+      "type": "concept",
+      "description": "把端到端延迟目标分配到每个子系统。",
+      "systemRole": "让延迟优化有明确的责任边界。",
+      "problemSolved": "避免局部优化但全局延迟仍然超标。",
+      "tradeOffs": [
+        "预算分配需要深入理解调用链。"
+      ],
+      "tags": [
+        "性能",
+        "网络",
+        "SLO"
+      ],
+      "links": [
+        "tail-latency",
+        "sli-slo",
+        "distributed-tracing"
+      ]
+    },
+    {
+      "id": "same-site-cookies",
+      "title": "SameSite Cookie",
+      "type": "solution",
+      "description": "控制 Cookie 在跨站请求中是否发送的属性。",
+      "systemRole": "防御 CSRF 攻击的第一道防线。",
+      "problemSolved": "让浏览器自动限制跨站 Cookie 发送。",
+      "tradeOffs": [
+        "过于严格会破坏合法的跨站集成。"
+      ],
+      "tags": [
+        "安全",
+        "Cookie",
+        "浏览器"
+      ],
+      "links": [
+        "csrf",
+        "session-management",
+        "security-boundary"
+      ]
+    }
+  ]
+}

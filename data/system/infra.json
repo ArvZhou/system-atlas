@@ -1,0 +1,1005 @@
+{
+  "id": "infra-system",
+  "title": "基础设施系统",
+  "type": "domain",
+  "description": "围绕应用的部署、运行、可观测性和可靠性环境。",
+  "systemRole": "负责交付、运行健康和运维反馈闭环。",
+  "problemSolved": "让系统可部署、可观测，而不是靠猜。",
+  "tradeOffs": [
+    "自动化越多，维护的部件也越多。"
+  ],
+  "tags": [
+    "基础设施",
+    "运维",
+    "可观测性",
+    "交付"
+  ],
+  "links": [
+    "distributed-tracing",
+    "service-mesh",
+    "ci-cd"
+  ],
+  "children": [
+    {
+      "id": "linux-system",
+      "title": "Linux 系统",
+      "type": "concept",
+      "description": "命令行、文件系统、权限、systemd 和性能排查的基础平台。",
+      "systemRole": "为服务运行提供操作系统环境。",
+      "problemSolved": "解释服务如何真正落在机器上。",
+      "tradeOffs": [
+        "越接近系统底层，排障和权限模型越复杂。"
+      ],
+      "tags": [
+        "Linux",
+        "命令行",
+        "systemd"
+      ],
+      "links": [
+        "systemd",
+        "linux-perf",
+        "tcpdump"
+      ],
+      "children": [
+        {
+          "id": "systemd",
+          "title": "Systemd",
+          "type": "solution",
+          "description": "Linux 系统和服务管理器。",
+          "systemRole": "管理服务启动、日志和资源控制。",
+          "problemSolved": "统一 Linux 系统的服务生命周期管理。",
+          "tradeOffs": [
+            "功能庞大，配置复杂。"
+          ],
+          "tags": [
+            "Linux",
+            "服务",
+            "运维"
+          ],
+          "links": [
+            "linux-system"
+          ]
+        },
+        {
+          "id": "linux-perf",
+          "title": "perf",
+          "type": "solution",
+          "description": "Linux 性能分析工具，用于采样和追踪系统性能。",
+          "systemRole": "定位 CPU、内存和 I/O 瓶颈的核心工具。",
+          "problemSolved": "让性能问题从猜变成可测量的证据。",
+          "tradeOffs": [
+            "需要一定的内核和硬件知识。"
+          ],
+          "tags": [
+            "Linux",
+            "性能",
+            "调试"
+          ],
+          "links": [
+            "linux-system"
+          ]
+        },
+        {
+          "id": "tcpdump",
+          "title": "tcpdump",
+          "type": "solution",
+          "description": "命令行网络抓包工具。",
+          "systemRole": "分析网络包内容和连接问题。",
+          "problemSolved": "让网络问题有据可查。",
+          "tradeOffs": [
+            "输出量大，需要配合过滤和分析。"
+          ],
+          "tags": [
+            "Linux",
+            "网络",
+            "调试"
+          ],
+          "links": [
+            "linux-system",
+            "protocol-stack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "docker",
+      "title": "Docker",
+      "type": "concept",
+      "description": "镜像、容器、网络和 Compose 的容器化工作流。",
+      "systemRole": "把应用和运行环境打包成可移植单元。",
+      "problemSolved": "降低环境不一致和交付复杂度。",
+      "tradeOffs": [
+        "容器化会引入新的网络与权限边界。"
+      ],
+      "tags": [
+        "Docker",
+        "容器",
+        "镜像"
+      ],
+      "links": [
+        "containers",
+        "docker-compose",
+        "docker-volume"
+      ],
+      "children": [
+        {
+          "id": "docker-compose",
+          "title": "Docker Compose",
+          "type": "solution",
+          "description": "定义和运行多容器 Docker 应用的编排工具。",
+          "systemRole": "本地开发和集成测试的基础工具。",
+          "problemSolved": "让多个容器以声明式方式协同启动。",
+          "tradeOffs": [
+            "生产环境需要更强大的编排工具。"
+          ],
+          "tags": [
+            "Docker",
+            "编排",
+            "开发"
+          ],
+          "links": [
+            "docker",
+            "containers"
+          ]
+        },
+        {
+          "id": "docker-volume",
+          "title": "Volume & Network",
+          "type": "concept",
+          "description": "Docker 容器的数据持久化和网络通信机制。",
+          "systemRole": "管理容器间的数据共享和网络连接。",
+          "problemSolved": "让容器在重启后保留数据并相互通信。",
+          "tradeOffs": [
+            "网络和卷的治理随规模线性增长。"
+          ],
+          "tags": [
+            "Docker",
+            "存储",
+            "网络"
+          ],
+          "links": [
+            "docker",
+            "docker-compose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "devops",
+      "title": "DevOps",
+      "type": "concept",
+      "description": "Git、CI/CD、GitOps 和发布流程治理。",
+      "systemRole": "把开发、交付和运维串成闭环。",
+      "problemSolved": "缩短反馈周期并降低发布风险。",
+      "tradeOffs": [
+        "流程越自动化，治理与维护成本越高。"
+      ],
+      "tags": [
+        "DevOps",
+        "CI/CD",
+        "GitOps"
+      ],
+      "links": [
+        "ci-cd",
+        "gitops",
+        "deployment-pipeline"
+      ],
+      "children": [
+        {
+          "id": "gitops",
+          "title": "GitOps",
+          "type": "solution",
+          "description": "以 Git 作为声明式基础设施和部署的唯一真相源。",
+          "systemRole": "让基础设施变更可审查、可回滚。",
+          "problemSolved": "消除配置漂移和手动运维。",
+          "tradeOffs": [
+            "需要对基础设施进行声明式建模。"
+          ],
+          "tags": [
+            "DevOps",
+            "Git",
+            "部署"
+          ],
+          "links": [
+            "devops",
+            "ci-cd",
+            "kubernetes"
+          ],
+          "children": [
+            {
+              "id": "terraform",
+              "title": "Terraform",
+              "type": "solution",
+              "description": "声明式基础设施即代码工具。",
+              "systemRole": "用代码描述和版本化云资源。",
+              "problemSolved": "让基础设施交付可重复、可审计。",
+              "tradeOffs": [
+                "状态管理和模块化需要额外治理。"
+              ],
+              "tags": [
+                "IaC",
+                "云",
+                "自动化"
+              ],
+              "links": [
+                "cloud-native",
+                "gitops"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cloud-native",
+      "title": "云原生",
+      "type": "concept",
+      "description": "IaC、公有云、对象存储、消息队列和基础设施抽象。",
+      "systemRole": "把基础设施能力产品化、脚本化。",
+      "problemSolved": "让资源交付和扩展更可控。",
+      "tradeOffs": [
+        "平台能力越强，供应商和治理复杂度越高。"
+      ],
+      "tags": [
+        "云原生",
+        "基础设施",
+        "IaC"
+      ],
+      "links": [
+        "terraform",
+        "kubernetes",
+        "object-storage",
+        "message-queue"
+      ],
+      "children": [
+        {
+          "id": "object-storage",
+          "title": "对象存储",
+          "type": "solution",
+          "description": "以扁平的键值结构存储海量非结构化数据。",
+          "systemRole": "为静态资源、备份和日志提供廉价存储。",
+          "problemSolved": "支撑大规模文件和数据湖场景。",
+          "tradeOffs": [
+            "不适合需要频繁修改的小块数据。"
+          ],
+          "tags": [
+            "存储",
+            "云",
+            "S3"
+          ],
+          "links": [
+            "cloud-native",
+            "backup-restore",
+            "cdn-cache"
+          ]
+        },
+        {
+          "id": "message-queue",
+          "title": "消息队列",
+          "type": "solution",
+          "description": "在服务间异步传递消息的中间件。",
+          "systemRole": "解耦生产者和消费者，削峰填谷。",
+          "problemSolved": "处理异步通信、流量尖峰和服务解耦。",
+          "tradeOffs": [
+            "消息顺序、重复和延迟都需要处理。"
+          ],
+          "tags": [
+            "消息",
+            "异步",
+            "解耦"
+          ],
+          "links": [
+            "queue-workers",
+            "event-driven-architecture",
+            "cloud-native"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "testing-engineering",
+      "title": "测试工程",
+      "type": "concept",
+      "description": "测试金字塔、前后端测试、契约测试和自动化质量体系。",
+      "systemRole": "把质量验证前移并自动化。",
+      "problemSolved": "减少回归和发布风险。",
+      "tradeOffs": [
+        "测试越全面，维护和执行成本越高。"
+      ],
+      "tags": [
+        "测试",
+        "自动化",
+        "质量"
+      ],
+      "links": [
+        "vitest",
+        "playwright",
+        "testcontainers",
+        "contract-testing"
+      ],
+      "children": [
+        {
+          "id": "contract-testing",
+          "title": "契约测试",
+          "type": "solution",
+          "description": "验证服务间 API 契约的前后向兼容性。",
+          "systemRole": "在集成测试之前发现接口不兼容。",
+          "problemSolved": "降低微服务集成的破坏风险。",
+          "tradeOffs": [
+            "需要提供者和消费者双方维护契约。"
+          ],
+          "tags": [
+            "测试",
+            "微服务",
+            "集成"
+          ],
+          "links": [
+            "testing-engineering",
+            "microservices"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "engineering-effectiveness",
+      "title": "工程效能",
+      "type": "concept",
+      "description": "技术方案评审、ADR、需求拆分、代码审查和工程协作。",
+      "systemRole": "提升团队的交付质量和协作效率。",
+      "problemSolved": "把工程能力从个人经验变成团队方法。",
+      "tradeOffs": [
+        "流程太重会拖慢迭代。"
+      ],
+      "tags": [
+        "效能",
+        "协作",
+        "流程"
+      ],
+      "links": [
+        "adr",
+        "code-review",
+        "scrum"
+      ],
+      "children": [
+        {
+          "id": "adr",
+          "title": "架构决策记录",
+          "type": "concept",
+          "description": "用轻量文档记录关键架构决策及其上下文和后果。",
+          "systemRole": "让架构决策可追溯、可回顾。",
+          "problemSolved": "避免决策理由随人员流失而丢失。",
+          "tradeOffs": [
+            "需要持续写作和评审纪律。"
+          ],
+          "tags": [
+            "架构",
+            "文档",
+            "协作"
+          ],
+          "links": [
+            "engineering-effectiveness",
+            "system-design"
+          ]
+        },
+        {
+          "id": "code-review",
+          "title": "代码审查",
+          "type": "concept",
+          "description": "在合并代码前由同行评审质量、安全和设计。",
+          "systemRole": "知识分享和缺陷预防的第一道防线。",
+          "problemSolved": "在低成本阶段发现问题。",
+          "tradeOffs": [
+            "审查过严会拖慢交付节奏。"
+          ],
+          "tags": [
+            "协作",
+            "质量",
+            "流程"
+          ],
+          "links": [
+            "engineering-effectiveness",
+            "ci-cd"
+          ]
+        },
+        {
+          "id": "scrum",
+          "title": "Scrum",
+          "type": "concept",
+          "description": "以固定迭代周期和持续反馈为核心的敏捷框架。",
+          "systemRole": "把复杂工作拆成可管理的迭代。",
+          "problemSolved": "提升团队透明度和适应变化的能力。",
+          "tradeOffs": [
+            "仪式过多时会挤占开发时间。"
+          ],
+          "tags": [
+            "敏捷",
+            "管理",
+            "协作"
+          ],
+          "links": [
+            "engineering-effectiveness"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-engineering",
+      "title": "AI 工程化",
+      "type": "concept",
+      "description": "LLM、Prompt、RAG、Agent、MCP、评估和护栏。",
+      "systemRole": "把大模型能力接入真实产品系统。",
+      "problemSolved": "让 AI 能力可控、可测、可演进。",
+      "tradeOffs": [
+        "模型能力越强，系统边界越复杂。"
+      ],
+      "tags": [
+        "LLM",
+        "RAG",
+        "Agent",
+        "MCP"
+      ],
+      "links": [
+        "vector-db",
+        "observability",
+        "guardrails"
+      ],
+      "children": [
+        {
+          "id": "guardrails",
+          "title": "AI 护栏",
+          "type": "concept",
+          "description": "对 LLM 输入和输出施加约束的安全层。",
+          "systemRole": "防止模型产生有害、越权或不符合策略的内容。",
+          "problemSolved": "让 AI 应用在可控边界内运行。",
+          "tradeOffs": [
+            "过于严格的护栏会降低模型灵活性。"
+          ],
+          "tags": [
+            "AI",
+            "安全",
+            "策略"
+          ],
+          "links": [
+            "ai-engineering",
+            "content-security-policy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "system-design",
+      "title": "系统设计",
+      "type": "concept",
+      "description": "高并发、高可用、分布式、架构模式和设计方法论。",
+      "systemRole": "把单点技术拼成可运行的大系统。",
+      "problemSolved": "让架构决策有清晰边界和 trade-off。",
+      "tradeOffs": [
+        "系统设计越全局，前提假设越多。"
+      ],
+      "tags": [
+        "系统设计",
+        "分布式",
+        "架构"
+      ],
+      "links": [
+        "microservices",
+        "caching",
+        "load-balancing"
+      ]
+    },
+    {
+      "id": "deployment-pipeline",
+      "title": "发布流水线",
+      "type": "concept",
+      "description": "把构建、测试、打包和发布串成可重复步骤。",
+      "systemRole": "把代码从提交推进到生产。",
+      "problemSolved": "减少人为错误和发布漂移。",
+      "tradeOffs": [
+        "自动化越多，护栏和责任也要越强。"
+      ],
+      "tags": [
+        "CI",
+        "CD",
+        "发布"
+      ],
+      "links": [
+        "ci-cd",
+        "canary-release",
+        "blue-green-deploy"
+      ],
+      "children": [
+        {
+          "id": "ci-cd",
+          "title": "CI/CD",
+          "type": "solution",
+          "description": "持续集成与持续交付/部署。",
+          "systemRole": "自动化验证和发布软件。",
+          "problemSolved": "缩短反馈回路并降低发布风险。",
+          "tradeOffs": [
+            "流水线会随着时间变慢、变脆。"
+          ],
+          "tags": [
+            "流水线",
+            "自动化",
+            "发布"
+          ],
+          "links": [
+            "build-pipeline",
+            "canary-release"
+          ]
+        },
+        {
+          "id": "blue-green-deploy",
+          "title": "蓝绿发布",
+          "type": "solution",
+          "description": "同时维护两套环境，再切换流量。",
+          "systemRole": "提供快速回滚和受控切流。",
+          "problemSolved": "降低发布切换时的停机风险。",
+          "tradeOffs": [
+            "需要双份容量。"
+          ],
+          "tags": [
+            "发布",
+            "回滚",
+            "可用性"
+          ],
+          "links": [
+            "canary-release",
+            "load-balancing"
+          ]
+        },
+        {
+          "id": "canary-release",
+          "title": "金丝雀发布",
+          "type": "solution",
+          "description": "先让一小部分流量接触新版本。",
+          "systemRole": "把故障半径限制在小范围内。",
+          "problemSolved": "在全量发布前发现回归。",
+          "tradeOffs": [
+            "需要额外的发布编排和监控。"
+          ],
+          "tags": [
+            "发布",
+            "流量",
+            "风险"
+          ],
+          "links": [
+            "observability",
+            "tail-latency"
+          ],
+          "children": [
+            {
+              "id": "dark-launch",
+              "title": "暗发布",
+              "type": "solution",
+              "description": "在生产环境中运行新代码但不暴露给用户。",
+              "systemRole": "用真实流量验证行为而不影响用户体验。",
+              "problemSolved": "降低发布风险并提前发现集成问题。",
+              "tradeOffs": [
+                "需要额外的流量复制和隔离能力。"
+              ],
+              "tags": [
+                "发布",
+                "测试",
+                "运维"
+              ],
+              "links": [
+                "feature-flags",
+                "canary-release",
+                "fallback"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "build-pipeline",
+          "title": "构建流水线",
+          "type": "concept",
+          "description": "把源码编译、测试和打包成可部署制品的自动化流程。",
+          "systemRole": "保证每次提交都能得到一致的构建产物。",
+          "problemSolved": "消除手工构建的差异和错误。",
+          "tradeOffs": [
+            "流水线越长，反馈周期越长。"
+          ],
+          "tags": [
+            "CI",
+            "构建",
+            "自动化"
+          ],
+          "links": [
+            "ci-cd",
+            "deployment-pipeline"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runtime-platform",
+      "title": "运行平台",
+      "type": "concept",
+      "description": "容器、编排、调度和自动扩缩容。",
+      "systemRole": "提供服务的执行环境。",
+      "problemSolved": "让扩展和打包在团队之间保持一致。",
+      "tradeOffs": [
+        "平台层会隐藏复杂度，也会引入新故障模式。"
+      ],
+      "tags": [
+        "容器",
+        "Kubernetes",
+        "扩缩容"
+      ],
+      "links": [
+        "containers",
+        "kubernetes",
+        "autoscaling"
+      ],
+      "children": [
+        {
+          "id": "containers",
+          "title": "容器",
+          "type": "solution",
+          "description": "把应用和依赖打包进隔离运行时。",
+          "systemRole": "创建可移植的部署单元。",
+          "problemSolved": "提升不同环境之间的一致性。",
+          "tradeOffs": [
+            "隔离强度弱于虚拟机。"
+          ],
+          "tags": [
+            "运行时",
+            "打包",
+            "隔离"
+          ],
+          "links": [
+            "kubernetes",
+            "resource-limits"
+          ],
+          "children": [
+            {
+              "id": "resource-limits",
+              "title": "资源限制",
+              "type": "concept",
+              "description": "为容器和进程设置 CPU、内存和磁盘上限。",
+              "systemRole": "防止单个工作负载耗尽节点资源。",
+              "problemSolved": "在多租户和共享环境中保护系统稳定。",
+              "tradeOffs": [
+                "限制过严会导致 OOM 或节流。"
+              ],
+              "tags": [
+                "容器",
+                "资源",
+                "Kubernetes",
+                "运维"
+              ],
+              "links": [
+                "noisy-neighbor",
+                "autoscaling",
+                "containers"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "kubernetes",
+          "title": "Kubernetes",
+          "type": "solution",
+          "description": "编排容器工作负载和集群状态。",
+          "systemRole": "负责调度、重启和扩展服务。",
+          "problemSolved": "为分布式应用提供标准控制面。",
+          "tradeOffs": [
+            "运维复杂度很高。"
+          ],
+          "tags": [
+            "编排",
+            "集群",
+            "运维"
+          ],
+          "links": [
+            "autoscaling",
+            "service-mesh",
+            "resource-limits"
+          ],
+          "children": [
+            {
+              "id": "config-management",
+              "title": "配置管理",
+              "type": "concept",
+              "description": "集中管理应用运行时的环境变量和配置参数。",
+              "systemRole": "保证不同环境的一致性并安全存放敏感值。",
+              "problemSolved": "避免配置散落和密钥泄露。",
+              "tradeOffs": [
+                "配置中心本身也会变成关键依赖。"
+              ],
+              "tags": [
+                "配置",
+                "运维",
+                "安全"
+              ],
+              "links": [
+                "secrets-management",
+                "kubernetes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "autoscaling",
+          "title": "自动扩缩容",
+          "type": "solution",
+          "description": "根据负载信号自动调整容量。",
+          "systemRole": "让基础设施成本跟着需求变化。",
+          "problemSolved": "在流量波动时减少人工干预。",
+          "tradeOffs": [
+            "阈值和延迟可能引发抖动。"
+          ],
+          "tags": [
+            "扩缩容",
+            "容量",
+            "运维"
+          ],
+          "links": [
+            "tail-latency",
+            "resource-limits"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "observability",
+      "title": "可观测性",
+      "type": "concept",
+      "description": "日志、指标和追踪让内部状态可见。",
+      "systemRole": "把运行表现连接回工程决策。",
+      "problemSolved": "缩短定位故障和回归的时间。",
+      "tradeOffs": [
+        "遥测数据会变得昂贵且嘈杂。"
+      ],
+      "tags": [
+        "日志",
+        "指标",
+        "追踪",
+        "SLO"
+      ],
+      "links": [
+        "distributed-tracing",
+        "alerting",
+        "sli-slo"
+      ],
+      "children": [
+        {
+          "id": "distributed-tracing",
+          "title": "分布式追踪",
+          "type": "solution",
+          "description": "使用 span 上下文追踪请求穿过多个服务。",
+          "systemRole": "展示时间都花在哪里。",
+          "problemSolved": "让多跳延迟和失败路径可见。",
+          "tradeOffs": [
+            "埋点开销和标签基数都需要治理。"
+          ],
+          "tags": [
+            "追踪",
+            "调试",
+            "运维"
+          ],
+          "links": [
+            "observability",
+            "tail-latency",
+            "service-mesh"
+          ],
+          "children": [
+            {
+              "id": "service-mesh",
+              "title": "Service Mesh",
+              "type": "concept",
+              "description": "用 Sidecar 代理统一管理服务间通信、安全和可观测性。",
+              "systemRole": "把网络层能力从业务代码中解耦出来。",
+              "problemSolved": "让服务间流量管理、mTLS 和追踪不再依赖 SDK。",
+              "tradeOffs": [
+                "增加运维复杂度和资源开销。"
+              ],
+              "tags": [
+                "服务网格",
+                "Istio",
+                "Linkerd",
+                "Sidecar"
+              ],
+              "links": [
+                "microservices",
+                "mtls",
+                "distributed-tracing",
+                "load-balancing"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "alerting",
+          "title": "告警",
+          "type": "concept",
+          "description": "当指标越过阈值时通知人。",
+          "systemRole": "把遥测变成行动。",
+          "problemSolved": "快速暴露事故和 SLO 失守。",
+          "tradeOffs": [
+            "告警太多会造成疲劳。"
+          ],
+          "tags": [
+            "监控",
+            "事故",
+            "运维"
+          ],
+          "links": [
+            "sli-slo",
+            "incident-response"
+          ],
+          "children": [
+            {
+              "id": "error-budget",
+              "title": "错误预算",
+              "type": "concept",
+              "description": "在 SLO 范围内允许的最大故障量。",
+              "systemRole": "量化可靠性并将风险转化为发布决策。",
+              "problemSolved": "平衡稳定与快速迭代之间的矛盾。",
+              "tradeOffs": [
+                "预算耗尽时会冻结发布。"
+              ],
+              "tags": [
+                "SRE",
+                "可靠性",
+                "运维"
+              ],
+              "links": [
+                "sli-slo",
+                "alerting",
+                "incident-response"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sli-slo",
+          "title": "SLI / SLO",
+          "type": "concept",
+          "description": "面向用户的可靠性指标及其目标。",
+          "systemRole": "定义可接受的服务质量。",
+          "problemSolved": "让可靠性可衡量、可协商。",
+          "tradeOffs": [
+            "好的 SLO 需要认真挑选指标。"
+          ],
+          "tags": [
+            "可靠性",
+            "指标",
+            "运维"
+          ],
+          "links": [
+            "alerting",
+            "error-budget"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "operations",
+      "title": "运维",
+      "type": "concept",
+      "description": "密钥、配置、事故与操作安全。",
+      "systemRole": "保持平台安全、可恢复。",
+      "problemSolved": "减少运维意外和未授权访问。",
+      "tradeOffs": [
+        "运维安全会拖慢变更节奏。"
+      ],
+      "tags": [
+        "运维",
+        "安全",
+        "事故"
+      ],
+      "links": [
+        "secrets-management",
+        "incident-response",
+        "feature-flags"
+      ],
+      "children": [
+        {
+          "id": "secrets-management",
+          "title": "密钥管理",
+          "type": "solution",
+          "description": "安全地存放凭据和令牌。",
+          "systemRole": "保护敏感运行时配置。",
+          "problemSolved": "防止密钥意外泄露。",
+          "tradeOffs": [
+            "密钥轮转需要很强的自动化。"
+          ],
+          "tags": [
+            "安全",
+            "配置",
+            "运维"
+          ],
+          "links": [
+            "certificate-rotation",
+            "config-management"
+          ]
+        },
+        {
+          "id": "incident-response",
+          "title": "事故响应",
+          "type": "concept",
+          "description": "检测、遏制并恢复事故的流程。",
+          "systemRole": "把故障变成可管理事件。",
+          "problemSolved": "缩短恢复时间并总结经验。",
+          "tradeOffs": [
+            "Runbook 和演练需要长期维护。"
+          ],
+          "tags": [
+            "事故",
+            "运维",
+            "恢复"
+          ],
+          "links": [
+            "runbooks",
+            "postmortem"
+          ],
+          "children": [
+            {
+              "id": "postmortem",
+              "title": "事后复盘",
+              "type": "concept",
+              "description": "事故后的无问责分析，总结根因和改进措施。",
+              "systemRole": "把每次事故转化为系统改进。",
+              "problemSolved": "防止同类事故重复发生。",
+              "tradeOffs": [
+                "复盘质量取决于文化和投入。"
+              ],
+              "tags": [
+                "事故",
+                "运维",
+                "改进"
+              ],
+              "links": [
+                "incident-response",
+                "runbooks"
+              ]
+            },
+            {
+              "id": "runbooks",
+              "title": "Runbook",
+              "type": "solution",
+              "description": "运维操作的标准化步骤文档。",
+              "systemRole": "让应急响应变得可重复、可自动化。",
+              "problemSolved": "减少人工判断误差和响应延迟。",
+              "tradeOffs": [
+                "需要持续维护，容易过时。"
+              ],
+              "tags": [
+                "运维",
+                "事故",
+                "自动化"
+              ],
+              "links": [
+                "incident-response",
+                "postmortem"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "feature-flags",
+          "title": "特性开关",
+          "type": "solution",
+          "description": "用运行时开关控制行为变化。",
+          "systemRole": "把部署和发布解耦。",
+          "problemSolved": "支持灰度、回滚和无重发版切换。",
+          "tradeOffs": [
+            "开关会制造代码路径复杂度和清理债务。"
+          ],
+          "tags": [
+            "发布",
+            "运行时",
+            "运维"
+          ],
+          "links": [
+            "canary-release",
+            "dark-launch"
+          ]
+        }
+      ]
+    }
+  ]
+}

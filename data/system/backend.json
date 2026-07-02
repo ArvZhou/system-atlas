@@ -1,0 +1,908 @@
+{
+  "id": "backend-system",
+  "title": "后端系统",
+  "type": "domain",
+  "description": "负责接收请求、执行业务规则并协调持久化的服务层。",
+  "systemRole": "承载业务逻辑、编排与服务间通信。",
+  "problemSolved": "让服务在负载和变化下仍然可预测。",
+  "tradeOffs": [
+    "清晰的边界会带来服务间额外延迟。"
+  ],
+  "tags": [
+    "后端",
+    "API",
+    "服务",
+    "分布式",
+    "NestJS",
+    "Spring Boot"
+  ],
+  "links": [
+    "database-system",
+    "load-balancing",
+    "service-mesh",
+    "nestjs",
+    "spring-boot"
+  ],
+  "children": [
+    {
+      "id": "nodejs-runtime",
+      "title": "Node.js 运行时",
+      "type": "concept",
+      "description": "Event Loop、Buffer、Stream、Worker Threads 和底层模块加载。",
+      "systemRole": "提供 JavaScript 的服务端执行环境。",
+      "problemSolved": "解释 Node.js 为什么能处理高并发 I/O。",
+      "tradeOffs": [
+        "单线程模型对 CPU 密集任务并不友好。"
+      ],
+      "tags": [
+        "Node.js",
+        "Event Loop",
+        "Stream",
+        "Buffer"
+      ],
+      "links": [
+        "event-loop",
+        "buffer",
+        "stream",
+        "worker-threads"
+      ],
+      "children": [
+        {
+          "id": "event-loop",
+          "title": "Event Loop",
+          "type": "solution",
+          "description": "管理异步任务调度的循环机制。",
+          "systemRole": "协调 timers、poll、check 等阶段。",
+          "problemSolved": "让单线程也能高效处理 I/O。",
+          "tradeOffs": [
+            "宏微任务顺序需要仔细理解。"
+          ],
+          "tags": [
+            "Node.js",
+            "异步",
+            "事件循环"
+          ],
+          "links": [
+            "promise",
+            "microtask-macrotask"
+          ],
+          "children": [
+            {
+              "id": "promise",
+              "title": "Promise",
+              "type": "solution",
+              "description": "JavaScript 中表示异步操作最终结果的对象。",
+              "systemRole": "管理异步流程的状态和错误传播。",
+              "problemSolved": "避免回调地狱，让异步代码更可读。",
+              "tradeOffs": [
+                "Promise 链过长时仍然需要 async/await 简化。"
+              ],
+              "tags": [
+                "JavaScript",
+                "异步",
+                "事件循环"
+              ],
+              "links": [
+                "event-loop",
+                "microtask-macrotask",
+                "async-await"
+              ],
+              "children": [
+                {
+                  "id": "async-await",
+                  "title": "Async / Await",
+                  "type": "solution",
+                  "description": "基于 Promise 的同步风格异步语法。",
+                  "systemRole": "让异步代码读起来像同步代码。",
+                  "problemSolved": "消除 Promise 链的嵌套和错误处理复杂性。",
+                  "tradeOffs": [
+                    "不恰当的串行 await 会降低并发性能。"
+                  ],
+                  "tags": [
+                    "JavaScript",
+                    "异步",
+                    "语法"
+                  ],
+                  "links": [
+                    "promise",
+                    "event-loop"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "microtask-macrotask",
+              "title": "微任务与宏任务",
+              "type": "concept",
+              "description": "JavaScript 事件循环中的两类任务队列及其执行顺序。",
+              "systemRole": "解释 Promise、setTimeout 和 DOM 事件的执行时序。",
+              "problemSolved": "帮助理解异步代码的执行顺序。",
+              "tradeOffs": [
+                "过多的微任务会阻塞渲染。"
+              ],
+              "tags": [
+                "JavaScript",
+                "事件循环",
+                "异步"
+              ],
+              "links": [
+                "event-loop",
+                "promise"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "buffer",
+          "title": "Buffer",
+          "type": "solution",
+          "description": "处理二进制数据的对象。",
+          "systemRole": "支撑文件、网络和协议处理。",
+          "problemSolved": "让 Node.js 直接操作字节。",
+          "tradeOffs": [
+            "内存池和切片需要理解。"
+          ],
+          "tags": [
+            "Node.js",
+            "二进制",
+            "内存"
+          ],
+          "links": [
+            "stream"
+          ]
+        },
+        {
+          "id": "stream",
+          "title": "Stream",
+          "type": "solution",
+          "description": "按块处理数据流的抽象。",
+          "systemRole": "支持背压和流式处理。",
+          "problemSolved": "避免一次性加载大对象。",
+          "tradeOffs": [
+            "流式 API 更难写也更难调试。"
+          ],
+          "tags": [
+            "Node.js",
+            "流式",
+            "背压"
+          ],
+          "links": [
+            "backpressure"
+          ]
+        },
+        {
+          "id": "worker-threads",
+          "title": "Worker Threads",
+          "type": "solution",
+          "description": "把 CPU 密集任务移到独立线程。",
+          "systemRole": "弥补单线程执行的不足。",
+          "problemSolved": "提升 CPU 计算型任务的并行性。",
+          "tradeOffs": [
+            "线程通信和同步会增加复杂度。"
+          ],
+          "tags": [
+            "Node.js",
+            "线程",
+            "并发"
+          ],
+          "links": [
+            "cluster",
+            "child-process"
+          ],
+          "children": [
+            {
+              "id": "cluster",
+              "title": "Cluster",
+              "type": "solution",
+              "description": "Node.js 的多进程模块，利用多核 CPU。",
+              "systemRole": "让 Node.js 在多个 CPU 核心上并行处理请求。",
+              "problemSolved": "突破单线程的 CPU 利用率上限。",
+              "tradeOffs": [
+                "进程间无法共享内存状态。"
+              ],
+              "tags": [
+                "Node.js",
+                "多进程",
+                "并发"
+              ],
+              "links": [
+                "worker-threads",
+                "child-process"
+              ]
+            },
+            {
+              "id": "child-process",
+              "title": "Child Process",
+              "type": "solution",
+              "description": "Node.js 中创建子进程执行外部命令。",
+              "systemRole": "在 Node.js 中运行系统命令或其他语言的程序。",
+              "problemSolved": "集成现有工具和利用多进程能力。",
+              "tradeOffs": [
+                "进程通信的开销和复杂性。"
+              ],
+              "tags": [
+                "Node.js",
+                "进程",
+                "系统"
+              ],
+              "links": [
+                "worker-threads",
+                "cluster"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backend-framework-runtime",
+      "title": "服务端框架",
+      "type": "concept",
+      "description": "后端项目里负责路由、依赖注入、模块化和中间件组织的框架层。",
+      "systemRole": "定义服务端应用的组织方式和工程脚手架。",
+      "problemSolved": "把 HTTP 入口、业务模块和基础设施能力统一起来。",
+      "tradeOffs": [
+        "框架越完整，抽象和约束也越明显。"
+      ],
+      "tags": [
+        "NestJS",
+        "Spring Boot",
+        "后端框架"
+      ],
+      "links": [
+        "nestjs",
+        "spring-boot",
+        "request-lifecycle"
+      ],
+      "children": [
+        {
+          "id": "nestjs",
+          "title": "NestJS",
+          "type": "solution",
+          "description": "基于 TypeScript 的渐进式 Node.js 后端框架。",
+          "systemRole": "提供模块、控制器、注入和装饰器体系。",
+          "problemSolved": "让 Node.js 后端更接近工程化和模块化组织。",
+          "tradeOffs": [
+            "需要理解装饰器、DI 和框架约定。"
+          ],
+          "tags": [
+            "NestJS",
+            "Node.js",
+            "依赖注入"
+          ],
+          "links": [
+            "request-lifecycle",
+            "api-design",
+            "authn-authz"
+          ],
+          "children": [
+            {
+              "id": "nestjs-modules",
+              "title": "模块系统",
+              "type": "concept",
+              "description": "把控制器、Provider 和导出能力组合成边界清晰的模块。",
+              "systemRole": "定义后端应用的依赖边界。",
+              "problemSolved": "让业务能力按模块沉淀。",
+              "tradeOffs": [
+                "模块拆分不当会造成循环依赖和膨胀。"
+              ],
+              "tags": [
+                "NestJS",
+                "模块",
+                "边界"
+              ],
+              "links": [
+                "request-lifecycle",
+                "api-design"
+              ]
+            },
+            {
+              "id": "nestjs-di",
+              "title": "依赖注入",
+              "type": "concept",
+              "description": "由容器负责创建和注入依赖对象。",
+              "systemRole": "让对象生命周期和依赖关系统一管理。",
+              "problemSolved": "减少手工 new 和对象耦合。",
+              "tradeOffs": [
+                "依赖解析链过长时，调试会变得间接。"
+              ],
+              "tags": [
+                "NestJS",
+                "DI",
+                "容器"
+              ],
+              "links": [
+                "request-lifecycle",
+                "authn-authz"
+              ]
+            },
+            {
+              "id": "nestjs-pipes-guards",
+              "title": "Pipes / Guards / Interceptors",
+              "type": "solution",
+              "description": "围绕请求处理链插入校验、权限和拦截逻辑。",
+              "systemRole": "把横切逻辑从业务代码里抽出来。",
+              "problemSolved": "统一处理验证、鉴权和日志。",
+              "tradeOffs": [
+                "链路越长，执行顺序就越需要精确理解。"
+              ],
+              "tags": [
+                "NestJS",
+                "请求链",
+                "中间件"
+              ],
+              "links": [
+                "request-lifecycle",
+                "request-validation",
+                "authn-authz"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "spring-boot",
+          "title": "Spring Boot",
+          "type": "solution",
+          "description": "Java 生态里最常见的后端应用框架。",
+          "systemRole": "提供自动配置、依赖注入和大量企业级组件。",
+          "problemSolved": "让复杂 Java 服务快速进入可生产状态。",
+          "tradeOffs": [
+            "生态庞大，学习和排障成本都不低。"
+          ],
+          "tags": [
+            "Spring Boot",
+            "Java",
+            "依赖注入"
+          ],
+          "links": [
+            "request-lifecycle",
+            "transaction-isolation",
+            "authn-authz"
+          ],
+          "children": [
+            {
+              "id": "spring-autoconfig",
+              "title": "自动配置",
+              "type": "concept",
+              "description": "根据依赖和环境条件自动装配默认组件。",
+              "systemRole": "降低启动和接线的样板代码。",
+              "problemSolved": "让项目在少量配置下就能跑起来。",
+              "tradeOffs": [
+                "隐式行为越多，排障越依赖约定和日志。"
+              ],
+              "tags": [
+                "Spring Boot",
+                "自动配置",
+                "约定"
+              ],
+              "links": [
+                "request-lifecycle",
+                "api-design"
+              ]
+            },
+            {
+              "id": "spring-bean-container",
+              "title": "Bean 容器",
+              "type": "concept",
+              "description": "Spring 负责管理对象创建、注入和生命周期。",
+              "systemRole": "把依赖关系从代码中剥离出来。",
+              "problemSolved": "统一管理服务、仓储和基础设施对象。",
+              "tradeOffs": [
+                "对象关系会从显式代码转移到容器配置里。"
+              ],
+              "tags": [
+                "Spring Boot",
+                "Bean",
+                "DI"
+              ],
+              "links": [
+                "request-lifecycle",
+                "authn-authz"
+              ]
+            },
+            {
+              "id": "spring-transaction",
+              "title": "事务管理",
+              "type": "concept",
+              "description": "用声明式方式控制事务边界和回滚规则。",
+              "systemRole": "保护写入的一致性。",
+              "problemSolved": "让跨表或跨步骤写入保持原子性。",
+              "tradeOffs": [
+                "事务边界设计不当会放大锁竞争。"
+              ],
+              "tags": [
+                "Spring Boot",
+                "事务",
+                "数据库"
+              ],
+              "links": [
+                "transaction-isolation",
+                "mvcc",
+                "deadlock"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "request-lifecycle",
+      "title": "请求生命周期",
+      "type": "concept",
+      "description": "从入口、校验、处理、持久化到响应的完整流程。",
+      "systemRole": "定义每个请求如何被处理。",
+      "problemSolved": "建立统一的调试和追踪模型。",
+      "tradeOffs": [
+        "严格流水线会让特殊流程显得生硬。"
+      ],
+      "tags": [
+        "API",
+        "追踪",
+        "校验"
+      ],
+      "links": [
+        "rate-limiting",
+        "idempotency-keys",
+        "request-validation"
+      ],
+      "children": [
+        {
+          "id": "request-validation",
+          "title": "请求校验",
+          "type": "solution",
+          "description": "在边界上拒绝格式错误或不安全的输入。",
+          "systemRole": "让坏数据在进入业务逻辑前被拦住。",
+          "problemSolved": "减少下游错误和安全问题。",
+          "tradeOffs": [
+            "校验层会增加样板代码和 schema 维护成本。"
+          ],
+          "tags": [
+            "校验",
+            "输入",
+            "安全"
+          ],
+          "links": [
+            "request-lifecycle",
+            "sanitization"
+          ]
+        },
+        {
+          "id": "idempotency-keys",
+          "title": "幂等键",
+          "type": "solution",
+          "description": "让重复请求得到同一个变更结果。",
+          "systemRole": "防止 API 重试造成重复执行。",
+          "problemSolved": "避免重复扣款、重复下单或重复建任务。",
+          "tradeOffs": [
+            "需要持久化去重状态。"
+          ],
+          "tags": [
+            "API",
+            "重试",
+            "一致性"
+          ],
+          "links": [
+            "retries-with-backoff",
+            "optimistic-ui"
+          ]
+        },
+        {
+          "id": "rate-limiting",
+          "title": "限流",
+          "type": "problem",
+          "description": "过量流量会挤占有用工作并破坏服务稳定性。",
+          "systemRole": "保护系统免受过载和滥用。",
+          "problemSolved": "把吞吐控制在可接受范围内。",
+          "tradeOffs": [
+            "限制过强会伤害正常的流量突增。"
+          ],
+          "tags": [
+            "安全",
+            "性能",
+            "API"
+          ],
+          "links": [
+            "load-balancing",
+            "request-lifecycle",
+            "thundering-herd"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-design",
+      "title": "API 设计",
+      "type": "concept",
+      "description": "面向客户端和其他服务暴露的契约。",
+      "systemRole": "定义能力如何被消费。",
+      "problemSolved": "把内部复杂性收敛为稳定接口。",
+      "tradeOffs": [
+        "稳定 API 会限制内部模型演进速度。"
+      ],
+      "tags": [
+        "API",
+        "契约",
+        "版本"
+      ],
+      "links": [
+        "versioning",
+        "bff-pattern",
+        "graphql"
+      ],
+      "children": [
+        {
+          "id": "rest",
+          "title": "REST",
+          "type": "solution",
+          "description": "以资源为中心的 HTTP API 设计。",
+          "systemRole": "符合 HTTP 语义和广泛约定。",
+          "problemSolved": "构建可互操作、可缓存的 API。",
+          "tradeOffs": [
+            "复杂工作流在纯资源接口上会比较别扭。"
+          ],
+          "tags": [
+            "HTTP",
+            "API",
+            "资源"
+          ],
+          "links": [
+            "http-caching",
+            "pagination"
+          ]
+        },
+        {
+          "id": "graphql",
+          "title": "GraphQL",
+          "type": "solution",
+          "description": "面向客户端的类型化查询语言。",
+          "systemRole": "让客户端灵活选择所需数据。",
+          "problemSolved": "减少过度获取和获取不足。",
+          "tradeOffs": [
+            "缓存、成本控制和复杂度会转移到服务端。"
+          ],
+          "tags": [
+            "API",
+            "查询",
+            "schema"
+          ],
+          "links": [
+            "bff-pattern",
+            "n-plus-one-query"
+          ]
+        },
+        {
+          "id": "versioning",
+          "title": "API 版本化",
+          "type": "concept",
+          "description": "在不破坏现有客户端的前提下引入变化。",
+          "systemRole": "管理契约的长期演进。",
+          "problemSolved": "避免破坏性变更影响已有集成。",
+          "tradeOffs": [
+            "版本过多会带来维护负担。"
+          ],
+          "tags": [
+            "兼容性",
+            "API",
+            "演进"
+          ],
+          "links": [
+            "schema-evolution",
+            "deprecation-policy"
+          ]
+        },
+        {
+          "id": "deprecation-policy",
+          "title": "弃用策略",
+          "type": "concept",
+          "description": "有计划地淘汰旧 API 并引导客户端迁移。",
+          "systemRole": "管理 API 生命周期，平衡稳定和演进。",
+          "problemSolved": "让破坏性变更可控、可预期。",
+          "tradeOffs": [
+            "长期维护旧版本会增加成本。"
+          ],
+          "tags": [
+            "API",
+            "版本",
+            "演进"
+          ],
+          "links": [
+            "versioning",
+            "api-design"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "authn-authz",
+      "title": "认证 / 授权",
+      "type": "concept",
+      "description": "认证确认“你是谁”，授权决定“你能做什么”。",
+      "systemRole": "保护敏感操作和数据。",
+      "problemSolved": "把身份和权限检查分开。",
+      "tradeOffs": [
+        "更多安全层会让调试和本地开发更复杂。"
+      ],
+      "tags": [
+        "认证",
+        "安全",
+        "RBAC"
+      ],
+      "links": [
+        "security-bypass",
+        "rbac",
+        "session-management"
+      ],
+      "children": [
+        {
+          "id": "security-bypass",
+          "title": "安全绕过",
+          "type": "problem",
+          "description": "请求绕过了预期的认证或授权路径。",
+          "systemRole": "代表边界层或服务层的安全失败。",
+          "problemSolved": "让安全决策显式化、可测试化。",
+          "tradeOffs": [
+            "加固安全会拖慢开发并增加集成开销。"
+          ],
+          "tags": [
+            "安全",
+            "认证",
+            "边界"
+          ],
+          "links": [
+            "rbac",
+            "session-management"
+          ]
+        },
+        {
+          "id": "rbac",
+          "title": "RBAC",
+          "type": "solution",
+          "description": "基于角色的访问控制。",
+          "systemRole": "提供粗粒度权限结构。",
+          "problemSolved": "简化团队和资源的授权管理。",
+          "tradeOffs": [
+            "角色可能过粗或数量过多。"
+          ],
+          "tags": [
+            "认证",
+            "权限",
+            "安全"
+          ],
+          "links": [
+            "security-bypass",
+            "policy-engine"
+          ]
+        },
+        {
+          "id": "session-management",
+          "title": "会话管理",
+          "type": "solution",
+          "description": "使用 Token 或服务端会话跟踪请求中的身份。",
+          "systemRole": "让用户在浏览器交互中保持登录状态。",
+          "problemSolved": "避免每次请求都重新认证。",
+          "tradeOffs": [
+            "会话失效和存储策略需要认真设计。"
+          ],
+          "tags": [
+            "认证",
+            "Cookie",
+            "Token"
+          ],
+          "links": [
+            "csrf",
+            "same-site-cookies"
+          ]
+        },
+        {
+          "id": "policy-engine",
+          "title": "策略引擎",
+          "type": "solution",
+          "description": "用声明式规则统一管理访问控制策略。",
+          "systemRole": "把鉴权逻辑从业务代码中解耦。",
+          "problemSolved": "让权限规则可审计、可测试、可集中管理。",
+          "tradeOffs": [
+            "规则语言学习和策略维护需要投入。"
+          ],
+          "tags": [
+            "安全",
+            "授权",
+            "策略"
+          ],
+          "links": [
+            "rbac",
+            "authn-authz"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "resilience",
+      "title": "韧性",
+      "type": "concept",
+      "description": "后端如何应对故障、过载和依赖不稳定。",
+      "systemRole": "让系统在局部失败时仍能运行。",
+      "problemSolved": "防止一个坏依赖拖垮整个服务。",
+      "tradeOffs": [
+        "过多重试和故障转移可能掩盖真正的问题。"
+      ],
+      "tags": [
+        "韧性",
+        "重试",
+        "故障"
+      ],
+      "links": [
+        "bulkhead",
+        "circuit-breaker",
+        "retries-with-backoff"
+      ],
+      "children": []
+    },
+    {
+      "id": "async-workflows",
+      "title": "异步工作流",
+      "type": "concept",
+      "description": "后台任务、队列、事件处理和长耗时工作。",
+      "systemRole": "把慢操作或突发操作移出请求路径。",
+      "problemSolved": "保护用户请求延迟不被重任务拖慢。",
+      "tradeOffs": [
+        "异步系统更难端到端推理。"
+      ],
+      "tags": [
+        "队列",
+        "任务",
+        "事件"
+      ],
+      "links": [
+        "queue-workers",
+        "outbox-pattern",
+        "event-driven-architecture"
+      ],
+      "children": [
+        {
+          "id": "queue-workers",
+          "title": "队列 Worker",
+          "type": "solution",
+          "description": "从队列中异步处理任务。",
+          "systemRole": "把接收和处理解耦。",
+          "problemSolved": "在不阻塞请求的情况下处理尖峰流量。",
+          "tradeOffs": [
+            "需要处理重试、可见性和坏消息。"
+          ],
+          "tags": [
+            "任务",
+            "队列",
+            "吞吐"
+          ],
+          "links": [
+            "buffering",
+            "event-driven-architecture"
+          ]
+        },
+        {
+          "id": "outbox-pattern",
+          "title": "Outbox 模式",
+          "type": "solution",
+          "description": "把副作用和源数据变更放进同一个事务。",
+          "systemRole": "保持数据库状态和事件输出一致。",
+          "problemSolved": "避免写入成功后事件丢失。",
+          "tradeOffs": [
+            "需要额外的转发流程和最终一致的延迟。"
+          ],
+          "tags": [
+            "事件",
+            "一致性",
+            "事务"
+          ],
+          "links": [
+            "event-driven-architecture",
+            "idempotency-keys"
+          ]
+        },
+        {
+          "id": "event-driven-architecture",
+          "title": "事件驱动架构",
+          "type": "concept",
+          "description": "以事件作为主要集成方式。",
+          "systemRole": "让服务围绕状态变化松耦合地响应。",
+          "problemSolved": "支持可扩展、可解耦的工作流。",
+          "tradeOffs": [
+            "调试和最终一致会更难。"
+          ],
+          "tags": [
+            "事件",
+            "集成",
+            "分布式"
+          ],
+          "links": [
+            "outbox-pattern",
+            "queue-workers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service-boundary",
+      "title": "服务边界",
+      "type": "concept",
+      "description": "后端如何拆成可部署、可分工的单元。",
+      "systemRole": "定义所有权和通信边界。",
+      "problemSolved": "避免复杂度堆成一个巨型服务。",
+      "tradeOffs": [
+        "服务太多会带来运维开销。"
+      ],
+      "tags": [
+        "服务",
+        "边界",
+        "架构"
+      ],
+      "links": [
+        "microservices",
+        "bff-pattern",
+        "api-gateway"
+      ],
+      "children": [
+        {
+          "id": "microservices",
+          "title": "微服务",
+          "type": "solution",
+          "description": "把系统拆成可独立部署的服务。",
+          "systemRole": "分离所有权和扩展边界。",
+          "problemSolved": "让团队可以独立演进系统的不同部分。",
+          "tradeOffs": [
+            "运维开销和分布式故障模式都会增加。"
+          ],
+          "tags": [
+            "架构",
+            "分布式",
+            "服务"
+          ],
+          "links": [
+            "service-mesh",
+            "load-balancing",
+            "event-driven-architecture"
+          ]
+        },
+        {
+          "id": "bff-pattern",
+          "title": "BFF 模式",
+          "type": "solution",
+          "description": "为某个客户端体验定制一个专门的后端。",
+          "systemRole": "为单一 UI 形态裁剪数据和行为。",
+          "problemSolved": "减少客户端编排和过度获取数据。",
+          "tradeOffs": [
+            "会多出一个需要维护和部署的服务。"
+          ],
+          "tags": [
+            "API",
+            "前端",
+            "集成"
+          ],
+          "links": [
+            "graphql",
+            "api-gateway"
+          ]
+        },
+        {
+          "id": "api-gateway",
+          "title": "API 网关",
+          "type": "solution",
+          "description": "作为路由、认证和策略的统一入口。",
+          "systemRole": "把跨服务的横切请求能力集中起来。",
+          "problemSolved": "让客户端更容易访问多个后端服务。",
+          "tradeOffs": [
+            "网关故障会影响全部流量。"
+          ],
+          "tags": [
+            "路由",
+            "安全",
+            "网关"
+          ],
+          "links": [
+            "service-mesh",
+            "load-balancing"
+          ]
+        }
+      ]
+    }
+  ]
+}

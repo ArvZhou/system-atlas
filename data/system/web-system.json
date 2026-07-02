@@ -1,0 +1,11 @@
+{
+  "id": "web-system",
+  "title": "Web 系统",
+  "type": "root",
+  "description": "构建可靠、可观测、可扩展 Web 系统的总览地图。",
+  "systemRole": "整个图谱的总入口。",
+  "problemSolved": "把零散技术主题组织成可导航的工程体系。",
+  "tradeOffs": ["体系过于抽象时，需要继续下钻到具体模块。"],
+  "tags": ["系统", "架构", "Web"],
+  "children": []
+}

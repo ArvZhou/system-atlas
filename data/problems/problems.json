@@ -1,0 +1,443 @@
+{
+  "id": "problem-space",
+  "title": "问题空间",
+  "type": "domain",
+  "description": "驱动架构和实现决策的工程问题集合。",
+  "systemRole": "把常见故障模式和权衡来源组织起来。",
+  "problemSolved": "帮助从症状回到系统原因。",
+  "tradeOffs": [
+    "问题分类如果没有具体例子，会变得空泛。"
+  ],
+  "tags": [
+    "问题",
+    "分析",
+    "故障"
+  ],
+  "links": [
+    "frontend-system",
+    "backend-system",
+    "database-system",
+    "network-system"
+  ],
+  "children": [
+    {
+      "id": "performance-problems",
+      "title": "性能问题",
+      "type": "concept",
+      "description": "让系统变慢或浪费容量的问题。",
+      "systemRole": "最常见的用户可感知摩擦来源。",
+      "problemSolved": "把优化工作围绕可测瓶颈展开。",
+      "tradeOffs": [
+        "性能优化常常会把复杂性转移到别处。"
+      ],
+      "tags": [
+        "性能",
+        "延迟",
+        "吞吐"
+      ],
+      "links": [
+        "cold-start-latency",
+        "n-plus-one-query",
+        "tail-latency"
+      ],
+      "children": [
+        {
+          "id": "cold-start-latency",
+          "title": "冷启动延迟",
+          "type": "problem",
+          "description": "第一次请求或渲染要付出昂贵初始化成本。",
+          "systemRole": "常见于 Serverless 和大型前端包。",
+          "problemSolved": "推动缓存、代码分割和边缘交付。",
+          "tradeOffs": [
+            "预热和缓存会额外消耗资源。"
+          ],
+          "tags": [
+            "性能",
+            "启动",
+            "延迟"
+          ],
+          "links": [
+            "cdn-cache",
+            "bundle-size",
+            "partial-hydration"
+          ]
+        },
+        {
+          "id": "n-plus-one-query",
+          "title": "N+1 查询",
+          "type": "problem",
+          "description": "本可以一次批量完成的事情，却发出了很多小查询。",
+          "systemRole": "经典的数据访问低效问题。",
+          "problemSolved": "推动我们思考查询聚合和预加载。",
+          "tradeOffs": [
+            "批量化可能带来过度获取和更多内存占用。"
+          ],
+          "tags": [
+            "数据库",
+            "性能",
+            "查询"
+          ],
+          "links": [
+            "query-planner",
+            "graphql"
+          ]
+        },
+        {
+          "id": "tail-latency",
+          "title": "尾延迟",
+          "type": "problem",
+          "description": "少量请求的耗时显著高于平均水平。",
+          "systemRole": "暴露隐藏的重试、排队或依赖问题。",
+          "problemSolved": "促使我们优先关注 p95/p99。",
+          "tradeOffs": [
+            "优化尾延迟往往需要冗余或超配。"
+          ],
+          "tags": [
+            "性能",
+            "网络",
+            "p99"
+          ],
+          "links": [
+            "load-balancing",
+            "retries-with-backoff",
+            "autoscaling"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "concurrency-problems",
+      "title": "并发问题",
+      "type": "concept",
+      "description": "由重叠操作和共享状态引发的问题。",
+      "systemRole": "突出同步和顺序失败。",
+      "problemSolved": "推动正确的锁、隔离和重试设计。",
+      "tradeOffs": [
+        "更安全的并发通常意味着更低吞吐。"
+      ],
+      "tags": [
+        "并发",
+        "锁",
+        "竞态"
+      ],
+      "links": [
+        "deadlock",
+        "race-condition",
+        "backpressure"
+      ],
+      "children": [
+        {
+          "id": "deadlock",
+          "title": "死锁",
+          "type": "problem",
+          "description": "两个或多个操作相互等待。",
+          "systemRole": "数据库和异步代码里都很常见。",
+          "problemSolved": "迫使我们明确锁顺序和隔离策略。",
+          "tradeOffs": [
+            "更安全的并发通常意味着更少的顺序自由。"
+          ],
+          "tags": [
+            "并发",
+            "锁",
+            "数据库"
+          ],
+          "links": [
+            "transaction-isolation",
+            "lock-ordering"
+          ]
+        },
+        {
+          "id": "race-condition",
+          "title": "竞态条件",
+          "type": "problem",
+          "description": "结果取决于并发操作的时序。",
+          "systemRole": "通常出现在读写没有协调好的地方。",
+          "problemSolved": "提醒我们需要原子性和同步。",
+          "tradeOffs": [
+            "更强协调会降低并行度。"
+          ],
+          "tags": [
+            "并发",
+            "时序",
+            "状态"
+          ],
+          "links": [
+            "optimistic-locking",
+            "idempotency-keys"
+          ]
+        },
+        {
+          "id": "backpressure",
+          "title": "背压",
+          "type": "problem",
+          "description": "下游处理不过来，上游仍在持续生产。",
+          "systemRole": "说明什么时候需要停止缓冲，改用流控。",
+          "problemSolved": "让系统慢下来，而不是直接崩溃。",
+          "tradeOffs": [
+            "限制生产者会降低吞吐。"
+          ],
+          "tags": [
+            "流控",
+            "流式",
+            "吞吐"
+          ],
+          "links": [
+            "buffering",
+            "queue-workers",
+            "rate-limiting"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consistency-problems",
+      "title": "一致性问题",
+      "type": "concept",
+      "description": "副本或消费者对当前状态不一致的问题。",
+      "systemRole": "代表分布式状态延迟和协调问题。",
+      "problemSolved": "让最终一致性变成显式设计项。",
+      "tradeOffs": [
+        "更强一致性通常要付出延迟和可用性代价。"
+      ],
+      "tags": [
+        "一致性",
+        "分布式",
+        "复制"
+      ],
+      "links": [
+        "eventual-consistency",
+        "replication-lag",
+        "split-brain"
+      ],
+      "children": [
+        {
+          "id": "eventual-consistency",
+          "title": "最终一致性",
+          "type": "problem",
+          "description": "读取在一段时间内可能仍是旧值。",
+          "systemRole": "异步复制和事件驱动系统的自然结果。",
+          "problemSolved": "迫使我们处理冲突和新鲜度。",
+          "tradeOffs": [
+            "即时正确性会变得更难。"
+          ],
+          "tags": [
+            "一致性",
+            "复制",
+            "分布式"
+          ],
+          "links": [
+            "replication-lag",
+            "outbox-pattern"
+          ]
+        },
+        {
+          "id": "split-brain",
+          "title": "脑裂",
+          "type": "problem",
+          "description": "系统不同部分都认为自己是权威。",
+          "systemRole": "分布式协调中的失败模式。",
+          "problemSolved": "要求更强的协调和 quorum 规则。",
+          "tradeOffs": [
+            "更多协调会降低网络分区时的可用性。"
+          ],
+          "tags": [
+            "分布式",
+            "协调",
+            "可用性"
+          ],
+          "links": [
+            "quorum",
+            "leader-election"
+          ]
+        },
+        {
+          "id": "stale-read",
+          "title": "旧读",
+          "type": "problem",
+          "description": "读取到的不是最新写入后的数据。",
+          "systemRole": "副本延迟或缓存引发的常见用户可见症状。",
+          "problemSolved": "推动新鲜度策略和失效策略。",
+          "tradeOffs": [
+            "新鲜度检查会带来额外延迟和复杂度。"
+          ],
+          "tags": [
+            "缓存",
+            "复制",
+            "新鲜度"
+          ],
+          "links": [
+            "cache-invalidation",
+            "replication-lag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reliability-problems",
+      "title": "可靠性问题",
+      "type": "concept",
+      "description": "降低可用性、鲁棒性或可恢复性的问题。",
+      "systemRole": "涵盖事故和运维风险。",
+      "problemSolved": "帮助团队为失败设计，而不是只为成功设计。",
+      "tradeOffs": [
+        "可靠性措施会消耗工程时间和容量。"
+      ],
+      "tags": [
+        "可靠性",
+        "运维",
+        "故障"
+      ],
+      "links": [
+        "memory-leak",
+        "noisy-neighbor",
+        "thundering-herd"
+      ],
+      "children": [
+        {
+          "id": "thundering-herd",
+          "title": "羊群效应",
+          "type": "problem",
+          "description": "大量客户端同时重试或同时醒来，把系统压垮。",
+          "systemRole": "缓存和重试中的经典过载模式。",
+          "problemSolved": "推动抖动、合并和准入控制。",
+          "tradeOffs": [
+            "缓解措施可能延迟恢复或降低响应速度。"
+          ],
+          "tags": [
+            "重试",
+            "缓存",
+            "过载"
+          ],
+          "links": [
+            "request-coalescing",
+            "retries-with-backoff"
+          ]
+        },
+        {
+          "id": "memory-leak",
+          "title": "内存泄漏",
+          "type": "problem",
+          "description": "分配出去的内存没有释放或仍然可达。",
+          "systemRole": "长期运行服务里的资源耗尽风险。",
+          "problemSolved": "推动剖析和生命周期管理。",
+          "tradeOffs": [
+            "更激进的清理会增加 CPU 开销。"
+          ],
+          "tags": [
+            "内存",
+            "运行时",
+            "泄漏"
+          ],
+          "links": [
+            "buffering",
+            "resource-limits"
+          ]
+        },
+        {
+          "id": "noisy-neighbor",
+          "title": "邻居噪声",
+          "type": "problem",
+          "description": "某个工作负载占满共享资源，伤害其他工作负载。",
+          "systemRole": "多租户或共享基础设施中的隔离失败。",
+          "problemSolved": "推动配额和隔舱设计。",
+          "tradeOffs": [
+            "严格隔离会浪费容量。"
+          ],
+          "tags": [
+            "多租户",
+            "容量",
+            "隔离"
+          ],
+          "links": [
+            "bulkhead",
+            "resource-limits"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security-problems",
+      "title": "安全问题",
+      "type": "concept",
+      "description": "暴露数据、权限或执行边界的问题。",
+      "systemRole": "代表信任和边界失效。",
+      "problemSolved": "推动认证、授权和净化显式化。",
+      "tradeOffs": [
+        "更多安全控制会让开发流程更复杂。"
+      ],
+      "tags": [
+        "安全",
+        "边界",
+        "信任"
+      ],
+      "links": [
+        "security-bypass",
+        "xss",
+        "csrf",
+        "injection"
+      ],
+      "children": [
+        {
+          "id": "injection",
+          "title": "注入",
+          "type": "problem",
+          "description": "不可信输入改变了查询或命令的语义。",
+          "systemRole": "广义的边界失效。",
+          "problemSolved": "推动参数化和转义。",
+          "tradeOffs": [
+            "强输入处理会给动态系统带来摩擦。"
+          ],
+          "tags": [
+            "安全",
+            "输入",
+            "SQL"
+          ],
+          "links": [
+            "sanitization",
+            "request-validation"
+          ]
+        },
+        {
+          "id": "credential-leak",
+          "title": "凭据泄露",
+          "type": "problem",
+          "description": "密钥出现在日志、代码或传输中。",
+          "systemRole": "高爆炸半径的运维安全问题。",
+          "problemSolved": "推动密钥管理和轮转。",
+          "tradeOffs": [
+            "轮转和审计会增加流程成本。"
+          ],
+          "tags": [
+            "安全",
+            "密钥",
+            "运维"
+          ],
+          "links": [
+            "secrets-management",
+            "certificate-rotation"
+          ]
+        },
+        {
+          "id": "open-redirect",
+          "title": "开放重定向",
+          "type": "problem",
+          "description": "一个可信 URL 把用户送到攻击者控制的地址。",
+          "systemRole": "导航流程里的信任边界 bug。",
+          "problemSolved": "推动 URL 校验和白名单。",
+          "tradeOffs": [
+            "更严格校验会限制跳转灵活性。"
+          ],
+          "tags": [
+            "安全",
+            "路由",
+            "浏览器"
+          ],
+          "links": [
+            "request-validation",
+            "content-security-policy"
+          ]
+        }
+      ]
+    }
+  ]
+}

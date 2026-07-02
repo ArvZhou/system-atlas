@@ -1,0 +1,1508 @@
+{
+  "id": "frontend-system",
+  "title": "前端系统",
+  "type": "domain",
+  "description": "用户界面、渲染、状态与交互发生的客户端边界。",
+  "systemRole": "负责展示、交互、Hydration 和前端性能。",
+  "problemSolved": "在保证响应性的同时平衡服务端渲染和浏览器执行。",
+  "tradeOffs": [
+    "更多客户端逻辑会增加包体积和 Hydration 成本。"
+  ],
+  "tags": [
+    "前端",
+    "渲染",
+    "Hydration",
+    "体验",
+    "React",
+    "Next.js",
+    "Vue",
+    "Nuxt"
+  ],
+  "links": [
+    "backend-system",
+    "cold-start-latency",
+    "xss",
+    "react",
+    "nextjs",
+    "vue",
+    "nuxt"
+  ],
+  "children": [
+    {
+      "id": "frontend-foundation",
+      "title": "前端基础",
+      "type": "concept",
+      "description": "HTML、CSS、JavaScript、TypeScript 和浏览器原理的基础层。",
+      "systemRole": "承载所有前端实现之前的语言与平台能力。",
+      "problemSolved": "让前端知识不只停留在框架层。",
+      "tradeOffs": [
+        "基础越多，前期学习路径越长。"
+      ],
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "TypeScript",
+        "浏览器"
+      ],
+      "links": [
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "browser-principles",
+        "web-api",
+        "build-tools"
+      ],
+      "children": [
+        {
+          "id": "html",
+          "title": "HTML",
+          "type": "solution",
+          "description": "页面结构与语义的标记语言。",
+          "systemRole": "定义内容结构、可访问性和 SEO 基础。",
+          "problemSolved": "让浏览器知道什么是标题、导航、表单和内容。",
+          "tradeOffs": [
+            "语义化约束会影响视觉实现。"
+          ],
+          "tags": [
+            "HTML",
+            "语义化",
+            "SEO"
+          ],
+          "links": [
+            "semantic-html",
+            "accessibility"
+          ]
+        },
+        {
+          "id": "css",
+          "title": "CSS",
+          "type": "solution",
+          "description": "负责布局、样式、动画和响应式行为。",
+          "systemRole": "决定界面的视觉表达和适配能力。",
+          "problemSolved": "把内容与表现层解耦。",
+          "tradeOffs": [
+            "样式越复杂，维护和排查越难。"
+          ],
+          "tags": [
+            "CSS",
+            "布局",
+            "响应式"
+          ],
+          "links": [
+            "design-system",
+            "rendering-pipeline"
+          ]
+        },
+        {
+          "id": "javascript",
+          "title": "JavaScript",
+          "type": "solution",
+          "description": "浏览器和 Node.js 的主要编程语言。",
+          "systemRole": "承载交互逻辑和异步流程。",
+          "problemSolved": "让静态页面变成动态应用。",
+          "tradeOffs": [
+            "语言灵活，也更容易写出隐式复杂度。"
+          ],
+          "tags": [
+            "JavaScript",
+            "事件循环",
+            "异步"
+          ],
+          "links": [
+            "event-loop",
+            "promise"
+          ]
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "type": "solution",
+          "description": "为 JavaScript 提供静态类型系统。",
+          "systemRole": "提升大型前端工程的可维护性和推理能力。",
+          "problemSolved": "减少运行时错误和重构风险。",
+          "tradeOffs": [
+            "类型系统越强，类型设计成本越高。"
+          ],
+          "tags": [
+            "TypeScript",
+            "类型系统",
+            "工程化"
+          ],
+          "links": []
+        },
+        {
+          "id": "browser-principles",
+          "title": "浏览器原理",
+          "type": "concept",
+          "description": "从 URL 到渲染、缓存、事件和存储的浏览器内部机制。",
+          "systemRole": "解释前端为什么会慢、会错、会受限。",
+          "problemSolved": "把表象问题回收到平台层。",
+          "tradeOffs": [
+            "越靠近浏览器底层，调试成本越高。"
+          ],
+          "tags": [
+            "浏览器",
+            "渲染",
+            "缓存"
+          ],
+          "links": [
+            "rendering-pipeline",
+            "xss",
+            "csrf",
+            "browser-storage"
+          ],
+          "children": [
+            {
+              "id": "browser-storage",
+              "title": "浏览器存储",
+              "type": "concept",
+              "description": "Cookie、localStorage、sessionStorage、IndexedDB 等客户端存储。",
+              "systemRole": "在客户端持久化数据和状态。",
+              "problemSolved": "支持会话、偏好和离线数据。",
+              "tradeOffs": [
+                "存储空间、安全策略和同步各有取舍。"
+              ],
+              "tags": [
+                "浏览器",
+                "存储",
+                "Cookie"
+              ],
+              "links": [
+                "session-management",
+                "service-worker"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "web-api",
+          "title": "Web API",
+          "type": "concept",
+          "description": "浏览器提供的网络、媒体、Worker 和设备能力。",
+          "systemRole": "把浏览器从页面容器扩展为应用平台。",
+          "problemSolved": "支持上传、推送、离线和实时交互。",
+          "tradeOffs": [
+            "兼容性和权限模型会限制能力开放。"
+          ],
+          "tags": [
+            "Web API",
+            "浏览器",
+            "通信"
+          ],
+          "links": [
+            "fetch-api",
+            "websocket",
+            "service-worker",
+            "canvas-api"
+          ],
+          "children": [
+            {
+              "id": "service-worker",
+              "title": "Service Worker",
+              "type": "solution",
+              "description": "在浏览器后台运行的脚本，拦截网络请求并管理缓存。",
+              "systemRole": "支撑离线体验、推送通知和后台同步。",
+              "problemSolved": "让 Web 应用在网络不稳定时也能正常工作。",
+              "tradeOffs": [
+                "生命周期和缓存策略需要精心设计。"
+              ],
+              "tags": [
+                "PWA",
+                "离线",
+                "缓存",
+                "浏览器"
+              ],
+              "links": [
+                "web-api",
+                "cdn-cache",
+                "http-caching"
+              ]
+            },
+            {
+              "id": "fetch-api",
+              "title": "Fetch API",
+              "type": "solution",
+              "description": "基于 Promise 的网络请求 API。",
+              "systemRole": "替代 XMLHttpRequest 的现代数据获取方式。",
+              "problemSolved": "提供更简洁的请求/响应抽象。",
+              "tradeOffs": [
+                "不支持请求进度和取消（需 AbortController）。"
+              ],
+              "tags": [
+                "网络",
+                "API",
+                "浏览器"
+              ],
+              "links": [
+                "web-api",
+                "rest",
+                "promise"
+              ]
+            },
+            {
+              "id": "canvas-api",
+              "title": "Canvas API",
+              "type": "solution",
+              "description": "在浏览器中通过脚本绘制二维或三维图形。",
+              "systemRole": "支撑可视化、游戏和图像处理。",
+              "tradeOffs": [
+                "位图模式，缩放会损失清晰度。"
+              ],
+              "tags": [
+                "图形",
+                "浏览器",
+                "可视化"
+              ],
+              "links": [
+                "web-api",
+                "rendering-pipeline"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "build-tools",
+          "title": "构建工具",
+          "type": "concept",
+          "description": "Webpack、Vite、Turbopack 等前端构建与开发工具。",
+          "systemRole": "决定开发体验、打包策略和交付质量。",
+          "problemSolved": "把源代码变成可部署资产。",
+          "tradeOffs": [
+            "构建越快，插件和兼容性治理越重要。"
+          ],
+          "tags": [
+            "Webpack",
+            "Vite",
+            "构建"
+          ],
+          "links": [
+            "webpack",
+            "vite",
+            "turbopack"
+          ],
+          "children": [
+            {
+              "id": "bundle-size",
+              "title": "包体积优化",
+              "type": "concept",
+              "description": "减少客户端下载和解析的 JS 资源体积。",
+              "systemRole": "直接影响首屏加载和交互时间。",
+              "problemSolved": "让用户在慢网络下也能快速触达可用界面。",
+              "tradeOffs": [
+                "极致优化会牺牲代码可读性和开发效率。"
+              ],
+              "tags": [
+                "性能",
+                "打包",
+                "前端"
+              ],
+              "links": [
+                "build-tools",
+                "code-splitting",
+                "lazy-loading",
+                "tree-shaking"
+              ],
+              "children": [
+                {
+                  "id": "code-splitting",
+                  "title": "代码分割",
+                  "type": "solution",
+                  "description": "把代码拆成按需加载的块。",
+                  "systemRole": "减少首屏需要下载的 JS 体积。",
+                  "problemSolved": "让用户只加载当前需要的代码。",
+                  "tradeOffs": [
+                    "分割太细会增加请求数量和复杂度。"
+                  ],
+                  "tags": [
+                    "性能",
+                    "打包",
+                    "懒加载"
+                  ],
+                  "links": [
+                    "bundle-size",
+                    "lazy-loading"
+                  ]
+                },
+                {
+                  "id": "lazy-loading",
+                  "title": "懒加载",
+                  "type": "solution",
+                  "description": "延迟加载非首屏必需的资源或组件。",
+                  "systemRole": "把加载成本推迟到真正需要时。",
+                  "problemSolved": "加速关键路径上的首次渲染。",
+                  "tradeOffs": [
+                    "延迟加载会在交互时引入卡顿。"
+                  ],
+                  "tags": [
+                    "性能",
+                    "React",
+                    "加载"
+                  ],
+                  "links": [
+                    "code-splitting",
+                    "tree-shaking"
+                  ]
+                },
+                {
+                  "id": "tree-shaking",
+                  "title": "Tree Shaking",
+                  "type": "solution",
+                  "description": "在打包时移除未引用的代码。",
+                  "systemRole": "消除死代码，减小最终包体积。",
+                  "problemSolved": "让用户不需要下载从未执行的代码。",
+                  "tradeOffs": [
+                    "副作用检测可能不够精确。"
+                  ],
+                  "tags": [
+                    "打包",
+                    "优化",
+                    "ESM"
+                  ],
+                  "links": [
+                    "bundle-size",
+                    "webpack",
+                    "vite"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frontend-framework-runtime",
+      "title": "框架与运行时",
+      "type": "concept",
+      "description": "前端工程里最常见的基础框架和它们的运行方式。",
+      "systemRole": "定义组件组织、路由、数据流和渲染边界。",
+      "problemSolved": "让我们从“页面怎么写”过渡到“应用怎么搭”。",
+      "tradeOffs": [
+        "框架越强，约束和心智负担也越高。"
+      ],
+      "tags": [
+        "React",
+        "Next.js",
+        "Vue",
+        "Nuxt",
+        "框架"
+      ],
+      "links": [
+        "react",
+        "nextjs",
+        "vue",
+        "nuxt",
+        "rendering-pipeline"
+      ],
+      "children": [
+        {
+          "id": "react",
+          "title": "React",
+          "type": "solution",
+          "description": "以组件和状态驱动 UI 的前端库。",
+          "systemRole": "前端组件化和状态驱动的基础。",
+          "problemSolved": "把 UI 拆成可组合、可推理的单元。",
+          "tradeOffs": [
+            "函数式思维、状态管理和渲染模型都需要理解。"
+          ],
+          "tags": [
+            "React",
+            "组件",
+            "状态"
+          ],
+          "links": [
+            "component-architecture",
+            "state-colocation",
+            "suspense-boundary"
+          ],
+          "children": [
+            {
+              "id": "react-hooks",
+              "title": "Hooks",
+              "type": "concept",
+              "description": "把组件逻辑按职责拆成可复用的函数式接口。",
+              "systemRole": "让状态、生命周期和副作用逻辑从类组件迁移到函数组件。",
+              "problemSolved": "解决逻辑复用、状态共享和副作用组织问题。",
+              "tradeOffs": [
+                "需要遵守调用顺序和依赖声明规则。"
+              ],
+              "tags": [
+                "React",
+                "Hooks",
+                "状态"
+              ],
+              "links": [
+                "state-colocation",
+                "suspense-boundary",
+                "react-render-model"
+              ],
+              "children": [
+                {
+                  "id": "react-state-hooks",
+                  "title": "useState / useReducer",
+                  "type": "solution",
+                  "description": "管理组件内局部状态与复杂状态转移。",
+                  "systemRole": "承载组件自己的交互状态。",
+                  "problemSolved": "让状态更新跟 UI 变化直接绑定。",
+                  "tradeOffs": [
+                    "状态过多时，组件会变得难以拆分。"
+                  ],
+                  "tags": [
+                    "React",
+                    "状态",
+                    "Hooks"
+                  ],
+                  "links": [
+                    "state-colocation"
+                  ]
+                },
+                {
+                  "id": "react-effect-hooks",
+                  "title": "useEffect / 副作用",
+                  "type": "solution",
+                  "description": "处理请求、订阅、定时器和 DOM 之外的副作用。",
+                  "systemRole": "把渲染和外部世界交互分开。",
+                  "problemSolved": "避免在渲染阶段直接触碰副作用。",
+                  "tradeOffs": [
+                    "依赖数组写错时很容易引入重复执行或陈旧闭包。"
+                  ],
+                  "tags": [
+                    "React",
+                    "副作用",
+                    "Hooks"
+                  ],
+                  "links": [
+                    "react-render-model",
+                    "suspense-boundary"
+                  ]
+                },
+                {
+                  "id": "react-custom-hooks",
+                  "title": "自定义 Hooks",
+                  "type": "solution",
+                  "description": "把可复用状态逻辑抽成函数。",
+                  "systemRole": "复用行为，而不是复用 JSX。",
+                  "problemSolved": "避免在组件间复制重复的状态逻辑。",
+                  "tradeOffs": [
+                    "抽象层过多时，调用链会不容易读。"
+                  ],
+                  "tags": [
+                    "React",
+                    "Hooks",
+                    "复用"
+                  ],
+                  "links": [
+                    "component-architecture",
+                    "state-colocation"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "react-render-model",
+              "title": "渲染模型",
+              "type": "concept",
+              "description": "React 如何根据状态变化重新计算 UI。",
+              "systemRole": "决定什么时候重渲染、哪些子树需要更新。",
+              "problemSolved": "让状态变化与界面刷新之间建立可预测关系。",
+              "tradeOffs": [
+                "渲染模型越强，开发者越需要理解更新传播。"
+              ],
+              "tags": [
+                "React",
+                "渲染",
+                "协调"
+              ],
+              "links": [
+                "suspense-boundary",
+                "server-components",
+                "streaming-ssr"
+              ]
+            },
+            {
+              "id": "react-state-model",
+              "title": "状态管理",
+              "type": "concept",
+              "description": "组件状态、共享状态和派生状态的组织方式。",
+              "systemRole": "决定状态应该放在哪里、如何同步。",
+              "problemSolved": "防止全局状态扩散和无谓重渲染。",
+              "tradeOffs": [
+                "共享状态越多，数据流越难追踪。"
+              ],
+              "tags": [
+                "React",
+                "状态",
+                "组件"
+              ],
+              "links": [
+                "state-colocation",
+                "component-architecture"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "react-core",
+          "title": "React 核心",
+          "type": "concept",
+          "description": "JSX、生命周期、事件、Ref、Context 和错误边界。",
+          "systemRole": "解释 React 组件从描述到运行的基础行为。",
+          "problemSolved": "让组件模型与浏览器交互方式统一。",
+          "tradeOffs": [
+            "核心概念较多，需要持续训练心智模型。"
+          ],
+          "tags": [
+            "React",
+            "JSX",
+            "生命周期"
+          ],
+          "links": [
+            "react",
+            "component-architecture",
+            "suspense-boundary"
+          ]
+        },
+        {
+          "id": "react-state-management",
+          "title": "React 状态管理",
+          "type": "concept",
+          "description": "Redux、Zustand、Jotai、MobX 等状态管理方案。",
+          "systemRole": "承载跨组件、跨页面的共享状态。",
+          "problemSolved": "解决复杂应用中的数据同步问题。",
+          "tradeOffs": [
+            "集中式状态会增加抽象层和调试成本。"
+          ],
+          "tags": [
+            "React",
+            "状态管理",
+            "Redux",
+            "Zustand"
+          ],
+          "links": [
+            "state-colocation",
+            "shared-state"
+          ]
+        },
+        {
+          "id": "react-performance",
+          "title": "React 性能优化",
+          "type": "concept",
+          "description": "memo、useMemo、useCallback、虚拟列表和懒加载等优化。",
+          "systemRole": "控制渲染成本和交互流畅度。",
+          "problemSolved": "避免不必要的重渲染和包体积膨胀。",
+          "tradeOffs": [
+            "过度优化会让代码更难读。"
+          ],
+          "tags": [
+            "React",
+            "性能",
+            "渲染"
+          ],
+          "links": [
+            "react-render-model",
+            "suspense-boundary"
+          ]
+        },
+        {
+          "id": "react-principles",
+          "title": "React 原理",
+          "type": "concept",
+          "description": "Virtual DOM、Diff、Fiber、Scheduler 和并发渲染。",
+          "systemRole": "解释 React 为什么能按优先级处理更新。",
+          "problemSolved": "把渲染行为变成可推理、可优化的系统。",
+          "tradeOffs": [
+            "理解门槛高，但这决定了很多面试深度。"
+          ],
+          "tags": [
+            "React",
+            "Fiber",
+            "Scheduler"
+          ],
+          "links": [
+            "react-render-model",
+            "react-performance"
+          ]
+        },
+        {
+          "id": "react-new-features",
+          "title": "React 18/19 新特性",
+          "type": "concept",
+          "description": "Concurrent Rendering、Server Components、Server Actions 等新能力。",
+          "systemRole": "把 React 从客户端 UI 库扩展成全栈渲染模型。",
+          "problemSolved": "降低首屏成本并改善交互体验。",
+          "tradeOffs": [
+            "新特性越多，服务端/客户端边界越复杂。"
+          ],
+          "tags": [
+            "React 18",
+            "React 19",
+            "RSC"
+          ],
+          "links": [
+            "nextjs",
+            "server-components",
+            "streaming-ssr"
+          ]
+        },
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "type": "solution",
+          "description": "建立在 React 之上的全栈应用框架。",
+          "systemRole": "提供路由、SSR、RSC、构建和部署体验。",
+          "problemSolved": "让 React 应用可以更系统地落地到生产。",
+          "tradeOffs": [
+            "框架能力强，但会带来更多约束和版本演进成本。"
+          ],
+          "tags": [
+            "Next.js",
+            "SSR",
+            "RSC"
+          ],
+          "links": [
+            "rendering-pipeline",
+            "server-components",
+            "streaming-ssr"
+          ],
+          "children": [
+            {
+              "id": "next-app-router",
+              "title": "App Router",
+              "type": "concept",
+              "description": "Next.js 以目录结构组织路由、布局和页面的方式。",
+              "systemRole": "把路由、布局和数据加载收拢成应用骨架。",
+              "problemSolved": "让大型前端应用的页面结构更统一。",
+              "tradeOffs": [
+                "文件约定变强后，迁移和目录设计都更讲究。"
+              ],
+              "tags": [
+                "Next.js",
+                "路由",
+                "App Router"
+              ],
+              "links": [
+                "rendering-pipeline",
+                "server-components",
+                "streaming-ssr"
+              ]
+            },
+            {
+              "id": "next-rsc",
+              "title": "RSC",
+              "type": "concept",
+              "description": "React Server Components 把部分组件只放在服务端运行。",
+              "systemRole": "降低客户端包体积并改善数据获取路径。",
+              "problemSolved": "减少纯展示组件进入浏览器执行。",
+              "tradeOffs": [
+                "服务端和客户端边界会更严格。"
+              ],
+              "tags": [
+                "Next.js",
+                "RSC",
+                "React"
+              ],
+              "links": [
+                "server-components",
+                "rendering-pipeline"
+              ]
+            },
+            {
+              "id": "next-data-cache",
+              "title": "数据获取与缓存",
+              "type": "solution",
+              "description": "围绕 fetch、缓存策略和重新验证构建数据流。",
+              "systemRole": "协调页面生成和数据新鲜度。",
+              "problemSolved": "减少重复请求和首屏等待。",
+              "tradeOffs": [
+                "缓存策略越细，推理成本越高。"
+              ],
+              "tags": [
+                "Next.js",
+                "缓存",
+                "数据"
+              ],
+              "links": [
+                "request-coalescing",
+                "cache-invalidation",
+                "streaming-ssr"
+              ]
+            },
+            {
+              "id": "next-server-actions",
+              "title": "Server Actions",
+              "type": "concept",
+              "description": "在服务端直接处理表单提交和数据变更。",
+              "systemRole": "减少 API 层样板并强化渐进增强。",
+              "problemSolved": "让表单与数据变更更贴近渲染模型。",
+              "tradeOffs": [
+                "安全边界和缓存失效要更细心设计。"
+              ],
+              "tags": [
+                "Next.js",
+                "Server Actions",
+                "表单"
+              ],
+              "links": [
+                "request-lifecycle",
+                "idempotency-keys"
+              ]
+            },
+            {
+              "id": "next-middleware",
+              "title": "Middleware",
+              "type": "concept",
+              "description": "在请求进入页面之前处理认证、重写和地区分发。",
+              "systemRole": "把边界逻辑前移。",
+              "problemSolved": "统一处理路由前的横切需求。",
+              "tradeOffs": [
+                "边缘运行时能力有限。"
+              ],
+              "tags": [
+                "Next.js",
+                "Middleware",
+                "Edge"
+              ],
+              "links": [
+                "authn-authz",
+                "load-balancing",
+                "geo-routing"
+              ]
+            },
+            {
+              "id": "next-deployment",
+              "title": "部署方案",
+              "type": "concept",
+              "description": "Vercel、自托管、静态导出和运行时优化。",
+              "systemRole": "决定应用如何进入生产。",
+              "problemSolved": "把 Next.js 的能力和部署环境对齐。",
+              "tradeOffs": [
+                "部署模式不同，缓存和运行时约束也不同。"
+              ],
+              "tags": [
+                "Next.js",
+                "部署",
+                "Vercel"
+              ],
+              "links": [
+                "ci-cd",
+                "docker",
+                "kubernetes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vue",
+          "title": "Vue",
+          "type": "solution",
+          "description": "以模板、响应式系统和渐进式采用著称的前端框架。",
+          "systemRole": "提供更直接的模板与状态响应模型。",
+          "problemSolved": "适合从局部增强到完整应用的渐进式开发。",
+          "tradeOffs": [
+            "模板、响应式和生态取舍需要统一理解。"
+          ],
+          "tags": [
+            "Vue",
+            "响应式",
+            "模板"
+          ],
+          "links": [
+            "component-architecture",
+            "state-colocation"
+          ],
+          "children": [
+            {
+              "id": "vue-reactivity",
+              "title": "响应式系统",
+              "type": "concept",
+              "description": "Vue 追踪依赖并在状态变化时更新界面。",
+              "systemRole": "把状态变更自动映射到视图更新。",
+              "problemSolved": "减少手工触发 UI 刷新。",
+              "tradeOffs": [
+                "响应式追踪在复杂场景里会更难调试。"
+              ],
+              "tags": [
+                "Vue",
+                "响应式",
+                "依赖追踪"
+              ],
+              "links": [
+                "state-colocation",
+                "component-architecture"
+              ]
+            },
+            {
+              "id": "vue-composition-api",
+              "title": "组合式 API",
+              "type": "solution",
+              "description": "用函数组织逻辑和状态。",
+              "systemRole": "让业务逻辑和复用逻辑更容易拆分。",
+              "problemSolved": "解决大型组件内逻辑分散的问题。",
+              "tradeOffs": [
+                "函数拆分过细时，心智负担会上升。"
+              ],
+              "tags": [
+                "Vue",
+                "组合式 API",
+                "复用"
+              ],
+              "links": [
+                "component-architecture",
+                "state-colocation"
+              ]
+            },
+            {
+              "id": "vue-sfc",
+              "title": "单文件组件",
+              "type": "solution",
+              "description": "把模板、脚本和样式放进同一个文件。",
+              "systemRole": "让一个组件的完整行为更容易查看和维护。",
+              "problemSolved": "降低组件级别开发的分散感。",
+              "tradeOffs": [
+                "单文件越大，仍然需要继续做拆分治理。"
+              ],
+              "tags": [
+                "Vue",
+                "SFC",
+                "组件"
+              ],
+              "links": [
+                "component-architecture",
+                "design-system"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nuxt",
+          "title": "Nuxt",
+          "type": "solution",
+          "description": "建立在 Vue 之上的应用框架。",
+          "systemRole": "提供路由、SSR、模块化和全栈能力。",
+          "problemSolved": "让 Vue 应用更容易做成完整产品。",
+          "tradeOffs": [
+            "和 Next.js 类似，会带来框架约束与学习成本。"
+          ],
+          "tags": [
+            "Nuxt",
+            "SSR",
+            "全栈"
+          ],
+          "links": [
+            "rendering-pipeline",
+            "streaming-ssr"
+          ],
+          "children": [
+            {
+              "id": "nuxt-routing",
+              "title": "文件路由",
+              "type": "solution",
+              "description": "根据目录结构自动生成路由。",
+              "systemRole": "把页面入口和目录结构绑定起来。",
+              "problemSolved": "降低路由配置样板。",
+              "tradeOffs": [
+                "目录约定会影响重构习惯。"
+              ],
+              "tags": [
+                "Nuxt",
+                "路由",
+                "文件系统"
+              ],
+              "links": [
+                "rendering-pipeline",
+                "streaming-ssr"
+              ]
+            },
+            {
+              "id": "nuxt-modules",
+              "title": "模块系统",
+              "type": "concept",
+              "description": "把插件、约定和能力打包成可复用模块。",
+              "systemRole": "扩展 Nuxt 的默认能力。",
+              "problemSolved": "让项目能力可以按需组合。",
+              "tradeOffs": [
+                "模块越多，启动和治理成本越高。"
+              ],
+              "tags": [
+                "Nuxt",
+                "模块",
+                "扩展"
+              ],
+              "links": [
+                "rendering-pipeline",
+                "component-architecture"
+              ]
+            },
+            {
+              "id": "nuxt-nitro",
+              "title": "Nitro 运行时",
+              "type": "concept",
+              "description": "Nuxt 的服务端运行与部署抽象。",
+              "systemRole": "承载 SSR、API 路由和服务器适配。",
+              "problemSolved": "让同一套应用更容易跑在不同平台上。",
+              "tradeOffs": [
+                "抽象更多后，底层行为需要额外理解。"
+              ],
+              "tags": [
+                "Nuxt",
+                "SSR",
+                "运行时"
+              ],
+              "links": [
+                "server-components",
+                "streaming-ssr"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rendering-pipeline",
+      "title": "渲染流水线",
+      "type": "concept",
+      "description": "HTML、JS 和 CSS 如何从服务端响应一路走到可交互界面。",
+      "systemRole": "定义页面生命周期中的渲染路径。",
+      "problemSolved": "解释 SSR、CSR、SSG 和 Hydration 的差异。",
+      "tradeOffs": [
+        "更快的首屏通常会增加架构复杂度。"
+      ],
+      "tags": [
+        "SSR",
+        "CSR",
+        "Hydration",
+        "流式"
+      ],
+      "links": [
+        "hydration-mismatch",
+        "streaming-ssr",
+        "server-components"
+      ],
+      "children": [
+        {
+          "id": "hydration-mismatch",
+          "title": "Hydration 不一致",
+          "type": "problem",
+          "description": "服务端渲染的标记与客户端渲染结果不一致。",
+          "systemRole": "客户端/服务端同步失败的一种模式。",
+          "problemSolved": "避免细微的 UI 错误和事件绑定异常。",
+          "tradeOffs": [
+            "如果要保持标记保守，SSR 的收益会变小。"
+          ],
+          "tags": [
+            "Hydration",
+            "SSR",
+            "渲染"
+          ],
+          "links": [
+            "rendering-pipeline",
+            "island-architecture",
+            "server-components"
+          ],
+          "children": [
+            {
+              "id": "partial-hydration",
+              "title": "部分水合",
+              "type": "solution",
+              "description": "只对页面上可交互的部分进行客户端水合。",
+              "systemRole": "减少 SSR 页面的客户端 JS 工作量。",
+              "problemSolved": "在大页面上减少 Hydration 阻塞时间。",
+              "tradeOffs": [
+                "需要更精细的交互边界规划。"
+              ],
+              "tags": [
+                "SSR",
+                "React",
+                "性能"
+              ],
+              "links": [
+                "island-architecture",
+                "streaming-ssr",
+                "hydration-mismatch"
+              ],
+              "children": [
+                {
+                  "id": "island-architecture",
+                  "title": "群岛架构",
+                  "type": "solution",
+                  "description": "在静态页面中嵌入独立的交互式组件孤岛。",
+                  "systemRole": "让大部分页面零 JS，只有需要的部分才水合。",
+                  "problemSolved": "极大降低首屏 JS 体积和 Hydration 成本。",
+                  "tradeOffs": [
+                    "孤岛间的通信和状态共享需要额外设计。"
+                  ],
+                  "tags": [
+                    "架构",
+                    "SSR",
+                    "性能"
+                  ],
+                  "links": [
+                    "partial-hydration",
+                    "streaming-ssr",
+                    "component-architecture"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "streaming-ssr",
+          "title": "流式 SSR",
+          "type": "solution",
+          "description": "先发送骨架，剩余内容随着数据逐步流出。",
+          "systemRole": "降低首字节时间和感知加载时间。",
+          "problemSolved": "让用户在数据还没全部准备好时先看到有用界面。",
+          "tradeOffs": [
+            "需要仔细设计加载状态和回退状态。"
+          ],
+          "tags": [
+            "SSR",
+            "流式",
+            "性能"
+          ],
+          "links": [
+            "rendering-pipeline",
+            "suspense-boundary"
+          ]
+        },
+        {
+          "id": "server-components",
+          "title": "服务端组件",
+          "type": "solution",
+          "description": "把非交互式组件工作放到服务端完成。",
+          "systemRole": "减少客户端包体积，把数据访问推到服务端。",
+          "problemSolved": "降低 Hydration 压力和客户端拉取数据的成本。",
+          "tradeOffs": [
+            "服务端/客户端边界会变成设计约束。"
+          ],
+          "tags": [
+            "React",
+            "服务端",
+            "包体积"
+          ],
+          "links": [
+            "rendering-pipeline",
+            "data-fetching",
+            "streaming-ssr"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "component-architecture",
+      "title": "组件架构",
+      "type": "concept",
+      "description": "UI 如何拆成可复用、可测试、可组合的单元。",
+      "systemRole": "定义复用、所有权和变更边界。",
+      "problemSolved": "防止 UI 代码耦合成一团，难以演进。",
+      "tradeOffs": [
+        "过度抽象的组件有时比重复代码更难读。"
+      ],
+      "tags": [
+        "组件",
+        "组合",
+        "设计系统"
+      ],
+      "links": [
+        "design-system",
+        "state-colocation"
+      ],
+      "children": [
+        {
+          "id": "state-colocation",
+          "title": "状态就近放置",
+          "type": "solution",
+          "description": "把状态放在真正拥有它的 UI 附近。",
+          "systemRole": "减少全局耦合和无谓重渲染。",
+          "problemSolved": "避免共享状态到处扩散。",
+          "tradeOffs": [
+            "过度就近会让跨切面逻辑变绕。"
+          ],
+          "tags": [
+            "状态",
+            "React",
+            "组件"
+          ],
+          "links": [
+            "component-architecture",
+            "shared-state"
+          ]
+        },
+        {
+          "id": "design-system",
+          "title": "设计系统",
+          "type": "concept",
+          "description": "共享的 UI 原子、Token 和交互规则。",
+          "systemRole": "保证界面在多个产品面上一致。",
+          "problemSolved": "让视觉和行为在规模化场景里保持统一。",
+          "tradeOffs": [
+            "共享原子越多，治理成本越高。"
+          ],
+          "tags": [
+            "UI",
+            "Token",
+            "一致性"
+          ],
+          "links": [
+            "accessibility",
+            "design-tokens"
+          ],
+          "children": [
+            {
+              "id": "dark-mode",
+              "title": "暗色模式",
+              "type": "solution",
+              "description": "根据用户偏好或系统设置切换界面主题。",
+              "systemRole": "提升视觉舒适度和可访问性。",
+              "problemSolved": "让同一套设计系统支持多种视觉主题。",
+              "tradeOffs": [
+                "设计 Token 和测试用例数量翻倍。"
+              ],
+              "tags": [
+                "UI",
+                "主题",
+                "可访问性"
+              ],
+              "links": [
+                "design-tokens",
+                "design-system",
+                "accessibility"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "design-tokens",
+          "title": "设计 Token",
+          "type": "solution",
+          "description": "把颜色、间距、字号和圆角存成命名值。",
+          "systemRole": "把设计决定从组件代码里解耦出来。",
+          "problemSolved": "让主题切换和视觉重构更安全。",
+          "tradeOffs": [
+            "Token 体系需要命名纪律和版本管理。"
+          ],
+          "tags": [
+            "UI",
+            "主题",
+            "Token"
+          ],
+          "links": [
+            "design-system",
+            "dark-mode"
+          ]
+        },
+        {
+          "id": "shared-state",
+          "title": "共享状态",
+          "type": "concept",
+          "description": "跨组件或跨页面的公共状态管理。",
+          "systemRole": "决定数据在应用中如何流动和同步。",
+          "problemSolved": "让不同 UI 部分对同一份数据保持一致。",
+          "tradeOffs": [
+            "共享越多，数据流越难追踪。"
+          ],
+          "tags": [
+            "状态",
+            "React",
+            "数据流"
+          ],
+          "links": [
+            "state-colocation",
+            "component-architecture"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-fetching",
+      "title": "数据获取",
+      "type": "concept",
+      "description": "UI 如何请求、缓存并协调服务端数据。",
+      "systemRole": "负责数据的新鲜度、延迟和用户感知一致性。",
+      "problemSolved": "避免旧视图和重复请求。",
+      "tradeOffs": [
+        "缓存越多，数据新鲜度越难推理。"
+      ],
+      "tags": [
+        "获取",
+        "缓存",
+        "网络"
+      ],
+      "links": [
+        "request-coalescing",
+        "cache-invalidation"
+      ],
+      "children": [
+        {
+          "id": "optimistic-ui",
+          "title": "乐观 UI",
+          "type": "solution",
+          "description": "在服务端确认变更前先更新界面。",
+          "systemRole": "提升用户动作的感知速度。",
+          "problemSolved": "隐藏网络往返延迟。",
+          "tradeOffs": [
+            "如果服务端拒绝变更，就必须回滚。"
+          ],
+          "tags": [
+            "体验",
+            "变更",
+            "延迟"
+          ],
+          "links": [
+            "data-fetching",
+            "idempotency-keys"
+          ]
+        },
+        {
+          "id": "suspense-boundary",
+          "title": "Suspense 边界",
+          "type": "concept",
+          "description": "为异步组件树设置加载边界。",
+          "systemRole": "组织加载态如何出现在界面上。",
+          "problemSolved": "避免整页转圈遮住可用内容。",
+          "tradeOffs": [
+            "边界太多会让加载状态碎片化。"
+          ],
+          "tags": [
+            "React",
+            "加载",
+            "流式"
+          ],
+          "links": [
+            "streaming-ssr",
+            "partial-hydration"
+          ]
+        },
+        {
+          "id": "request-coalescing",
+          "title": "请求合并",
+          "type": "solution",
+          "description": "把重复请求合并成一次上游调用。",
+          "systemRole": "减少重复网络和渲染工作。",
+          "problemSolved": "降低后端的羊群效应压力。",
+          "tradeOffs": [
+            "需要请求身份和生命周期协调。"
+          ],
+          "tags": [
+            "缓存",
+            "网络",
+            "性能"
+          ],
+          "links": [
+            "cache-invalidation",
+            "thundering-herd"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accessibility",
+      "title": "可访问性",
+      "type": "concept",
+      "description": "不同能力的用户如何正常使用界面。",
+      "systemRole": "是基础质量要求，不是额外功能。",
+      "problemSolved": "让界面对键盘、辅助技术和减少动效用户都可用。",
+      "tradeOffs": [
+        "可访问性工作会同时影响标记、状态、焦点和视觉设计。"
+      ],
+      "tags": [
+        "无障碍",
+        "键盘",
+        "读屏器"
+      ],
+      "links": [
+        "design-system"
+      ],
+      "children": [
+        {
+          "id": "focus-management",
+          "title": "焦点管理",
+          "type": "solution",
+          "description": "显式控制哪个元素获得键盘焦点。",
+          "systemRole": "让键盘和读屏器流程保持可预测。",
+          "problemSolved": "防止对话框、菜单和路由切换时焦点丢失。",
+          "tradeOffs": [
+            "焦点逻辑会成为交互层的一部分。"
+          ],
+          "tags": [
+            "键盘",
+            "无障碍",
+            "交互"
+          ],
+          "links": [
+            "accessibility"
+          ]
+        },
+        {
+          "id": "semantic-html",
+          "title": "语义化 HTML",
+          "type": "solution",
+          "description": "使用与内容含义匹配的原生元素和角色。",
+          "systemRole": "为浏览器和辅助工具提供结构。",
+          "problemSolved": "减少对 ARIA 补丁的依赖。",
+          "tradeOffs": [
+            "视觉设计有时需要适应语义约束。"
+          ],
+          "tags": [
+            "HTML",
+            "ARIA",
+            "无障碍"
+          ],
+          "links": [
+            "focus-management",
+            "design-system"
+          ]
+        },
+        {
+          "id": "reduced-motion",
+          "title": "减少动效",
+          "type": "concept",
+          "description": "为对运动敏感的用户调整过渡和动画。",
+          "systemRole": "让更多人都能舒适使用。",
+          "problemSolved": "避免眩晕和注意力过载。",
+          "tradeOffs": [
+            "动效设计需要配套的降级方案。"
+          ],
+          "tags": [
+            "动效",
+            "无障碍",
+            "偏好"
+          ],
+          "links": [
+            "design-system"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security-boundary",
+      "title": "安全边界",
+      "type": "concept",
+      "description": "前端对 XSS、CSRF、注入和不安全渲染的防护。",
+      "systemRole": "浏览器是信任边界，不是安全沙盒。",
+      "problemSolved": "防止用户输入变成可执行代码或伪造请求。",
+      "tradeOffs": [
+        "更多防御代码会让 UI 逻辑更重。"
+      ],
+      "tags": [
+        "安全",
+        "XSS",
+        "CSRF"
+      ],
+      "links": [
+        "xss",
+        "csrf",
+        "content-security-policy"
+      ],
+      "children": [
+        {
+          "id": "xss",
+          "title": "XSS",
+          "type": "problem",
+          "description": "恶意脚本在浏览器上下文中执行。",
+          "systemRole": "前端常见安全失效模式。",
+          "problemSolved": "迫使我们使用转义、净化和安全渲染。",
+          "tradeOffs": [
+            "富文本渲染会更难安全支持。"
+          ],
+          "tags": [
+            "安全",
+            "浏览器",
+            "输入"
+          ],
+          "links": [
+            "content-security-policy",
+            "sanitization"
+          ],
+          "children": [
+            {
+              "id": "sanitization",
+              "title": "输入净化",
+              "type": "solution",
+              "description": "对用户输入做转义、过滤或白名单校验。",
+              "systemRole": "把不可信数据变成安全数据。",
+              "problemSolved": "防止 XSS、注入和渲染攻击。",
+              "tradeOffs": [
+                "富文本场景下净化策略会很复杂。"
+              ],
+              "tags": [
+                "安全",
+                "输入",
+                "XSS"
+              ],
+              "links": [
+                "xss",
+                "content-security-policy",
+                "injection"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "csrf",
+          "title": "CSRF",
+          "type": "problem",
+          "description": "浏览器发送了并非用户本意的已认证请求。",
+          "systemRole": "暴露出对请求来源的错误假设。",
+          "problemSolved": "推动显式的防伪机制。",
+          "tradeOffs": [
+            "额外的 token 和校验会增加复杂度。"
+          ],
+          "tags": [
+            "安全",
+            "认证",
+            "浏览器"
+          ],
+          "links": [
+            "same-site-cookies",
+            "request-validation"
+          ]
+        },
+        {
+          "id": "content-security-policy",
+          "title": "内容安全策略",
+          "type": "solution",
+          "description": "限制脚本和资源的加载来源。",
+          "systemRole": "缩小注入内容的破坏面。",
+          "problemSolved": "降低 XSS 漏洞的可利用性。",
+          "tradeOffs": [
+            "严格策略需要更细致的资源规划。"
+          ],
+          "tags": [
+            "安全",
+            "浏览器",
+            "策略"
+          ],
+          "links": [
+            "xss",
+            "sanitization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pagination",
+      "title": "分页",
+      "type": "solution",
+      "description": "将大数据集按页返回，避免一次性加载全部。",
+      "systemRole": "控制单次请求的数据量和响应时间。",
+      "problemSolved": "让 API 和数据库在面对大数据集时保持稳定。",
+      "tradeOffs": [
+        "偏移分页在数据变动时有重复或遗漏风险。"
+      ],
+      "tags": [
+        "API",
+        "性能",
+        "数据库"
+      ],
+      "links": [
+        "rest",
+        "query-planner",
+        "covering-index"
+      ]
+    }
+  ]
+}
