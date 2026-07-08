@@ -1,0 +1,4640 @@
+{
+  "version": 3,
+  "description": "精简面试题库：每章 8-12 题，三层结构（基础题/进阶题/场景题），每题内联参考答案与关键点。",
+  "questions": [
+    {
+      "id": "01-前端基础-q01",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "HTML 语义化是什么？为什么要用语义化标签？常用的语义化标签有哪些？",
+      "answer": {
+        "summary": "语义化标签让结构表达内容含义，让浏览器/搜索引擎/读屏器理解页面；常用标签按区域组织。",
+        "bullets": [
+          "header/nav/main/article/section/aside/footer 表示页面区域；figure/time/mark 表示内容片段。",
+          "收益：可访问性（读屏器跳转地标）、SEO（爬虫理解层级）、可维护性（结构即文档）。",
+          "误用警示：没有标题的区块更适合 div 而不是 section；不要为外观选标签。",
+          "搭配 ARIA：原生语义够用就别加 role；只在语义不足时补 aria-*。"
+        ],
+        "keyPoints": [
+          "article vs section 的判定（是否可独立分发）",
+          "landmark roles 与隐式 heading outline",
+          "用 axe-core / Lighthouse 自检"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q02",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "<script> 的 async / defer 有什么区别？加载与执行时机各是什么？",
+      "answer": {
+        "summary": "async 与 defer 都让脚本并行下载，但执行时机和顺序保证不同。",
+        "bullets": [
+          "普通 <script> 阻塞解析，下载 + 执行都中断 HTML。",
+          "async：下载完立刻执行并中断解析；多个 async 顺序不保证；适合独立统计/广告脚本。",
+          "defer：等 HTML 解析完成后按出现顺序执行，通常在 DOMContentLoaded 前；适合依赖 DOM 与顺序的业务脚本。",
+          "type=module 默认相当于 defer；动态插入的 <script> 默认异步执行。"
+        ],
+        "keyPoints": [
+          "为什么 defer 顺序保证但 async 不保证",
+          "modulepreload 与 module 默认行为",
+          "首屏关键脚本是否需要内联或 preload，而非只依赖 defer"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q03",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "CSS 盒模型标准与怪异模式有何区别？BFC 是什么、能解决什么问题？",
+      "answer": {
+        "summary": "盒模型由 content/padding/border/margin 构成；box-sizing 决定 width 计算方式；BFC 是独立的块级格式化上下文。",
+        "bullets": [
+          "标准盒模型 content-box：width 只算 content；怪异 border-box：含 content+padding+border。",
+          "工程默认推荐 * { box-sizing: border-box }，尺寸可控、布局稳定。",
+          "BFC：独立区块，内部布局不影响外部；触发 display:flow-root（推荐）/overflow 非 visible/float/absolute/fixed。",
+          "BFC 用途：阻止 margin 塌陷、清除浮动、阻止文字环绕浮动元素。"
+        ],
+        "keyPoints": [
+          "margin 折叠条件与 BFC 阻止",
+          "flow-root vs overflow 清浮动副作用",
+          "替换元素的盒模型特殊性"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q04",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 4,
+      "level": "基础题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "Flexbox 与 Grid 应用场景如何区分？flex: 1 实际展开是什么？",
+      "answer": {
+        "summary": "Flex 适合一维排布；Grid 适合二维版面；flex: 1 通常展开为 1 1 0%。",
+        "bullets": [
+          "Flex 盒：主轴分配空间，交叉轴对齐；常用属性 display:flex / justify-content / align-items / flex-wrap。",
+          "Grid：行和列同时控制；核心概念 fr 单位、minmax()、auto-fit/auto-fill、命名区域。",
+          "flex:1 = flex-grow:1 + flex-shrink:1 + flex-basis:0%：等分剩余空间、允许收缩、初始主轴归零。",
+          "选择原则：页面骨架/仪表盘用 Grid；列表/工具栏/导航用 Flex。",
+          "flex 子项 min-width:auto 默认会撑破容器，常配 min-width:0。"
+        ],
+        "keyPoints": [
+          "flex-basis 0% vs auto 对空间分配含义",
+          "auto-fit vs auto-fill 折叠空轨道",
+          "minmax(0,1fr) 防止内容撑破"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q05",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "闭包是什么？CommonJS/ESM 模块加载与循环引用如何处理？",
+      "answer": {
+        "summary": "闭包是函数与其词法环境的绑定；CJS 与 ESM 在加载时机、导出语义、循环引用处理上不同。",
+        "bullets": [
+          "闭包：函数创建时携带所在词法环境引用；常用于私有变量、工厂、保存回调状态。",
+          "闭包内存风险：长期持有不必要引用导致泄漏；典型坑 for+setTimeout 用 var 共享迭代变量，需 let/IIFE。",
+          "CJS：require 同步加载；导出是值拷贝；循环依赖时拿到部分完成的 module.exports。",
+          "ESM：import 静态结构（编译期解析），支持 tree shaking；导出是 live binding（被引用方修改时引用方可见新值）。",
+          "互操作：ESM 默认 import CJS 的 module.exports；命名导出需 CJS 静态可分析（dual-package hazard 需 exports 字段处理）。"
+        ],
+        "keyPoints": [
+          "JS 闭包与 V8 ScopeInfo 逃逸",
+          "live binding vs 值拷贝对循环依赖的影响",
+          "ESM/CJS 互操作与 dynamic import"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q06",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 6,
+      "level": "进阶题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "JS 事件循环如何工作？宏任务、微任务、渲染时机各是什么？",
+      "answer": {
+        "summary": "事件循环协调调用栈、微任务与宏任务；微任务在每个阶段切换之间清空；RAF 在绘制前回调。",
+        "bullets": [
+          "浏览器一轮：同步栈 → 清空微任务（Promise.then、queueMicrotask）→ 取一个宏任务（setTimeout、MessageChannel）→ 必要时渲染（RAF + ResizeObservers + paint）→ 下一轮。",
+          "Node 阶段：timers/pending/poll/check/close；process.nextTick 比 Promise 微任务更早；setImmediate 在 check 阶段。",
+          "RAF 在 paint 前回调，适合动画；requestIdleCallback 在空闲帧执行低优先工作。",
+          "setTimeout 不精确：受阻塞/电源节流影响；高频事件用 passive listener + Observer。"
+        ],
+        "keyPoints": [
+          "microtask checkpoint 时机与 Node 11+ 对齐",
+          "RAF 与 paint 的关系",
+          "MessageChannel 与 setTimeout(0) 的精度差异"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q07",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 7,
+      "level": "进阶题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "防抖与节流的区别？手写一个带 leading/trailing 选项的版本。",
+      "answer": {
+        "summary": "防抖保留最后一次，节流限制执行频率；两者都需要支持取消与可配置首次/末次触发。",
+        "bullets": [
+          "防抖：连续触发期内持续重置定时器，停顿后执行一次；适合搜索框、自动保存、resize 末次。",
+          "节流：固定时间窗内最多执行一次；适合滚动、mousemove、拖拽；要 clarify leading（首次是否立即触发）/trailing（窗口末尾是否补发）。",
+          "返回值：取消函数（clearTimeout）；高频优先用 requestAnimationFrame 或 IntersectionObserver/ResizeObserver。",
+          "高频滚动事件建议 passive: true；screen resize 等高频抖动用 ResizeObserver 取代事件。"
+        ],
+        "keyPoints": [
+          "lodash debounce/throttle 的 maxWait 关系",
+          "RAF throttling 劣势",
+          "passive listener 与滚动卡顿"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q08",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "前端首屏性能优化怎么做？请按指标驱动列一套方案。",
+      "answer": {
+        "summary": "优化按指标（LCP/INP/CLS/TBT）驱动，分网络/构建/渲染三层逐一找出瓶颈。",
+        "bullets": [
+          "指标：Core Web Vitals —— LCP（首屏最大内容 <2.5s）、INP（交互响应 <200ms）、CLS（视觉稳定 <0.1）；RUM 与 Lab（Lighthouse）要一起看。",
+          "网络：CDN、HTTP/2-3、preload 关键字体、preconnect、静态资源长期缓存、压缩（Brotli/Zstd）、图片格式（AVIF/WebP）。",
+          "构建：code splitting、tree shaking、scope hoisting、最小化首屏 chunk、关键 CSS 内联。",
+          "渲染：SSR/SSG/ISR 给 LCP 静态化、Suspense Streaming、虚拟列表、useTransition/useDeferredValue 降优先级、减少重渲染扇出（memo+selector）。",
+          "先 measure 再优化：React DevTools Profiler、Lighthouse、WebPageTest、RUM。"
+        ],
+        "keyPoints": [
+          "LCP 元素常见来源（图片/大块文字）与 preload 影响",
+          "INP 取代 FID 后长任务容忍度变化",
+          "RUM 与 Lab 指标差异"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q09",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "实现一个支持取消、重试、缓存的 useFetch Hook，并说清竞态如何处理。",
+      "answer": {
+        "summary": "useFetch 要处理 AbortController 取消、函数式更新防闭包陈旧、并发去重、缓存策略与错误重试。",
+        "bullets": [
+          "state：data/error/loading；useEffect 监听依赖变化触发 fetch；AbortController 在 cleanup 中 abort，防止组件卸载后 setState。",
+          "防竞态：每次新请求记录 requestId 或 token，setState 前校验是否仍是最新请求，丢弃旧响应。",
+          "重试：指数退避 + jitter；最多 N 次；只对 5xx/网络错误重试，不重试 4xx。",
+          "缓存：useRef 存 cache + key（参数序列化），命中直接返回 stale，后台再 revalidate（SWR 模型）。",
+          "进阶：把 React Query / SWR 库引入更稳，因为还要分发订阅、focus revalidation、突变失效等。"
+        ],
+        "keyPoints": [
+          "AbortController 与 fetch 取消语义",
+          "闭包陈旧 token 防竞态",
+          "React Query 的 useQuery invalidate 流程"
+        ]
+      }
+    },
+    {
+      "id": "01-前端基础-q10",
+      "chapter": "01-前端基础",
+      "chapterTitle": "前端基础",
+      "order": 10,
+      "level": "场景题",
+      "nodeId": "frontend-foundation",
+      "nodeTitle": "前端基础",
+      "prompt": "给一段 TypeScript，泛型与守卫如何配合实现类型安全的 API 响应处理？",
+      "answer": {
+        "summary": "泛型保留调用方类型信息；类型守卫在运行时分支里收窄；二者配合可避免 as 断言。",
+        "bullets": [
+          "async function request<T>(url): Promise<T> 泛型化；调用方拿到具体类型。",
+          "响应判别联合 + 守卫：type ApiResponse = { ok: true; data: T } | { ok: false; error: string }; 用 `res.ok` 自动收窄。",
+          "自定义守卫：function isOk<T>(r): r is { ok:true; data:T }，编译期据此收窄，减少运行时 as。",
+          "零信任：服务端响应要先走 zod/schema 校验再做类型断言；TS 类型只约束编译期，运行时不验证。",
+          "unknown 优先于 any：API 返回 Promise<unknown>，再 zod.parse 后才 cast 到 T。"
+        ],
+        "keyPoints": [
+          "判别联合收窄 vs unknown 收窄",
+          "`satisfies` vs `as`",
+          "unknown 优先 on API boundary"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q01",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "useState/useEffect/useRef/useMemo/useReducer 的适用场景与禁忌？为什么 Hooks 不能在条件中调用？",
+      "answer": {
+        "summary": "Hooks 按调用顺序绑定到 Fiber 节点；任意条件调用都会打乱状态槽位。每个 Hook 有各自的职责。",
+        "bullets": [
+          "useState：基本状态；函数式更新避免闭包陈旧值；useState(()=>init) 延迟初始化。",
+          "useEffect：副作用，依赖数组决定重跑，返回函数做清理；Eslint exhaustive-deps 必开。",
+          "useRef：DOM 句柄或非状态可变容器；更改不触发渲染；useState 才是状态。",
+          "useMemo/useCallback：稳定引用给被 memo 的子组件；非必要不用，缓存成本可能高于收益。",
+          "useReducer：复杂状态机或多个相关字段集中管理，dispatch 引用稳定适合做依赖。",
+          "原因：React 用 cursor 顺序消费 hooks 链表；条件/循环打乱顺序 → 状态错配。"
+        ],
+        "keyPoints": [
+          "hooks 链表与 Fiber.memoizedState 关系",
+          "dispatch 稳定引用与依赖数组作用",
+          "useEvent pattern 解 useEffect 闭包陈旧"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q02",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "React 类组件与函数组件的区别？受控与非受控组件如何选择？什么是 Error Boundary？",
+      "answer": {
+        "summary": "函数组件 + Hooks 是主流；类组件保留主要是 Error Boundary；表单按是否需要联动校验选受控。",
+        "bullets": [
+          "函数组件 + Hooks：无实例、无 this 问题、更易 memo；逻辑通过自定义 Hook 复用。",
+          "类组件仍存：Error Boundary（getDerivedStateFromError + componentDidCatch）、严格生命周期场景、遗产。",
+          "受控：<input value={state} onChange={...}/>，单一数据源；适合表单联动/校验/动态字段。",
+          "非受控：defaultValue + ref；更像原生；适合简单一次性提交、复杂原生控件（file、富文本）。",
+          "Error Boundary：类组件捕获 render 抛错，不捕获事件回调和异步错误；函数组件不支持，需包装。",
+          "真实生产：React Hook Form 把非受控注册 + selector 订阅结合，避免大表单 re-render 雪崩。"
+        ],
+        "keyPoints": [
+          "Error Boundary 为什么仍必须类组件",
+          "Error Boundary 不捕获 async/event 错误",
+          "React Hook Form uncontrolled 性能模型"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q03",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "React 渲染流程：Virtual DOM、Fiber、Diff、Concurrent 调度如何协作？",
+      "answer": {
+        "summary": "每次 render 产新树 → diff 找差异 → commit 到 DOM；Fiber 与 Scheduler 让更新可中断可优先级。",
+        "bullets": [
+          "Virtual DOM：UI 的对象化表示，可 diff、跨平台；JSX → React.createElement → 对象节点。",
+          "Diff 启发式：同层比较 + type 相同复用 + 兄弟靠 key 识别 → O(n)；key 要稳定唯一 id，不要用 index。",
+          "Fiber：链表结构（child/sibling/return），让 render 可暂停/分片；每个组件一个 Fiber 节点。",
+          "Scheduler：按 lane 优先级分配时间片；高优先级 update 可打断低优先级；reconcile 可中断，commit 不可中断。",
+          "Concurrent API：useTransition/useDeferredValue/Suspense/Streaming SSR 都建立在 Fiber 与 lane 之上。"
+        ],
+        "keyPoints": [
+          "lane 模型优先级分配",
+          "reconcile 可中断 vs commit 不可中断",
+          "hooks 链表与 fiber 节点关系"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q04",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "状态管理选型：Context vs Zustand vs Redux Toolkit vs Jotai vs MobX，何时用哪个？",
+      "answer": {
+        "summary": "先按状态边界选型；服务端状态用 React Query/SWR，UI 状态按复杂度选 zustand/Redux/Jotai。",
+        "bullets": [
+          "局部：useState/useReducer，不要滥提升。",
+          "跨树中等共享：Context + selector 库或 zustand（API 极简、按需 selector 订阅）。",
+          "复杂业务/多 reducer/需要时间旅行/中间件生态：Redux Toolkit + RTK Query。",
+          "细粒度派生/多联动：Jotai/Recoil（原子化自动追踪依赖）。",
+          "MobX：响应式 + OOP 风格，性能自动精确订阅，但隐式追踪难以解释重渲染；与 React 不可变模型冲突。",
+          "服务端状态不要塞 Redux：用 React Query / SWR，自带缓存、revalidation、变更失效。"
+        ],
+        "keyPoints": [
+          "状态边界先于库选型",
+          "Context value 用 useMemo 稳定",
+          "RTK Query vs React Query 边界"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q05",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "useContext 引起的链式重渲染如何治理？什么时候用 Selector？",
+      "answer": {
+        "summary": "Provider value 任意变化会触发所有消费者重渲染；治理用拆分 Context + selector 库 + 状态库。",
+        "bullets": [
+          "拆分多 Context：把不常变与常变分开；上层 Provider 注入稳定 value。",
+          "value 必须 useMemo 稳定，否则每次父 render 都新对象触发所有消费者。",
+          "selector：用 use-context-selector / useSyncExternalStore 订阅具体字段，避免雪崩。",
+          "高性能重型状态：直接用 zustand/jotai，原生 selector 订阅，不必绕 Context。",
+          "Context 适合低频主题：认证、路由、i18n、theme。"
+        ],
+        "keyPoints": [
+          "useMemo 稳定 Context value",
+          "useSyncExternalStore 与 selector-style Context",
+          "zustand/jotai 与 Context 择"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q06",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "用 React 18 的并发特性优化「输入即时过滤、列表渲染慢」的体验，要怎么做？",
+      "answer": {
+        "summary": "用 useTransition 把列表渲染标为低优先级，配合 React.memo 缩小重渲染扇出；先 measure 再优化。",
+        "bullets": [
+          "输入框 setState 高优先级：用户输入立即响应；列表数据用 useDeferredValue 推迟。",
+          "useDeferredValue：消费者用 deferred 值渲染，可以被高优先级打断；配合 React.memo 子组件。",
+          "useTransition：直接用 startTransition 包住某个 setter，把列表/筛选项的变化标低优先级；isPending 显示占位。",
+          "慢列表处理：虚拟列表（react-window、react-virtual）只渲染可视区；大列表用 startTransition + 分块的 transition。",
+          "先 measure：React DevTools Profiler 看渲染次数与耗时；Why Did You Render 找无谓渲染。"
+        ],
+        "keyPoints": [
+          "useTransition vs useDeferredValue 视角差",
+          "memo + useMemo + useCallback 三件套缺一不可",
+          "React Compiler 自动 memo 的趋势"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q07",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "用 Hooks + AbortController 实现一个跨页搜索：请求可取消、防竞态、缓存命中、相关关键词建议。",
+      "answer": {
+        "summary": "组合防抖 + AbortController + requestId 防竞态 + useRef 缓存 + Abort 信号串联到 fetch。",
+        "bullets": [
+          "debounce 触发，新请求时 abort 上一个 AbortController；controller.signal 传给 fetch。",
+          "竞态防护：用 useRef 维护 lastRequestId，回调里比对再 setState；同城同一 query 命中缓存则不发请求。",
+          "缓存：useRef Map<key, Result>，命中 stale 立刻 setState 再后台 revalidate；或用 React Query/SWR。",
+          "建议词：拆出独立轻请求 + 短 debounce / 单独 componentChildren deck，避免被主搜索事降级拖慢。",
+          "失败重试：指数退避 + jitter；只重试 5xx/网络；4xx 不重试。"
+        ],
+        "keyPoints": [
+          "AbortController 与 setState after unmount",
+          "SWR/React Query 是否取代手写",
+          "lastRequestId vs AbortController 互补关系"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q08",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "RSC 与 Client Components 边界如何划分？什么情况下你会'用 client'？",
+      "answer": {
+        "summary": "默认 Server Components；只有交互/State/Effect 才进 Client；尽量下沉边界避免整页污染。",
+        "bullets": [
+          "Server Components：零客户端 JS；可直读 DB/secret；不能用 hooks/事件/window；props 必须 serializable。",
+          "Client Components（'use client'）：可用 hooks/事件/浏览器 API；输出仍可能被 SSR 渲染为 HTML（hydrate）。",
+          "Server 能 import 的也一定是 Client（普通 JS 也会被拉进 bundle）；但要警惕'客户端边界上行'把整页污染。",
+          "下沉原则：把交互放在尽量接近叶子的 Client 子组件，上层维持 Server；Context Provider 常需放 layout。",
+          "props 跨边界必须可序列化：函数、Symbol、Map/Set 都不行；传 children 是绕过的常见方式。"
+        ],
+        "keyPoints": [
+          "'use client' 上行越界的事故",
+          "children prop 绕过序列化约束",
+          "Provider 与 'use client' 的协同"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q09",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "用 React 实现一个 Modal，要支持 ESC 关闭、点遮罩关闭、focus trap、a11y、restore focus。",
+      "answer": {
+        "summary": "Modal 是 focus trap 的经典场景：keydown + portal + focus 管理 + unmount 恢复焦点。",
+        "bullets": [
+          "Portal：ReactDOM.createPortal(content, document.body) 避免被外层 overflow/transform 截断。",
+          "ESC：document 监听 keydown Escape；点遮罩：onClick 比对 target/ref；点内部 stopPropagation。",
+          "Focus trap：打开时记录 previouslyFocused=activeElement；首个可聚焦元素 focus；Tab/Shift+Tab 在 dialog 内循环。",
+          "a11y：role=\"dialog\"/aria-modal=\"true\"/aria-labelledby；prefers-reduced-motion 控制 backdrop 动画。",
+          "卸载时 previouslyFocused.focus() 恢复焦点；按 useFocusTrap Hook 封装复用。"
+        ],
+        "keyPoints": [
+          "focus trap 实现细节与边缘 case",
+          "createPortal 与 z-index",
+          "prefers-reduced-motion 与易访问性"
+        ]
+      }
+    },
+    {
+      "id": "02-React生态-q10",
+      "chapter": "02-React生态",
+      "chapterTitle": "React 生态",
+      "order": 10,
+      "level": "场景题",
+      "nodeId": "react-core",
+      "nodeTitle": "React",
+      "prompt": "代码题：手写 useState 与 useEffect 的最小实现，说明与 Fiber.memoizedState 链表的关系。",
+      "answer": {
+        "summary": "用单文件 cursor + chainBill模拟 hook 调用；解释为什么条件调用会错配。",
+        "bullets": [
+          "模拟：全局 hooks 数组 + cursor；每次 render 把 cursor 重置 0；每 hook 调用按 cursor 索引存/取。",
+          "useState：[state, dispatch]；dispatch 用 setter 更新全局 state 并触发 render；dispatch 引用稳定。",
+          "useEffect：保存 deps；上次 deps 浅比较不同则跑新 effect 并把 cleanup 入栈；commit 后调用。",
+          "真实实现：Fiber.memoizedState 链表头；mount 时初始化链表、update 时按 cursor 顺序复用并写新值。",
+          "useState 与 useReducer 共享 update queue（链表+环形链表）；useEffect 用 effectTag 在 commit 调度。"
+        ],
+        "keyPoints": [
+          "hook index 模型与 Fiber 链表差异",
+          "dispatch 稳定引用如何实现",
+          "批量更新（automatic batching）"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q01",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "Next.js App Router 与 Pages Router 的区别？为什么迁移到 App Router？",
+      "answer": {
+        "summary": "App Router 用目录式布局 + 嵌套 layout + RSC；Pages Router 是 1 page per file 模型。",
+        "bullets": [
+          "App Router：app/ 目录，folder 即路由段；layout.tsx 跨路由嵌套保留 state；默认 RSC；有 loading/error/template。",
+          "Pages Router：pages/ 一文件一路由；_app/_document 全局钩子；SSR/SSG 用 getsServerSideProps/getStaticProps。",
+          "迁移原因：布局复用保留 state、Streaming SSR、Server Components、数据获取更直接、Suspense 边界统一。",
+          "可并存：同项目下 pages 仍可用；新项目选 App Router；迁移可按目录逐步替换。",
+          "App Router 默认 Server Components，'use client' 才进入客户端；Server Actions 用 'use server'。"
+        ],
+        "keyPoints": [
+          "layout state 保留 vs Pages 重新挂载",
+          "'use client' 边界粒度",
+          "迁移工程的拆 commit 节奏"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q02",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "Next.js 渲染模式有哪些？SSR/SSG/ISR/CSR 如何选择？什么是 Streaming SSR？",
+      "answer": {
+        "summary": "按场景给每页选渲染模式；多数项目是混合模式；ISR 介于 SSG 与 SSR 之间。",
+        "bullets": [
+          "SSG：build 期生成静态 HTML，CDN 缓存最好，首屏/SEO 最强；适合博客/营销/文档。",
+          "SSR：每请求渲染，强动态/个性化；首屏快但服务端成本高；App Router 默认是 Streaming SSR。",
+          "ISR：静态+按时间/标签后台重生；revalidate:N 或 revalidateTag(tag)；适合大体量内容站。",
+          "CSR：客户端渲染，首屏空；适合 admin/认证后 SPA/低 SEO 优先级页面。",
+          "Streaming SSR：服务端把 ready 部分先发 HTML；Suspense 边界流式补丁；减少 TTFB。",
+          "选择：尽量用 SSG/ISR 覆盖；SSR 处理强动态；CSR 仅交互与认证后个性化。"
+        ],
+        "keyPoints": [
+          "Static/Dynamic 默认行为 Next 14 vs 15",
+          "Hybrid Rendering 一页多模式",
+          "Streaming vs 传统 SSR TTFB 差异"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q03",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "Next.js 的四层缓存机制是什么？revalidateTag / revalidatePath 如何使用？",
+      "answer": {
+        "summary": "四层缓存各自管一段；失效策略比缓存本身更关键；Next 15 已把 fetch 默认改为 no-store。",
+        "bullets": [
+          "Request Memoization：单次请求内同 fetch 去重；组件层 dedup。",
+          "Data Cache：跨请求 fetch 缓存；next.revalidate 或 next.tags；force-cache/no-store。",
+          "Full Route Cache：路由级静态输出整体缓存；静态路由用 SSG。",
+          "Router State Cache：客户端 RSC payload 缓存（导航不变更 BTW 类型）。",
+          "失效：revalidateTag(tag) 主动使标记的 fetch 失效；revalidatePath(path) 让路由重生成；on-demand revalidation webhook 常用。",
+          "Next 15：fetch 默认 no-store，要静态化需显式 cache:'force-cache' + revalidate/tags。"
+        ],
+        "keyPoints": [
+          "dynamic = force-dynamic/force-static 取舍",
+          "Router State Cache 导致状态不一致",
+          "on-demand revalidation webhook 流程"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q04",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "Server Actions 是什么？安全性如何保证？与 Route Handlers 有何区别？",
+      "answer": {
+        "summary": "Server Actions 把 mutation 收敛到服务端函数；保留渐进增强；有 CSRF、鉴权、校验、缓存失效等约束。",
+        "bullets": [
+          "声明 'use server'（文件或函数级），函数编译为 RPC + CSRF token；可用 <form action={fn}> 或 JS 调用。",
+          "Progressive Enhancement：未启用 JS 时表单仍 POST；启用时变 RPC；isPending 用 useFormStatus 取。",
+          "权限/CSRF/校验：服务端最终是普通函数，鉴权与 zod 校验必须做；Token 自动注入。",
+          "revalidatePath/Tag 在突变后失效缓存；useOptimistic + useTransition 配合乐观更新。",
+          "vs Route Handlers：Server Actions 适合表单/简单变更；复杂 RPC/webhook/stream 用 route.ts。",
+          "局限：长任务/大上传走流式或外部任务；Serverless 限额要考虑。"
+        ],
+        "keyPoints": [
+          "Server Actions 鉴权与 zod 校验模板",
+          "渐进增强与'无 JS'行为",
+          "Route Handlers 与 Server Actions 边界"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q05",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "App Router 中 Loading/Error/not-found/Template 各自的角色是什么？区别？",
+      "answer": {
+        "summary": "Loading 是 Suspense 边界；Error 是 Error Boundary；not-found 处理 404；Template 强制重建。",
+        "bullets": [
+          "loading.tsx：自动包成 Suspense fallback；streaming SSR 把 ready 段先发；用 skeleton 比 spinner 友好。",
+          "error.tsx：必须是 Client Component（'use client'）；用 error+reset 处理；只捕获该 segment 子树渲染错误。",
+          "not-found.tsx：处理 notFound() 触发或路由未匹配；全局放在 app/not-found.tsx；子 segment 可放局部 404。",
+          "template.tsx：类似 layout，但每次导航都重新挂载（不保留 state）；适合强重置场景。",
+          "global-error.tsx：接住 root layout 之外的错误，不嵌在 layout 内。",
+          "层次：layout/template/error/loading/not-found 各自按 segment 嵌套。"
+        ],
+        "keyPoints": [
+          "error.tsx 必须是 client component 的原因",
+          "notFound() 与 not-found.tsx 协作",
+          "layout 保留 state vs template 重建"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q06",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "一个电商产品页要如何组合渲染模式 + 缓存 + 鉴权 + 个性化？",
+      "answer": {
+        "summary": "ISR 给公共产品数据；用户态拆出 client / Suspense；私有页禁止 CDN 缓存；on-demand revalidate 库存。",
+        "bullets": [
+          "product/[id] 用 ISR（revalidate minutes）；库存/价格 diff 时通过 webhook 触发 revalidateTag('product-${id}')。",
+          "用户特定（购物车/收藏/推荐）走 Client Components + Suspense，避免静态污染动态；公共部分 CDN 缓存。",
+          "SEO：完整 HTML 商品；review/pagination 用 SSG/ISR；结构化数据 JSON-LD 由服务端注入。",
+          "鉴权：middleware 校验 JWT/Session cookie；私有页 Cache-Control: private, no-store；后端缓存按 user key。",
+          "实时库存：可走 Route Handler + 短 TTL，或用 Service Worker 短轮询；HTTP cache 一层兜底。"
+        ],
+        "keyPoints": [
+          "public vs personalized 缓存拆分",
+          "on-demand revalidate 用法",
+          "SEO 结构化数据 SSR 注入"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q07",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "用 Next.js App Router 设计一个博客系统，含 MDX、动态路由、评论、SEO 元数据、ISR 更新。",
+      "answer": {
+        "summary": "ISR + MDX + RSC + comments client/server 分层；优化首屏与 INP；按 on-demand 刷新文章。",
+        "bullets": [
+          "generateStaticParams 列出所有 post 静态化；ISR revalidate: 60 改动后再生热点。",
+          "MDX：本地用 next-mdx-remote 编译；remote CMS 用 cache tag（post-${slug}）；CMS 发布 webhook → revalidateTag。",
+          "动态路由 app/posts/[slug]/page.tsx；generateStaticParams 静态化；ISR 按访问按需重生。",
+          "评论：client 组件 + React Query / Server Actions；监控防 spam。",
+          "SEO：generateMetadata + <title>/<meta>/OG image + JSON-LD 结构化数据；sitemap.xml + robots.txt。",
+          "首页/tag 页 ISR；评论/计数等动态部分做 Suspense/CSR 客户端拉取；CDN 缓存公共部分。"
+        ],
+        "keyPoints": [
+          "MDX 编译与缓存策略",
+          "generateMetadata 与 Document Metadata API",
+          "CMS webhook → revalidateTag 流程"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q08",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "Next.js 部署方案对比：Vercel vs 自托管 standalone vs Static Export，怎么选？",
+      "answer": {
+        "summary": "Vercel 集成最佳；自托管 Node server/standalone 功能完整；Static Export 仅纯静态。",
+        "bullets": [
+          "Vercel：一键部署，RSC/Server Actions/Edge/Middleware/ISR 全支持；自动预览部署；要平台绑定成本。",
+          "Node server：next build → next start；多容器伸缩 + Load Balancer；适合全功能自托管。",
+          "Standalone：next.config.js output:'standalone' 输出最小镜像所需文件，适合 Docker/K8s。",
+          "Static Export：output:'export' 生成纯静态 HTML，可上任意 CDN/GitHub Pages；不能用 Server Actions/SSR/ISR。",
+          "Edge runtime：runtime:'edge' 部署到边缘；资源轻但 API 受限；适合 Middleware/页面边缘化。",
+          "选择：自研项目或一键体验 → Vercel；私有云/复杂集成 → standalone + K8s；纯展示 → Static Export。"
+        ],
+        "keyPoints": [
+          "standalone 与 Dockerfile 最佳实践",
+          "Static Export 的限制",
+          "runtime edge vs node 的取舍"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q09",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "如何实现 i18n 多语言应用？App Router 中用 middleware 和 [locale] 段怎么落地？",
+      "answer": {
+        "summary": "App Router i18n 用 app/[locale]/ + middleware 路由前缀 + server 翻译 + client 懒加载 bundle。",
+        "bullets": [
+          "middleware.ts：读 Accept-Language + Cookie 决定 locale，重写到 app/[locale]/...；按 matcher 排除静态资源。",
+          "Server Components：直接读 dictionary（JSON/TS）传入；按 locale 懒加载 bundle 防 bundle 大。",
+          "Client Components：用 Context 或 next-intl client 提供的 hook 取翻译；按需 import 对应 locale 的 message chunk。",
+          "URL locale 前缀利于 SEO；sitemap 包多 locale；Alternates/hreflang 标签切语言。",
+          "复数与性别用 ICU MessageFormat；日期/数字/货币用 Intl.DateTimeFormat/NumberFormat。",
+          "库：next-intl / next-i18next；与 app router 集成思路一致。"
+        ],
+        "keyPoints": [
+          "Next 13+ middleware 接管 i18n",
+          "server vs client 翻译 bundle 加载",
+          "hreflang 与 SEO 关联"
+        ]
+      }
+    },
+    {
+      "id": "03-Next.js-q10",
+      "chapter": "03-Next.js",
+      "chapterTitle": "Next.js",
+      "order": 10,
+      "level": "场景题",
+      "nodeId": "nextjs",
+      "nodeTitle": "Next.js",
+      "prompt": "从 SPA 迁移到 Next.js App Router：你会怎么规划步骤？要规避哪些常见坑？",
+      "answer": {
+        "summary": "迁移按目录逐渐；先上同构渲染保证首屏，再引入 RSC 当配置层；注意 hydration/依赖浏览器 API 的代码。",
+        "bullets": [
+          "阶段性迁移：先建 app/ 目录，把 SPA 包成 root Client Component；暂时全 Client 跑同构。",
+          "逐步把数据获取从 useEffect 改为 Server Component async/await（fetch + cache）；逐页迁移。",
+          "坑：hydration mismatch（服务端/客户端内容不一致）；浏览器 API（window、navigator）必须在 useEffect 或 dynamic import ssr:false。",
+          "'use client' 上行污染：慎用，整文件 import 一旦标 client，整树进 client bundle。",
+          "状态库：zustand 等仍可用，但跨 Server/Client 边界不要传 reactive 引用；用 React Query 接管服务端状态。",
+          "Lint：开启 @next/next/lint；ESLint rule `react-no-children`、`next-google-font`。"
+        ],
+        "keyPoints": [
+          "hydration mismatch 排查",
+          "'use client' 上行污染识别与下沉",
+          "SSR 里同步/异步取数与缓存取舍"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q01",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "Node.js 事件循环的 6 个阶段是什么？process.nextTick 在什么位置？微任务与宏任务如何调度？",
+      "answer": {
+        "summary": "Node 由 libuv 驱动 6 个阶段；每个阶段之间清空 nextTick + Promise 微任务；setImmediate 在 check 阶段。",
+        "bullets": [
+          "阶段：timers → pending callbacks → idle/prepare → poll（I/O 回调与计算新 timers）→ check（setImmediate）→ close callbacks。",
+          "微任务插入点：阶段切换间先清空 nextTick、再清空 Promise.then/queueMicrotask；nextTick 优先级高于 Promise。",
+          "setImmediate vs setTimeout(cb,0)：主模块顶层顺序不固定；I/O 回调内 setImmediate 必先于 setTimeout。",
+          "Node 11+ 的微任务检查点与浏览器一致：每次宏任务出队后都清空微任务。",
+          "递归 nextTick 会导致 starvation，应避免。"
+        ],
+        "keyPoints": [
+          "poll 阶段会阻塞到下一个 timer 或 I/O 就绪",
+          "nextTick 与 Promise 的优先级对工程的影响",
+          "setImmediate 在 I/O 回调中的固次序"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q02",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "Stream 是什么？四种流类型与背压（backpressure）机制怎么工作？为什么用 pipeline 而不是 pipe？",
+      "answer": {
+        "summary": "Stream 处理数据块而非整块加载；背压避免了生产者压垮消费者；pipeline 统一错误传播与资源释放。",
+        "bullets": [
+          "四种流：Readable（可读）、Writable（可写）、Duplex（双向但读/写独立）、Transform（变换，Duplex 特化）。",
+          "消费模式：flowing（事件驱动）和 paused（手动 read）；highWaterMark 控制缓冲上限。",
+          "背压：可写端返回 false 暂停下行；pipe() 和 pipeline() 自动管理背压。",
+          "pipeline(src, transform, dest)：自动错误传播 + 资源释放，避免手动 .on('error') 遗漏。",
+          "Object mode：以对象为单位，适合数据变换管道。"
+        ],
+        "keyPoints": [
+          "highWaterMark 与内存权衡",
+          "pipeline vs pipe 的错误传播",
+          "背压不被处理时的内存膨胀"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q03",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "Buffer 与 StringDecoder 的应用场景是什么？V8 的 GC 机制（Scavenge/Mark-Sweep）如何分代？",
+      "answer": {
+        "summary": "Buffer 处理二进制数据（文件/网络/编码转换）；StringDecoder 处理跨 chunk 的多字节编码边界；V8 GC 分新生代和老生代。",
+        "bullets": [
+          "Buffer：定长 Uint8Array 子类，内存走 8KB slab 池；alloc 清零安全 / allocUnsafe 快但可能含旧数据。",
+          "StringDecoder：跨 chunk 的多字节序列不乱码；TextDecoder/TextEncoder 在 ESM 中常用。",
+          "GC：新生代用 Scavenge（From/To 半区复制，短命对象高效）、老生代用 Mark-Sweep/Mark-Compact（并行+并发）。",
+          "优势：隐藏类（Hidden Class/Shape）让同属性同顺序的对象共享结构，加速属性访问。"
+        ],
+        "keyPoints": [
+          "Buffer.alloc vs allocUnsafe 与安全",
+          "V8 隐藏类与 shape 后向优化",
+          "TextDecoder 与 Buffer 在 ESM 协同"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q04",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "Worker Threads / Cluster / Child Process 的区别？各适合什么场景？",
+      "answer": {
+        "summary": "Worker Threads 有独立 V8 与 event loop；Cluster 多进程共享端口；Child Process 拉起外部程序。",
+        "bullets": [
+          "Worker Threads：独立 V8 实例 + 独立 libuv 事件循环，SharedArrayBuffer 通信；适合 CPU 密集与大数据处理。",
+          "Cluster：多进程共享同端口，主进程 accept/分发给 worker；适合多核分发流量。",
+          "Child Process：spawn/exec/fork 拉起外部命令或子进程，适合运维脚本、隔离执行不可信代码。",
+          "选择：CPU 密集 → Worker Threads；多核流量 → Cluster/PM2；外部程序 → Child Process。",
+          "Worker 不能直接共享对象，仅 SharedArrayBuffer 与 transferable（结构化克隆零拷贝）。"
+        ],
+        "keyPoints": [
+          "SharedArrayBuffer 与 postMessage transfer",
+          "Cluster 的 Round-Robin 分发",
+          "Cluster 与多实例 + 反向代理的取舍"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q05",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "Node 的性能调优从哪几个维度切入？如何排查内存泄漏？",
+      "answer": {
+        "summary": "先测后改：CPU profile / heap snapshot / flame graph / clinic.js；内存泄漏用 heapdump + Chrome DevTools 定位。",
+        "bullets": [
+          "工具：--inspect + Chrome DevTools Profile；clinic.js（doctor/flame/heap）；0x 火焰图；perf + FlameGraph；node --prof + --prof-process。",
+          "常见瓶颈：长 synchronous、JSON.parse 大对象、深递归、event loop lag 过高、GC 频发。",
+          "内存泄漏：--inspect → Memory → Heap Snapshot；对比 heap snapshot 找 retainers。",
+          "内存槽点：频繁创建函数闭包、全局缓存不死、第三方库引用来历不明；WeakMap/WeakRef 避免强引用。",
+          "CPU 密集可 offload 到 Worker Threads 或 N-API / Rust binding。"
+        ],
+        "keyPoints": [
+          "heap snapshot comparator",
+          "event loop lag 测量与 starvation",
+          "Worker 与主线程的通信成本"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q06",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "实现一个支持断点续传、并发分片上传的文件上传服务，有哪些关键设计点？",
+      "answer": {
+        "summary": "文件上传核心在分片、进度、并发、重试、服务端合并与 hash 秒传；断点续驻靠 file hash + 已传分片索引。",
+        "bullets": [
+          "Client：按固定大小分片，算 file hash（spark-md5/web-worker），上传前先请服务端返回已传分片列表。",
+          "并发控制：控制并发数（如 3-6 分片并行上传）；失败重试指数退避；服务端去重靠 hash+分片号。",
+          "进度：XHR upload progress 事件 / Fetch 的 ReadableStream 读流；前端的 progress 汇总所有分片。",
+          "后端：接收分片存临时目录；全部完成后合并 + 校验最终 hash；hash 命中已有文件直接返回成功（秒传）。",
+          "幂等：服务端写入检查分片号是否已存在；合并也需幂等。",
+          "安全性：限制文件大小、白名单类型、避免路径遍历；服务端通过临时 token 或鉴权保护上传接口。"
+        ],
+        "keyPoints": [
+          "file hash 计算与 worker 分摊",
+          "分片上传的并发控制与去重",
+          "服务端合并时机与幂等性"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q07",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "手写一个 EventEmitter，支持 on/once/off/emit 以及 maxListeners 警告。",
+      "answer": {
+        "summary": "EventEmitter 核心是事件到回调数组的映射；once 自动解绑；off 用 splice 移除；maxListeners 按阈值 warn。",
+        "bullets": [
+          "on(event, fn)：把 fn 推进 listeners[event] 数组；返回 this（支持链式调用）。",
+          "emit(event, ...args)：遍历 listeners[event] 浅拷贝后再 call fn.apply(null, args)。",
+          "off(event, fn)：反向查 fn 的 index，splice 移除；若没有 fn 则全部清空。",
+          "once(event, fn)：内部包装的 wrapper 在调用的同时 off；需要维护 wrapper -> fn 映射以便主动 off 一个 once。",
+          "maxListeners：默认 10；setMaxListeners(n) 或 per-event max；超过时 console.warn。",
+          "附加：rawListeners、prepend、listeners 等不是必写，但可以帮助记住各事件全生命周期。",
+          "注意：emit 里不应该在遍历中直接 splice 原 listeners 数组；浅拷贝再 emit。"
+        ],
+        "keyPoints": [
+          "once 包装与 off 解绑定",
+          "splice 在遍历中的陷阱",
+          "setMaxListeners 与调试价值"
+        ]
+      }
+    },
+    {
+      "id": "04-Node.js-q08",
+      "chapter": "04-Node.js",
+      "chapterTitle": "Node.js",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "nodejs-runtime",
+      "nodeTitle": "Node.js 运行时",
+      "prompt": "手写 Promise（支持 then 链）与 Promise.all/race，如何保证 then 中的异步可靠性？",
+      "answer": {
+        "summary": "Promise 用三态 + then 链 + resolve 回调和 done 标志；微任务用 queueMicrotask 调度；all/race 是对 Promise 的组合。",
+        "bullets": [
+          "三态：pending → fulfilled/rejected，不可逆。",
+          "then(onFulfilled, onRejected)：返回新 Promise；resolve 触发 then 回调（每 then 进微任务）。",
+          "resolve(value)：如果 value 是 thenable 则 it 递归解包；否则立即 fulfill。",
+          "all：全 resolve 才 resolve，任一 reject 立刻 reject；allSettled 收集全结果。",
+          "race：取最先 settle 的结果（成功或失败）；any：取第一个成功，全失败才 reject AggregateError。",
+          "微任务：queueMicrotask(fn) 保证每个 then 回调在同步栈之后、宏任务之前执行。"
+        ],
+        "keyPoints": [
+          "thenable 解包递归的过程",
+          "resolve(value) 在 value 是 thenable 时的行为",
+          "Promise.all 快速失败影响"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q01",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "IoC 和 DI 的核心思想是什么？为什么推荐构造函数注入而非字段注入？",
+      "answer": {
+        "summary": "IoC 把对象创建交给容器；DI 以注入方式提供依赖；构造函数注入让依赖不变、易共现测试、编译期发现缺失。",
+        "bullets": [
+          "IoC：容器负责注册 provider、解析依赖图、实例化、作用域控制（singleton/request/transient）、销毁。",
+          "DI类型：构造函数注入（不可变、易测）、Setter注入（可选）、字段注入（简单但不可测）。",
+          "优势：业务代码只声明依赖，由容器按依赖图构造；测试中手写 is构造对象图。",
+          "循环依赖：Nest 5+ 部分支持属性注入解决；Spring 三级缓存支持构造器注入单例循环（字段注入可，构造器不可）。",
+          "控制权从业务代码转移到容器这件事要讲清。"
+        ],
+        "keyPoints": [
+          "三级缓存解决 Spring 循环依赖",
+          "singleton vs request scope",
+          "forwardRef 在 Nest 的用法"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q02",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "AOP 中 Guard / Pipe / Interceptor / ExceptionFilter 的调用顺序是什么？各自职责是什么？",
+      "answer": {
+        "summary": "AOP 把认证、日志、校验、异常处理从业务拆出；NestJS 调用链有固定顺序；每个角色有专责。",
+        "bullets": [
+          "调用链：Middleware → Guard（进入前鉴权） → Interceptor（方法前后） → Pipe（参数校验/转换） → Controller → Interceptor（后） → ExceptionFilter（异常兜底）。",
+          "Guard：返回 boolean 或抛 UnauthorizedException；不能改参数。",
+          "Pipe：处理入参（validation/transform）；与 zod/class-validator 配合。",
+          "Interceptor：方法前后包装，常见日志/缓存/响应映射/请求响应关联。",
+          "Exception Filter：捕获所有未处理的异常并将结果标准化（JSON 统一格式、HTTP 状态码）。"
+        ],
+        "keyPoints": [
+          "Guard vs Middleware 边界",
+          "Pipe 在参数阶段的 transform 副作用",
+          "拦截器顺序与异常冒泡优先级"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q03",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "JWT 与 Session 认证方案如何在服务端实现？Token 过期与刷新如何设计？",
+      "answer": {
+        "summary": "JWT 用于无状态传递；Session based 为服务端状态；Token 过期靠短 TTL+refresh token 管理。",
+        "bullets": [
+          "Session + Cookie：服务端存 session 后端（Redis/DB），客户端 cookie 仅带 sessionId；易撤销、需要共享会话。",
+          "JWT：Header+Payload+Signature，无状态可跨服务；不能撤销，必须靠短 TTL + Blacklist / refresh token rotation。",
+          "Access Token：短 TTL（分钟），携带用户信息；Refresh Token：长 TTL（天/周），换取新的 access token。",
+          "刷新流程：access expired → 客户端拿 refresh → 服务端校验 refresh 并检出（rotate 为新 refresh + 旧 token 记入检测列表）。",
+          "安全：payload 不存敏感信息；refresh token rotation 防重用检测；短 TT 和吊销列表备用。"
+        ],
+        "keyPoints": [
+          "refresh token rotation 与重用检测",
+          "短 TTL 与黑名单权衡",
+          "JWT vs Session 在分布式下的适用"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q04",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "微服务拆分的原则与边界是什么？同步调用（REST/gRPC）与异步消息怎么选？",
+      "answer": {
+        "summary": "先按业务领域切开边界，再决定同步与异步。同步适合强一致读路径，异步适合解耦与削峰。",
+        "bullets": [
+          "拆分原则：按领域边界（DDD 限界上下文）先粗后细，不要按表/人头；'用户下单别被一起拖死'是核心目标。",
+          "同步调用（REST/gRPC）：适合强一致读路径、RPC 查询、外部 API；要配合超时、重试、幂等、断路。",
+          "异步消息（Kafka/AMQP）：适合削峰、解耦、事件驱动、最终一致；至少 once + 去重 + 错误死信队列。",
+          "注意：同步调用链越长越脆弱；异步链要多关注监控和补偿。",
+          "Service mesh / Sidecar 可以在业务代码外接管重试/熔断/TLS；Cilium 甚至无 sidecar 直接 eBPF。"
+        ],
+        "keyPoints": [
+          "至少一次 + 幂等消费 vs 恰好一次",
+          "断路器的状态机",
+          "为什么只看延迟/错误率还不够"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q05",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "GitOps 是什么？ArgoCD 与 Flux 如何实现 Git 驱动的部署？",
+      "answer": {
+        "summary": "GitOps 以 Git 为唯一事实源，Operator 把期望状态同步到集群；ArgoCD 侧重 UI+RBAC；Flux 侧重 CRD 可组合。",
+        "bullets": [
+          "GitOps 核心：声明式（K8s manifest/Helm/Kustomize）+ 版本控制（Git）+ 自动拉取（Pull）+ 持续协调（self-heal）。",
+          "ArgoCD：Application CRD + project RBAC + UI 可视化 diff/sync/rollback；支持 Helm/Kustomize；多集群 management。",
+          "Flux：source/kustomize/helm/notification 四个 controller 各自 CRD 可组合；更精简、更适合 controller-as-code 工程。",
+          "多环境：app + env（dev/staging/prod）按 base+overlay 目录描述环境差异；PR 评审 → 自动 sync to env。",
+          "Pull-based 优势：Controller 在集群内主动拉，CI 不需要把 token 外泄给集群。"
+        ],
+        "keyPoints": [
+          "ArgoCD vs Flux 的选择因素",
+          "Helm vs Kustomize 在 GitOps 中的用法",
+          "Secret 管理（Sealed Secrets/External Secrets/Encrypted Config）"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q06",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "设计一个用户的 RBAC 权限系统：从 DB 模型到 API 鉴权，再到中间件粒度的覆盖。",
+      "answer": {
+        "summary": "用户 → Role → Permission 模型；服务端双校验（中间件 + 业务层）；按最小权限分配。",
+        "bullets": [
+          "DB 模型：User (id,name) | Role (id,name,parent) | Permission (id,resource,action) | user_roles / role_permissions。",
+          "API 鉴权：JWT payload 含 userId + roleIds；中间件先校验签名与过期，再从 Redis/内存取用户权限映射到 API。",
+          "中间件粒度的覆盖：RBAC 做角色基础；ABAC 做属性签名（设备、地域、时间）；ReBAC 做关系签名（Google Zanzibar）。",
+          "Service 层权限：可选业务维度的 ownership 校验（资源所有者 / org member） + permission check。",
+          "最小权限：默认 deny、显式 allow；定期 recertify 与日志审计。",
+          "RBAC 在权限爆炸时的升级路径：从 RBAC → ABAC → ReBAC 按复杂度递增。"
+        ],
+        "keyPoints": [
+          "RBAC 角色层次与权限爆炸",
+          "ABAC 属性筛选与表达式",
+          "ReBAC 拓扑权鉴"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q07",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "设计一个高可用 API Gateway，需要哪些组件？如何做到热重启/蓝绿/灰度、限流、降级？",
+      "answer": {
+        "summary": "API Gateway 入口层：路由、鉴权、限流、熔断、灰度、监控；尽量解耦成独立转发层。",
+        "bullets": [
+          "路由层：K8s Ingress/Nginx/Envoy/APISIX 接收流量；按 host/path/header 分发。",
+          "鉴权：JWT/client cert/OAuth；可在 gateway 层做 token 校验和续签；或边缘颁发临时令牌。",
+          "限流：令牌桶/滑动窗口/漏桶按 user/IP/path/tenant；分布式限流 Redis Lua/ Sentinel 服务。",
+          "灰度/蓝绿：按 header/traffic weight/canary 分流；配合 Service Mesh 做 weight 与 header 路由。",
+          "降级：下期自动降级非核心接口、返回缓存/默认值；人工一键开关。",
+          "高可用：多 AZ 部署、health check + Consul / K8s readiness、gateway 负载均衡。",
+          "替代：Edge workers（Cloadflare/Vercel Edge）可直接在边缘做鉴权和限流。"
+        ],
+        "keyPoints": [
+          "gateway 限流误伤",
+          "蓝绿 vs 金丝雀的资源代价",
+          "路由权重与服务发现联动"
+        ]
+      }
+    },
+    {
+      "id": "05-后端框架-q08",
+      "chapter": "05-后端框架",
+      "chapterTitle": "后端框架",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "backend-system",
+      "nodeTitle": "后端系统",
+      "prompt": "版本化 API 如何演进？向后兼容、弃用政策、并行版本运行怎么实施？",
+      "answer": {
+        "summary": "优先向后兼容：只加字段、不删不改语义；弃用要有声明和迁移窗口；紧急破兼容就双版并行 + 告警老调。",
+        "bullets": [
+          "向后兼容：新字段加 defaults、忽略未知字段；response schema extension 不开破坏。",
+          "弃用：标 @deprecated、通知消费者、给 deadline、监控调测。",
+          "版本载体：URI 版本（/v2/）、Header/MediaType 版本（Accept: v2）、特性开关。",
+          "老版保留期：设置 Sunset 与 Deprecation HTTP header；运维定期压测旧版客户端调用数。",
+          "契约管理：OpenAPI / Protobuf 文件即根源；CI 校验 breaking change；失败阻塞 merge。",
+          "数据迁移：与 API 变更不在一起；留透传期；宽表、新老字段并存。"
+        ],
+        "keyPoints": [
+          "向后兼容 vs 向前兼容",
+          "Sunset / Deprecation header 的实践",
+          "breaking-change 检测服务"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q01",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "RESTful API 的设计原则是什么？HTTP 方法语义（GET/POST/PUT/PATCH/DELETE）与状态码如何正确使用？",
+      "answer": {
+        "summary": "REST 以资源+统一接口为核心；URL 表资源（名词），方法表语义，状态码反映结果；保持幂等和可缓存。",
+        "bullets": [
+          "方法语义：GET 安全幂等可缓存；POST 非幂等；PUT 幂等替换；PATCH 幂等部分更新；DELETE 幂等删除。",
+          "状态码分级：2xx 成功（201 created/204 no content）、3xx 重定向、4xx 客户端错误、5xx 服务端错误。",
+          "错误模型：统一 problem+json 或 RFC 7807，不要 200 + {code:0} 丢弃 HTTP 语义。",
+          "资源路径：/users/{id}/orders；不要包含动词（removeUser），把动作放方法或子资源。",
+          "分页：浅分页 limit/offset；深分页 cursor-based；排序带主键作 tiebreaker；关系描述 links（HATEOAS 可选）。"
+        ],
+        "keyPoints": [
+          "PUT vs PATCH 语义差异",
+          "200+code 0 为什么破坏缓存与工具链",
+          "RFC 7807 Problem Details"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q02",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "GraphQL 的 Schema/Resolver/N+1 如何应对？DataLoader 的原理是什么？",
+      "answer": {
+        "summary": "GraphQL 按客户端 Schema 定义查询形状；Resolver 负责取数；DataLoader 用批量+缓存把同一 tick 内的同类请求合并。",
+        "bullets": [
+          "Schema 定义类型、字段、query/mutation；Resolver 逐字段回填；Type/Field 级权限校验。",
+          "N+1 问题：每个下游节点单独 DB 请求；未优化时 list item 全员单独请求，关联查询直接击垮 DB。",
+          "DataLoader：按 tick 批量 + 进程内缓存；同一 tick 内的同 key 调用合并；tick 由 process.nextTick 或 manual dispatch 触发。",
+          "成本治理：maxDepth / queryComplexity、persisted query；用 GET 的 persisted query 可 HTTP 缓存。",
+          "Granular 权限：Field-level 权限；复杂 subscription disable 掉；error polish with nulls + partial data."
+        ],
+        "keyPoints": [
+          "DataLoader 的 cache 与批量窗口",
+          "persisted query 缓存",
+          "GraphQL vs REST for 复杂嵌套场景"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q03",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "gRPC / tRPC / Protobuf 各有什么定位？什么时候用 gRPC 代替 REST？",
+      "answer": {
+        "summary": "gRPC 内部高性能 + 强契约；tRPC 的前后端分工按值；Protobuf 是序列化协议。",
+        "bullets": [
+          "gRPC：基于 HTTP/2 二进制帧，Protobuf 双向流、实时通信、强类型；适合内部服务间、移动-RPC。",
+          "Protobuf：紧凑二进制、Schema-first；比 JSON 结构更严格、更省带宽，但可读性差。",
+          "tRPC：RPC 能跨 RSC Client/Server 复用类型，无需 HTTP 样板；适合 Next.js 前后端一体项目。",
+          "选型：对外公开 API 可读性高优先 REST/GraphQL；内部高性能、多语言跨团队 gRPC；Next 内部 RSC 端 tRPC。",
+          "gRPC-web：通过 Envoy 代理让浏览器调用 gRPC 后端；性能一般但不用写 REST 样板。"
+        ],
+        "keyPoints": [
+          "gRPC 流式模式 vs REST 轮询",
+          "tRPC 与 Next.js Server Actions 的关系",
+          "Protobuf 向后兼容与 reserved 字段"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q04",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "分页 API 该如何设计？limit/offset vs cursor-based 各适用于什么场景？",
+      "answer": {
+        "summary": "深分页用 cursor；浅分页用 limit/offset；排序必须有主键作 tiebreaker；keyset pagination 是 cursor 的实现方式。",
+        "bullets": [
+          "offset：如偏移大，DB 扫描多且并发写入下会重复/丢数据；适合小数据集。",
+          "cursor：基于稳定排序键（如 (created_at, id)），每次返回下一页起点；DB 读取量稳定；不能跳页。",
+          "排序字段必须包括 pk（tiebreaker）否则同 key 跨页重复。",
+          "Response 应包含 hasMore/nextCursor；GraphQL 用 Relay Connection edges+cursors 规范。",
+          "无限滚动：hasMore + 去重；一次性 reset 时清空旧 list。"
+        ],
+        "keyPoints": [
+          "为什么 ORDER BY created_at 不够",
+          "keyset pagination vs relay connection",
+          "cursor 的 base64 encode 约定"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q05",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 5,
+      "level": "场景题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "设计一个开放 API 平台（API Gateway / 鉴权 / 限流 / 配额/速率/文档/仪表板）的核心需求。",
+      "answer": {
+        "summary": "API 平台需开发者注册→ apikey 管理 → 鉴权限流配额/计量/文档/分析。",
+        "bullets": [
+          "鉴权：API key / OAuth client grant (client_credentials)；Key 与服务实例绑定；轮转支持。",
+          "限流+配额：分 user 和 service 两个维度限流 + 月配额；算法租令牌桶/滑动窗口；返回 429 + Retry-After。",
+          "计量与计费：access logs 按 request count + response size 汇总；异步批处理出仪表板；外部 monetization 用 Stripe。",
+          "文档：OpenAPI 生成 Swagger UI 和客户端 SDK，版本化发布；上线/下线用更改集。",
+          "SDK：代码生成友好语言（JS/Java/Python/Go）提供；加 retry/timeout SDK 包埋。",
+          "可观测性：调用方 ID/API key tag 到 metrics + trace + log 沿线，便于排错。"
+        ],
+        "keyPoints": [
+          "api_key vs OAuth client_credentials",
+          "max quota 的溢到超额",
+          "rate limit 与 quota 的分组与降级"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q06",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "设计一个「伪 API 文件上传」端到端方案：SDK 封装、进度、取消、failover、签名 URL。",
+      "answer": {
+        "summary": "上传 API 设计：直传签名 URL（presigned URL）或走 Gateway 转发；大文件用 chunk/S3 multi-part。",
+        "bullets": [
+          "直传方案：客户端 → 服务端 request /upload_url → 返回 presigned URL + upload id → 客户端直传 OSS/S3 multipart。",
+          "SDK 封装：接受 file、options（chunkSize, maxConcurrency, onProgress），返回 Promise + cancel method。",
+          "进度：XHR progress 或 AbortController；并发控制（3-6 chunks 并行）；失败重试（指数退避，单分片）；断点续传用 ext/hash。",
+          "签名URL安全：有效期短 (5 min)；限定 bucket/path、method、content-type；生成用服务端 secret。",
+          "后端收尾：接收 completeMultipart 通知（webhook），校验完整性后触发后处理（图片缩放/转码/virus scan）。",
+          "灾备：CDN/分片中心沉淀稳定副本。"
+        ],
+        "keyPoints": [
+          "presigned URL 的安全模型",
+          "分片上传的 completeMultipart 幂等性",
+          "进度跟踪与 AbortController"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q07",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "设计一个实时消息推送 API：长连接 / SSE / WebSocket / Web Push，各自的选型条件与折衷。",
+      "answer": {
+        "summary": "选型按方向、延迟、连接规模、兼容性与服务端复杂度决定；长连接 SSE 适合单向推送；WS 适合双向实时；Web Push 适合离线通知。",
+        "bullets": [
+          "SSE：单向、基于 HTTP、自动重连、适合通知/活动列表/仪表盘；原生 EventSource 简单。",
+          "WebSocket：双向低延迟、HTTP Upgrade、适合聊天/协作编辑/实时行情；需要心跳/重连/消息确认与幂等。",
+          "Web Push：Service Worker + 推送通道；适合 PWA 离线通知；iOS 16.4+ 才支持，需 HTTPS+ 用户授权。",
+          "服务端扩展：水平扩展通过 sticky session 或 pull/subscription pair table；Redis 做广播层。",
+          "选型矩阵：单向通知多的用 SSE；实时双向沟通用 WS；离线唤醒用 Web Push；不建议把轮询用于高频数据。"
+        ],
+        "keyPoints": [
+          "SSE 多 tab 消费与丢弃",
+          "WebSocket reconnect 退避",
+          "Web Push VAPID/加密等"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q08",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "MCP 与 API 设计 / 工具调用 / AI Agent 体系怎么衔接？MCP 本身不是 Agent 的协议，而是工具供给层的标准。",
+      "answer": {
+        "summary": "MCP 统一工具及 context 供给，Function calling 是模型输出语义；两者协同完成 Agent 的工具执行。",
+        "bullets": [
+          "MCP 抽象：Server 提供 resources/tools/prompts，通过 JSON-RPC 双向 transport 连至 Client（Agent）。",
+          "Function calling：模型返回 function_call 后由 Agent executor 执行 MCP Tool 调用，结果回灌模型继续。",
+          "MCP vs custom tools：MCP 标准化插件机制，让工具可发现、可复用、跨客户端。",
+          "设计要点：Tool 的输入/输出用 JSON Schema；幂等/重试/超时/权限最小化；错误与描述对齐模型理解。",
+          "Agent 工程用 MCP 的优点：把 tool 注册与发现解耦；允许非代码团队贡献工具；生态可复用。",
+          "风险：凭证暴露、敏感数据回漏；需要独立 Grant 与 policy engine；不宜单一 system prompt 干等。"
+        ],
+        "keyPoints": [
+          "MCP 与 OpenAI plugins/Cohere connectors 对比",
+          "Tool 执行的安全圈与凭证",
+          "MCP server 与 API Gateway 的边界"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q09",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "设计一个'策略引擎'式 API 权限：如 OPA / Casbin / Spring Security / NestJS 的角色与属性混合模型。",
+      "answer": {
+        "summary": "API 权限从角色（RBAC）开始升级到属性+关系（ABAC/ReBAC）；Policy Engine 把决策从业务代码外移。",
+        "bullets": [
+          "RBAC：User → Role → Permission；中间件校验入 request context；当权限细到行级时变得臃肿。",
+          "ABAC：subject/object/action/environment 属性组合，决策引擎用 Rego/Cel/Lua 评估；更细粒度。",
+          "ReBAC（relationship-based access control）：用图结构描述父子、组成员关系；类似 Google Zanzibar。",
+          "Policy Engine：OPA / Casbin / OpenFGA；把 policy 代码外移，支持热更新、审计与集中验证。",
+          "落地：先 RBAC 分区缓存到内存；往 ABAC 加是 property 列，引入 OPA 在线服务；ReBAC 需要图 DB。",
+          "决策点：网关层做粗筛、服务层做细选；双重校验 + 拒绝优先。"
+        ],
+        "keyPoints": [
+          "RBAC → ABAC → ReBAC 分阶段升级",
+          "OPA Rego 性能与决策缓存",
+          "决策结果可观测与审计"
+        ]
+      }
+    },
+    {
+      "id": "06-API设计-q10",
+      "chapter": "06-API设计",
+      "chapterTitle": "API 设计",
+      "order": 10,
+      "level": "场景题",
+      "nodeId": "api-design",
+      "nodeTitle": "API 设计",
+      "prompt": "OpenAPI/Swagger 在契约驱动开发中的角色：如何保证文档与代码同步？如何做契约测试（contract testing）？",
+      "answer": {
+        "summary": "OpenAPI spec 是前端/后端/QA/CI pipeline 的单一事实源；双向 codegen + 契约测试 + breaking change detect。",
+        "bullets": [
+          "设计优先：先写 OpenAPI spec → 服务器端代码生成 Controller 骨架；客户端通过 openapi-generator 生成 SDK。",
+          "同步：确保 spec 处于 VCS 中；CI 通过 spectral/redocly 校验规范；生成客户端/服务端代码并 typecheck。",
+          "契约测试（Pact）：消费者定义 pact 文件 → provider 验证；对比 consumer expectation vs provider response。",
+          "Breaking change detection：配置 CI（openapi-diff/swagger-diff）阻止 merge breaking。",
+          "版本：按路径（/v2/）或 media parameter（Accept: version=2）切片；标记 deprecated + sunset date。",
+          "额外价值：Mock server (prism/swagger-mock) 为前端联调加速。"
+        ],
+        "keyPoints": [
+          "design-first vs code-first",
+          "openapi diff/catalog breaking change",
+          "契约测试与 E2E 的边界"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q01",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "PostgreSQL 与 MySQL 的核心差异是什么？各适合什么场景？",
+      "answer": {
+        "summary": "PG 强在扩展能力、丰富索引类型、SQL 标准最全；MySQL 长于高并发 OLTP、生态极其成熟。",
+        "bullets": [
+          "PG：JSONB、数组、GiST/GIN/BRIN、全文、SQL 窗口函数/CTE、MVCC 无锁读、SSI 可串行化隔离。",
+          "MySQL：InnoDB 为主引擎，聚簇索引 + GAP/Next-Key 锁 + RR 隐幻读；主从复制与 MGR 生态成熟。",
+          "场景选择：复杂查询、强标准、扩展性需求 -> PG；高频 OLTP、生态最成熟、DBA 团队 MySQL 经验 -> MySQL。",
+          "双方都在补对方强项（PG 分表插件、MySQL 8 window func），但基础倾向不变。"
+        ],
+        "keyPoints": [
+          "聚簇索引 vs 堆表+二级索引",
+          "PG MVCC 与 autovacuum 的代价",
+          "MySQL redo log / binlog / undo log 的协作"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q02",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "Redis 的常用数据结构有哪些？各适合解决什么问题？",
+      "answer": {
+        "summary": "String 缓存/计数；Hash 对象；List 队列；Set 标签；ZSet 排行榜/延迟队列；Stream 消息；Bitmap/HyperLogLog 去重统计。",
+        "bullets": [
+          "String：缓存/计数器/序列化 JSON；Hash：对象属性字段不多时更省内存；List：LPUSH+BRPOP 阻塞队列。",
+          "Set：标签/去重；交集/并集；ZSet：排行榜 + 延迟队列（score=到期时间戳）。",
+          "Stream：类似 Kafka 的追加日志，配合消费者组与 ack；适合 Redis 内轻量消息队列。",
+          "Bitmap（setbit + bitcount）/ HyperLogLog（PFADD + PFCOUNT）用于去重统计、签到。",
+          "持久化：RDB（快照）+ AOF（追加日志，everysec）；AOF Rewrite 压缩；4.0+ mixed 模式。"
+        ],
+        "keyPoints": [
+          "ZSet 实现（skip-list+hash）",
+          "Stream 消费者组 ack 与 pending",
+          "大 key / 热 key 检测与拆分"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q03",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "MongoDB 的文档模型在什么场景里优于关系型DB？事务支持到哪一步？",
+      "answer": {
+        "summary": "文档模型适合嵌套对象、灵活 Schema；事务从 4.0 起支持多文档但冲突多时性能大幅下降；不适合复杂 join。",
+        "bullets": [
+          "BSON 存储与 JSON 结构的映射直接、嵌套层次自然；适合 CMS/活动/游戏数据/设备数据/日志。",
+          "索引与聚合：复合索引、TTL、全文索引、聚合管道（pipeline stages）；复杂跨集合 join 很吃力。",
+          "事务：4.0 支持副本集多文档事务；4.2 支持分片事务但有锁粒度限制，不适合高性能 OLTP。",
+          "Schema 弱约束可加 validator；适合快速迭代的产品阶段；强一致性 + 复杂报表仍需关系型。",
+          "运维：分片按 shard key 设计关键；复制集 quorum；Change Streams 做数据变更订阅。"
+        ],
+        "keyPoints": [
+          "shard key 选择与不可变/单调递增陷阱",
+          "embedding vs referencing 模式",
+          "Change Streams 数据管道"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q04",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "搜索引擎 Elasticsearch 与普通数据库的区别？倒排索引与分词的关键概念是什么？",
+      "answer": {
+        "summary": "ES 擅长检索和聚合，不是事务数据库；倒排索引按 term 到 posting list；text 分词 keyword 不分。",
+        "bullets": [
+          "倒排索引：词项到文档ID列表，快速词来查文档。",
+          "Mapping：dynamic vs strict；text 走 analyzer 到 token list 到正向索引；keyword 存整个精确值索引。",
+          "Shard/Replica：shard 是数据分片，replica 是备份；shard 数影响并发与恢复、改起来困难。",
+          "分词器：character filter 到 tokenizer 到 token filter；中文 ik/smartcn；同义词、停用词。",
+          "查询 DSL：bool/should/must/filter；function_score、聚合（bucket/metric）。",
+          "近实时（NRT）：按 refresh interval 刷新索引段；默认为 1s。"
+        ],
+        "keyPoints": [
+          "text vs keyword 索引行为",
+          "shard 数与 shard 大小的最佳实践",
+          "NRT 与 refresh interval 的写入/查询权衡"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q05",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "向量数据库（pgvector/Milvus/Qdrant）的索引原理？语义搜索与关键词搜索如何混合？",
+      "answer": {
+        "summary": "向量数据库在 embedding 上做近似最近邻（ANN）检索；HNSW 是主流索引算法；BM25+vector 混合搜索 + 重排形成三段式 RAG。",
+        "bullets": [
+          "embedding：文本/图片到稠密向量；相似度常用 cosine/L2/dot；维数从 384 到 1536 不等。",
+          "HNSW：分层小世界图，高效近似搜索，内存大但查询快；IVF 聚类倒排更省内存；PQ 乘积量化有精度损失。",
+          "混合搜索：BM25（关键词）+ vector 分数融合（如 RRF）；可加 cross-encoder 重排提升精度。",
+          "方案选型：pgvector（依附 PG，强一致+邻居搜索）、Milvus/Qdrant（专用性能好）、ES dense_vector（场景统一）。",
+          "工程要点：embedding 版本迁移需重建索引；metadata 过滤性能降级；TPU/GPU 在超大体积增益明显。"
+        ],
+        "keyPoints": [
+          "HNSW vs IVF-PQ",
+          "RRF 融合分数",
+          "embedding upgrade 与重建"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q06",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "时序数据库（InfluxDB / TimescaleDB / TDengine）的应用场景与选型？关键指标是什么？",
+      "answer": {
+        "summary": "时序数据库优化按时间索引的指标/事件存储；按 tag 维度建索、按 time 排序；关键指标 series cardinality。",
+        "bullets": [
+          "模型：Measurement(表) + Tags(索引维度) + Fields(数值) + Time(主键)；写入点然后按时间窗聚合查询。",
+          "InfluxDB：自有 InfluxQL/Flux；TSM 存储 + 列式压缩；易管理但 series cardinality 高易爆。",
+          "TimescaleDB：PostgreSQL 扩展，hypertable 自动按时间分 chunk，保留 SQL 全能力；事务与 JOIN 全。",
+          "关键指标：写入吞吐、查询延迟、cardinality（标签不同值数 -> 内存爆炸点）；continuous aggregate 降采样。",
+          "选型：需要 SQL 标准/事务/Join -> TimescaleDB；IoT 监控无复杂 Join -> InfluxDB/TDengine。"
+        ],
+        "keyPoints": [
+          "series cardinality 控制",
+          "continuous aggregate 降采样",
+          "InfluxDB vs TimescaleDB 的场景边界"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q07",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "设计一个分库分表方案：如何选 shard key？怎么在不停机的情况下迁移数据？",
+      "answer": {
+        "summary": "shard key 要避免热点且分布均匀；迁移采用双写 + 全量同步 + 校验 + 切流。",
+        "bullets": [
+          "shard key 选择：不要用单调递增 ID -> 新写入全挤同一片；推荐 hash 或复合键（user_id）。",
+          "迁移流程（停服最小方案）：全量 snapshot 同步 -> 增量 binlog/CDC 同步 -> 双写新老表 -> 校验一致 -> 切流。",
+          "路由策略：hash % N；一致性哈希；range 分片（按时间/地区）。",
+          "中间件：ShardingSphere / Vitess / 自制 proxy；跨片 join/事务难，需补 CQRS 或读副本。",
+          "全局 ID：雪花算法/号段/ UUID v7，保证全局唯一 + 趋势有序。"
+        ],
+        "keyPoints": [
+          "shard key 的单增序列陷阱",
+          "双写方案的一致性问题",
+          "CDC 增量同步的准确性"
+        ]
+      }
+    },
+    {
+      "id": "07-数据库-q08",
+      "chapter": "07-数据库",
+      "chapterTitle": "数据库",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "database-system",
+      "nodeTitle": "数据库系统",
+      "prompt": "设计一个数据库的高可用方案：主从复制、MGR、上云RDS的取舍。",
+      "answer": {
+        "summary": "PG/MySQL 主流 HA 方案均基于主从复制；MGR 提供 Raft 自动 failover；上云 RDS 免运维。",
+        "bullets": [
+          "MySQL 主从：异步/半同步复制 + binlog；半同步避免数据丢失但仍可能延迟；GTID 简化 failover。",
+          "MySQL MGR：基于 Paxos 变体，>=3 节点，自动选主 + 防脑裂；比纯主从运维更易。",
+          "PG：物理流复制（归档 WAL）+ Patroni（DCS consul/etcd）选主 + VIP/Virtual IP 漂移。",
+          "上云 RDS：托管备份/PITR/读副本/自动 HA/弹性；但版本升级节奏受平台限制、不能 root。"
+        ],
+        "keyPoints": [
+          "半同步 vs 异步复制",
+          "MGR Write Set 压缩与冲突解决",
+          "RDS Aurora 的云原生设计"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q01",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "EXPLAIN 执行计划如何解读？key/rows/type/Extra 各字段意味什么？什么表示全表扫描？",
+      "answer": {
+        "summary": "EXPLAIN 出访问路径；type 从好到差：system/const/eq_ref/ref/range/index/ALL；ALL 是全表扫。",
+        "bullets": [
+          "key：实际使用的索引名；key_len：使用索引的长度（可用于确认联合索引的前缀）。",
+          "type = ALL：全表扫；range：索引范围扫（<, BETWEEN, LIKE prefix）。ref：非唯一索引查找。",
+          "rows：优化器估算的扫描行数（统计信息影响大，可能不准确）。",
+          "Extra = Using index：覆盖索引（无需回表）；Using where：仅索引回表再过滤；Using filesort/Using temporary：需要排序/临时表。",
+          "应对：type=ALL -> 加索引；Extra filesort/temporary -> 看是否索引可覆盖排序；查询改写 IN->JOIN；消除子查询。"
+        ],
+        "keyPoints": [
+          "type 从好到差定级",
+          "Using filesort/temporary 的改善",
+          "优化器估算偏差与统计信息"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q02",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "索引的类型有哪些（B+Tree / GIN / GiST / covering）？最左前缀与索引失效的原因？",
+      "answer": {
+        "summary": "B+Tree 是主流 OLTP 索引；联合索引有最左前缀规则；索引失效来自函数/类型转换/LIKE 前缀/OR。",
+        "bullets": [
+          "B+Tree：有序、范围扫描、叶子链表相接；主键索引（聚簇）叶子存整行；二级索引叶子存主键（IBM 回表）。",
+          "GIN：适合 JSONB/全文/数组等嵌套多值字段；GiST：适合空间和全文索引；BRIN：大表块级轻量索引。",
+          "覆盖索引：查询列全部在索引中，无需回表，Extra=Using index。",
+          "最左前缀：按联合索引声明顺序从最左列开始逐个匹配；中间切掉（如跳过第一列）就无法用之后。",
+          "索引失效常见：列上函数/计算、隐式类型转换、OR 部分不走索引、NOT IN/NOT EXISTS 对优化器复杂、使用 IS NULL 需看实现。"
+        ],
+        "keyPoints": [
+          "聚簇索引与堆表差异",
+          "联合索引设计（区分度/等值前/范围后）",
+          "函数索引/生成列索引的应用"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q03",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "JOIN 的三种算法（Nested Loop / Hash Join / Merge Join）各在什么条件下最优？",
+      "answer": {
+        "summary": "小表驱动大表且被驱动表有索引时 NL 最优；大表无索引等值用 HashJoin；已排序用 MergeJoin。",
+        "bullets": [
+          "Nested Loop Join：外循环每行查内表索引（需 inner table 有索引 ON 列）；适合小驱动表 / 大表有索引。",
+          "Hash Join：用哈希 small table 构建 build 阶段；探测 inner table 阶段用 hash match。适合大表等值且无索引（PG 默认）。",
+          "Merge Join：两端预先排序，再归并匹配；适合有索引或前一步 ORDER BY；大表有索引且等值。",
+          "优化方向：加索引帮助 NL；限制子查询返回行数；让 JOIN 排序 key 在索引中对应。",
+          "PG 通常默认 hash join；MySQL 8.0.18+ 支持；旧版本的 BNLJ/BNLH 效率差。"
+        ],
+        "keyPoints": [
+          "HashJoin 大表无索引优势",
+          "NL 小表驱动与索引质量",
+          "Multi-join optimizer 的重排"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q04",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "什么是慢查询？从 SQL 语句到查询计划再到优化索引，整个流程怎么做？",
+      "answer": {
+        "summary": "慢查询先验整体 SQL，然后用 EXPLAIN 找瓶颈；加索引、改写查询；最后用 Profiling / trace 确认性能提高。",
+        "bullets": [
+          "慢查询日志开关：慢查询阈值（long_query_time）+ 开启 log_slow_queries；收集长期数据。",
+          "分析：pt-query-digest 汇总排名 Top N；找耗时最多的类型（count/join/子查询）。",
+          "每次改索引前先查看统计信息（ANALYZE TABLE/EXPLAIN）；加索引后重新 EXPLAIN 比较 rows。",
+          "查询改写：LEFT JOIN 改 INNER JOIN；拆分复杂 UNION；子查询 -> EXISTS/JOIN；窗口函数替代 CROSS JOIN。",
+          "验证：SHOW PROFILE / SHOW PROCESSLIST / Performance schema 追踪真实时间；测量多次取平均。"
+        ],
+        "keyPoints": [
+          "pt-query-digest 按消耗排序",
+          "ANALYZE 影响执行计划",
+          "MySQL Schema 过载后的分拆"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q05",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "事务四大隔离级别与对应异常（脏读/不可重复读/幻读）及 MVCC 如何参与解决？",
+      "answer": {
+        "summary": "隔离级别从低到高：读未提交（脏读）/RC（不可重复读）/RR（幻读）/可串行化（无）。多数 DB 默认 RC；MySQL 默认 RR 但行为需注意。",
+        "bullets": [
+          "脏读：读到未提交事务的数据；RC 及以上禁止。",
+          "不可重复读：同一事务两次同样的查询返回不同结果；RR 用 MVCC+ row lock 阻止。",
+          "幻读：同一事务两次范围查询返回新增的行；InnoDB 在 RR 下用 Next-Key 锁阻止（PG 靠 SSI）。",
+          "MVCC：多版本行，读基于可见版本快照（ReadView/xmin），避免读加锁。",
+          "PostgreSQL 默认 RC；MySQL 默认 RR。Serializable：完全串行调度，性能极低，一般只用于金融核心记账。"
+        ],
+        "keyPoints": [
+          "MVCC 解决幻读需锁配合",
+          "PG SSI (serializable snapshot isolation)",
+          "InnoDB RR 在 SELECT...FOR UPDATE 时的幻读风险"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q06",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "一组用户订单表（千万级），按什么加索引 + 分区以优化查询？",
+      "answer": {
+        "summary": "定热数据加相关索引，分区按时间（范围分区）或按用户 key hash 分区，与查询模式对齐。",
+        "bullets": [
+          "索引计划：按查询条件加主键 + 联合索引（user_id + order_status + create_at）；覆盖常用列表。",
+          "分区：按创建时间 RANGE 分区（每月一张）；按 user_id HASH 分区；根据查询+清理策略而选。",
+          "关键约束：分区列必须是主键的一部分；分区后跨分区查询计划比较复杂。",
+          "冷热分离：线上保留最近 3 个月；老数据 archive 到历史表或冷存储；改写查询 select 时带分区列以缩小范围。",
+          "工具：pt-online-schema-change / gh-ost 做 online DDL；分区操作对业务几乎透明。"
+        ],
+        "keyPoints": [
+          "range 分区 vs hash 分区",
+          "分区表跨分区查询开销",
+          "online DDL 的性能代价"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q07",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "分布式事务方案对比：2PC/TCC/SAGA/本地消息表/事务消息，各适合什么场景？",
+      "answer": {
+        "summary": "按一致性强弱选：2PC 强一致但可用性差；TCC 业务侵入但有高性能；SAGA 最终一致且补偿；本地消息表平衡可靠性与开销。",
+        "bullets": [
+          "2PC：prepare + commit 两阶段锁定资源，适用短事务且可用性高的环境；MySQL XA 支持；中断后长期锁定。",
+          "TCC（Try-Confirm-Cancel）：Three phase within application code；锁粒度小，写前预占，执行后确认/取消；金融专用。",
+          "SAGA：把长事务拆成多个本地事务 + 补偿；支持最终一致；适合长链路与交叉服务。",
+          "本地消息表：业务 DB + 消息表同事务写，后台轮询投递 MQ；实现简单，可靠但需定时投递。",
+          "事务消息（RocketMQ 原生）：半消息+本地事务 commit 再投 deliver；利用 MessageQueue 的状态轮转。",
+          "选型表：高一致、短期 -> TCC；最终一致、长链路 -> SAGA+Outbox；高可靠性投递 -> 事务消息。"
+        ],
+        "keyPoints": [
+          "2PC vs TCC 的资源锁定时长",
+          "SAGA 补偿成功的概率",
+          "事务消息的 delay 与消费幂等"
+        ]
+      }
+    },
+    {
+      "id": "08-SQL-q08",
+      "chapter": "08-SQL",
+      "chapterTitle": "SQL",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "sql-engineering",
+      "nodeTitle": "SQL 工程",
+      "prompt": "调试一个线上慢 SQL（有查询但 EXPLAIN 显示索引没走上），怎么定位？",
+      "answer": {
+        "summary": "排查顺序：看执行计划的实际情况 -> 检查索引是否失效 -> 校验统计信息 -> 测试查询重写力度。",
+        "bullets": [
+          "EXPLAIN 确认 type+key 实际走了什么；Extra 是否含 Using where/Using filesort。",
+          "索引失效可能：列上隐式类型转换（int 列查字符串）、左前缀被破、OR、NOT IN 对优化器高估不如 full scan。",
+          "统计信息过时（ANALYZE TABLE）；查 SHOW INDEX 看 cardinality。",
+          "查询重写：把子查询改成 JOIN；拆分 UNION 到各个 WHERE；给字段取 AS 别名避免混淆。",
+          "margin 分析：加 indexed only 的覆盖列；FORCE INDEX 做临时比较（仅调试，不要用于生产）。",
+          "确认隐式锁定是否在 block 查询：SHOW ENGINE INNODB STATUS 看锁争。"
+        ],
+        "keyPoints": [
+          "隐式类型转换的 row estimate 失真",
+          "OR 优化的 UNION ALL",
+          "optimizer hints 的慎重使用"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q01",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "缓存穿透/击穿/雪崩分别指什么？各自的防御手段有哪些？",
+      "answer": {
+        "summary": "穿透：查不存在 key 频回源（布隆/空值缓存）；击穿：热点 key 失效瞬间大量回源（单飞锁/逻辑过期）；雪崩：大量 key 同时失效（随机 TTL/多级缓存）。",
+        "bullets": [
+          "穿透防御：布隆过滤器拦截不存在的 key + 空值短 TTL 缓存；输入校验限定取值范围。",
+          "击穿防御：单飞互斥锁（只放一次回源）；逻辑过期 + 后台异步刷新；热点永不过期。",
+          "雪崩防御：TTL 加随机偏移；多级缓存（本地 L1 + 分布式 L2）；限流降级；保热点预热。",
+          "额外：缓存高可用（Redis Cluster/Sentinel）；如果缓存全不可用时也要能直接回 DB（有限流下）。",
+          "通用原则：不要把所有保护全押在缓存上，DB 底线要有。",
+          "布隆过滤器误判代价需考虑扩容时重建 bit array。"
+        ],
+        "keyPoints": [
+          "布隆过滤器误判率与大小公式",
+          "单飞互斥锁的死锁风险",
+          "多级缓存最终一致的 L1 失效机制"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q02",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "Cache-Aside 与 Read-Through/Write-Through/Write-Behind 的区别？为什么 Cache-Aside 用删除而不是更新缓存？",
+      "answer": {
+        "summary": "Cache-Aside 由应用协同管理缓存（读未命中自行回填，写后删缓存）；Read-Through 缓存作为 DB 代理；删除缓存避免并发写脏。",
+        "bullets": [
+          "Cache-Aside：读先查缓存 -> 未命中回 DB 并 set；写更新 DB 后删缓存（不是更新），防止并发写入导致脏数据。",
+          "Read-Through：缓存读取未命中自动从 DB 加载回填；Write-Through：写同时穿透 DB 与缓存（强一致但延迟高）。",
+          "Write-Behind：写只入缓存异步落库，吞吐极高但有持久化风险。",
+          "为什么删除缓存而不是更新缓存：并发写 A/B 的可能先被 B 写 DB，然后 A 用旧值更新缓存，B 的值丢失。",
+          "删除后脏读可能：读未命中回填旧值（延迟双删解决）；双删：先删 -> 写 DB -> 延迟再删一次。",
+          "Cache-Aside 工程最常用。"
+        ],
+        "keyPoints": [
+          "Cache-Aside 双删时机",
+          "Read-Through 未命中阻塞",
+          "Write-Behind 掉电的一致性问题"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q03",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "缓存一致性问题（为什么 Cache-Aside 写后删缓存仍有脏读？延迟双删怎么解决？Canal Binlog 如何实现最终一致？）",
+      "answer": {
+        "summary": "写后删缓存依然有读旧值重填缓存的时间窗；延迟双删增加了第二轮删除；Canal Binlog 异步数据同步。",
+        "bullets": [
+          "脏读链条：读 A 未命中回源 DB -> 先写入缓存 -> 写 B 更新 DB 删缓存 -> A 接着 set 旧值，并发串乱。",
+          "延迟双删：先删除缓存 -> 写 DB -> 延迟 n ms -> 二次删除；n 通常为读链路 RTT 的 1.5 倍。",
+          "Canal Binlog 方案：订阅 DB binlog 流 -> 每条变化事件转成缓存失效或刷新的动作；业务无侵入；最终一致。",
+          "Debezium（CDC）类似：直接接到 Kafka 或 Flink，下游缓存刷新 consumer 执行。",
+          "强一致场景：直接读主库或用 read-after-write 机制（写后用本地 threadlocal 标记）；CQRS 加事件溯源。",
+          "监控：缓存命中率、miss rate、延迟双删失败重试与告警。"
+        ],
+        "keyPoints": [
+          "延迟双删的第二次删除怎么保障？",
+          "Canal / Debezium 消费延迟 lag",
+          "read-after-write consistency 的实现方式"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q04",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "Redis Cluster 的分片原理与一致性哈希的比较？为什么 Redis Cluster 用 16384 个哈希槽？",
+      "answer": {
+        "summary": "Redis Cluster 将 16384 个 slot 分给多个节点；一致性哈希通过虚拟节点把 key 映射到 ring 上。",
+        "bullets": [
+          "哈希槽：CRC16(key) % 16384 -> slot -> 节点；MOVE/ASK 把客户端重定向到正确节点。",
+          "与一致性哈希：slot 数固定（16384），扩容时只要迁移部分 slot；一致性哈希动态计算、虚拟节点保证均匀。",
+          "为什么 16384 而非更多：节点 gossip 信息大小控制，每个心跳包含 slot bitmap（16kb），不再变大。",
+          "客户端初始路由需要 cluster slots，之后本地缓存；MOVE（永久移槽）/ASK（临时迁移）重定向。",
+          "Sentinel vs Cluster：Sentinel 只做 HA、不分片；Cluster 分片 + 内置 HA。",
+          "注意：跨 slot 多 key 操作受限制，必须用 hash tag ({key}) 保证同 slot。"
+        ],
+        "keyPoints": [
+          "为什么 16384 slot 不能更大",
+          "Cluster node ping/pong 协议",
+          "ASK 与 MOVE 的区别"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q05",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 5,
+      "level": "场景题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "设计一个缓存策略组合：将本地 Caffeine + Redis Cluster + 后台 Canal 同步用于电商详情，处理热点与更新。",
+      "answer": {
+        "summary": "L1 本地缓存 Caffeine/LRU（秒级 TTL）-> L2 Redis Cluster（分钟级 TTL）-> DB；数据变化由 Canal 触发 Redis 失效+本地广播。",
+        "bullets": [
+          "L1 本地：高命中低延迟（ns 级），热点商品快速返回；容量小，可设 maxSize；广播失效靠 Redis pub/sub。",
+          "L2 Redis Cluster：分钟级 TTL，主库存、价格索引；爆款极短 TTL 防 stock 过期。",
+          "写链路：更新 DB -> 删 Redis（缓存一致）-> 立即再通过 pub/sub 广播该 key 失效给 local cache。",
+          "Canal Binlog：监听 DB 变更，计算需要哪些 cache keys，异步精准删除缓存。",
+          "热点识别：实时计数 + 定期统计 Top N；对热点数据降 TTL + 加本地 L1 预热。",
+          "兜底：全部缓存不可用时仍然要能直接读 DB（有限流保护）。"
+        ],
+        "keyPoints": [
+          "L1 本地缓存跨节点失效方式（pub/sub）",
+          "热点 key 的预防性更新",
+          "Canal 的消费延迟与容错"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q06",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "如何设计一个分布式锁？对比 Redis/Redlock/etcd/ZooKeeper 的优劣。",
+      "answer": {
+        "summary": "Redis 适合高吞吐、容忍小出错；etcd/ZK 提供强一致。Redlock 长期有争议，在 GC/网络分区下不可靠。",
+        "bullets": [
+          "Redis 单节点：SET key value NX PX + 唯一 token；析锁在 Lua 中校验 token 后删。过期前需要 watchdog 续期。",
+          "Redlock：向 >=5 个节点过半获取锁；在 GC pause 长达超时时，过期后另一个客户端也可能获锁 -> Martin Kleppmann 反例。",
+          "etcd：lease + txn atomic guard；依赖 Raft 共识，强一致，性能比 Redis 慢。",
+          "ZooKeeper：临时顺序节点 + watch 前一个；前者消失则取锁；优雅处理网络分区；维护成本高。",
+          "选型：吞吐大，不担心极少出错 -> Redis（短锁）；强一致、业务关键 -> etcd/ZK。",
+          "防误释放（fencing token）：每次获取锁返回递增 token，下游校验 token；并发原语防死锁。"
+        ],
+        "keyPoints": [
+          "Redlock 适用前提与反例",
+          "etcd lease 与 txn guard",
+          "ZK 临时顺序节点"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q07",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "设计一个高并发秒杀场景的缓存与库存保护方案。",
+      "answer": {
+        "summary": "秒杀的瓶颈是库存扣减，使用 Redis 预先装载库存并原子操作，前端防流量，后端削峰。",
+        "bullets": [
+          "库存预加载：开始前把库存数写入 Redis（每 SKU 一个 key）；原子扣减：DECRBY SKU_INVENTORY，扣到 0 即停止。",
+          "流量前端：按钮置灰；CDN 挡住首屏非动态；提前校验验证码/令牌桶防止脚本。",
+          "队列削峰：Redis zset 按用户 ID 排名，开启定时器按序处理扣减；或 MQ 直接把请求放入 Kafka 消费。",
+          "成功扣减侧记录：写 DB 订单+扣除 Redis；异步回滚退款；Redis 内存记录到期未支付超时释放库存。",
+          "防重下单：加分布式锁 （userId + SKU）或幂等 key 防重复。"
+        ],
+        "keyPoints": [
+          "原子扣减 DECRBY 防止 oversell",
+          "队列延迟与超时释放",
+          "防重复下单（幂等 key）"
+        ]
+      }
+    },
+    {
+      "id": "09-缓存-q08",
+      "chapter": "09-缓存",
+      "chapterTitle": "缓存",
+      "order": 8,
+      "level": "基础题",
+      "nodeId": "caching",
+      "nodeTitle": "缓存",
+      "prompt": "缓存淘汰策略 LRU/LFU/FIFO/TTL 的意义与 Redis 里的选择？什么场景用哪个？",
+      "answer": {
+        "summary": "LRU 淘汰最久未访问；LFU 淘汰访问频次最低；FIFO 先进先出效果差；TTL 按时间过期；Redis volatile-lru/allkeys-lru 最常用。",
+        "bullets": [
+          "LRU：本质双向链表+哈希，淘汰最久未访问；适合主流访问模式如热点新闻/社交。",
+          "LFU：记录访问频次，淘汰频次最低；避免缓存污染；实现复杂，需 aging 防止老数据长期占据。",
+          "FIFO：简单但效果差，通常不单独用。",
+          "TTL：基于时间过期，常与 LRU 配合使用。",
+          "Redis maxmemory-policy：noeviction/allkeys-lru/volatile-lru/allkeys-lfu/allkeys-random/volatile-ttl；默认 noeviction；推荐 allkeys-lru 或 allkeys-lfu。",
+          "工程建议：互联网热点用 LRU；长尾高频稳定内容用 LFU；有自然过期规律的用 TTL+LRU 混合。"
+        ],
+        "keyPoints": [
+          "LRU vs LFU 实现代价",
+          "Redis 各 policy 适用",
+          "LFU aging 衰减机制"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q01",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "JWT 和 Session 认证方案的区别？各自适合什么场景？Token 过期与刷新如何设计？",
+      "answer": {
+        "summary": "JWT 无状态可跨服务，Session 服务端状态易撤销；Token 刷新用短 access + long refresh token rotation。",
+        "bullets": [
+          "Session+Cookie：服务端存会话（Redis/DB），客户端 cookie 带 sessionId；易撤销但多实例需共享会话存储。",
+          "JWT：Header+Payload+Signature 无状态可跨服务；不能原撤销，需短 TTL + refresh rotation + 黑名单配合。",
+          "Access Token：短 TTL（分钟），跨服务无状态；Refresh Token：长 TTL（天/周），rotate 时同时记旧 token 防重用。",
+          "安全 payload 不含敏感；refresh token rotation 防滥用检测。",
+          "分布式系统预 JWT 方便，不用共享 session store。单 web 应用 session 更简单可靠。"
+        ],
+        "keyPoints": [
+          "JWT 撤销靠短 TTL+黑名单",
+          "refresh rotation 与重用检测",
+          "JWT vs Session 在分布式下的取舍"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q02",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "OAuth 2.0 的授权流程有哪些？Authorization Code + PKCE 为什么是主流？OIDC 与 OAuth 2.0 的关系？",
+      "answer": {
+        "summary": "OAuth 2.0 是授权委托框架；Authorization Code + PKCE 保护公共客户端；OIDC 在其上加身份层。",
+        "bullets": [
+          "Authorization Code：中间 code 兑换 token，backchannel；PKCE 阻截 code 截获，SPA/移动必用。",
+          "Client Credentials：服务间无用户上下文，用 client_secret 换 token。",
+          "OIDC：id_token（JWT 标准化身份声明）+ UserInfo 端点，适合 SSO/联邦登录。",
+          "注意事项：state 防 CSRF、scope 最小化；redirect_uri 必须校验。",
+          "PKCE：code_verifier 在授权时握手，code_challenge 在 token swap 校验。"
+        ],
+        "keyPoints": [
+          "OAuth 2.0 BCP for SPA/Mobile",
+          "OIDC vs SAML 互操作",
+          "resource server 验签 JWKS"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q03",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "XSS / CSRF / SQL 注入 / SSRF 的攻击原理与防御措施各是什么？",
+      "answer": {
+        "summary": "XSS 注入脚本执行（输出编码+CSP）；CSRF 利用浏览器自动带 cookie（SameSite+token）；SQL 注入拼入查询（参数化）；SSRF 让服务端猜内网（URL 白名单+禁止重定向）。",
+        "bullets": [
+          "XSS：存储型/反射型/DOM 型；防御靠上下文相关输出编码 + CSP + HttpOnly Cookie + Trusted Types。",
+          "CSRF：服务端校验 CSRF token/SameSite/Origin+Referer；状态变更禁止 GET。",
+          "SQL 注入：首选参数化查询；input validation vs prepared statement；ORM 动态字段名仍要白名单。",
+          "SSRF：协议白名单（http/https only）、域名白名单、IP 私网拒绝、禁止跟随重定向、云 IMDSv2。",
+          "CORS 是浏览器侧协商机制，不能替代授权检查。"
+        ],
+        "keyPoints": [
+          "XSS 上下文输出编码",
+          "CSRF SameSite Lax 的局限性",
+          "SSRF DNS rebinding"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q04",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "零信任架构是什么？与 mTLS、Service Mesh、OIDC 如何结合实现？",
+      "answer": {
+        "summary": "零信任永不信任网络位置，按身份+上下文动态授权。mTLS 提供 worklood identity，mesh 加策略层，OIDC 做 user identity。",
+        "bullets": [
+          "七大原则：永不信任、始终验证、最小权限、分段、端到端加密、动态判别、SRE 闭环。",
+          "mTLS：spiffe/spire 为 workload 身份标准；Cilium/Istio/Linkerd 内置；与 mesh authpolicy 联动。",
+          "OIDC/JWT：人员到服务的身份；step-up MFA 按风险触发。",
+          "落地步骤：身份 -> 策略 -> 观测 -> 分段；从敏感资源开始灰度；不是装个 Istio 就完事。",
+          "策略引擎：OPA/OpenFGA 把 ABAC/ReBAC 拆离业务代码做决策。"
+        ],
+        "keyPoints": [
+          "BeyondCorp vs NIST 800-207",
+          "mTLS PKI 与 SPIFFE",
+          "策略决策与执行分离"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q05",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "SSO 单点登录实现方案：CAS / SAML / OIDC 如何选？MFA 与 Passkeys 怎么融入？",
+      "answer": {
+        "summary": "CAS 轻量校园；SAML 企业级 XML；OIDC 互联网主流 JSON+JWT。MFA 加多因素认证，Passkeys 抗钓鱼弱密码。",
+        "bullets": [
+          "OIDC：最适合现代应用，浏览器友好、跨平台，Authorization Code+PKCE。",
+          "SAML：企业、大型通用，较老但大量 SaaS 仍用。",
+          "Passkeys/WebAuthn：公钥挑战-响应，域名绑定天然抗钓鱼。",
+          "MFA：TOTP/SMS/邮件 + step-up authentication；按风险动态触发。",
+          "单点登出需要 back-channel logout 通知所有 SP；OIDC session management 标准化。"
+        ],
+        "keyPoints": [
+          "OIDC vs SAML 协议选择",
+          "Passkey 同步与互操作",
+          "SAML metadata exchange"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q06",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 6,
+      "level": "进阶题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "限流（Rate Limiting）的算法有哪些？令牌桶/滑动窗口/固定窗口/漏桶各适用什么？",
+      "answer": {
+        "summary": "令牌桶允许突发；滑动窗口平滑；固定窗口简单但有临界突刺；漏桶恒速出水不突发。",
+        "bullets": [
+          "固定窗口：一个时间窗定配额，简单但窗边加倍。滑动窗口：分摊临界，实现代价稍高。",
+          "令牌桶：装入恒定令牌，可短时突发；适合 API gateway 标准算法。",
+          "漏桶：恒定速率处理请求，平滑但不灵活；适合对下游流量有严格要求时不超 flow。",
+          "分布式限流：Redis sliding window Lua 或 Sentinel 服务；多维度（user/IP/path/tenant）。",
+          "超限返回 429 + Retry-After；与降级熔断配合使用；限流误伤监控要及时。"
+        ],
+        "keyPoints": [
+          "固定 vs 滑动窗口区别",
+          "令牌桶实现成本",
+          "分布式限流一致性"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q07",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "设计一个安全的 API 认证方案：移动端 / Web / 服务间各用什么？怎么防重放与凭证泄漏？",
+      "answer": {
+        "summary": "移动端用 PKCE+OAuth+短 TTL；Web 用 Session+SameSite Cookie；服务间用 mTLS 或 client_credentials。",
+        "bullets": [
+          "移动端/SPA：OAuth 2.0 Authorization Code + PKCE + refresh rotation + token binding (DPoP)。",
+          "Web：Session+Cookie(HttpOnly+Secure+SameSite) 或 OAuth 后端 session 桥接。",
+          "服务间：mTLS (spiffe/spire) 或 JWT (私钥签名 short TTL)。",
+          "防重放：JWT 加 jti + TTL；DPoP 绑定 token 到特定 client key。",
+          "凭证不落盘：不要 localStorage 存 token，进 HttpOnly cookie/keychain/secure storage。",
+          "Zero-trust mindset：不信任网络层，每次都校验；API gateway 统一鉴权入口。"
+        ],
+        "keyPoints": [
+          "OAuth PKCE vs Implicit",
+          "DPoP 防重放",
+          "JWT jti 去重"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q08",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "设计一个安全的零信任网络架构：由外到内，Identity Aware Proxy / Service Mesh / Policy Engine 如何布局？",
+      "answer": {
+        "summary": "Identity-Aware Proxy 把 user 到 app 的路由靠认证拆开；Mesh 控制内部东西向流量；Policy Engine 给决策。",
+        "bullets": [
+          "外部入口：IDP（Okta/Keycloak）-> IAP（Cloudflare Access / Google IAP）加 authorize；所有请求靠身份而非 IP。",
+          "内部东西向：Service Mesh（Cilium/Istio） 做 mTLS+AuthPolicy；基于 spiffe ID 限制服务间访问。",
+          "Policy Engine：OPA/OpenFGA 用 Rego/关系模型判 access；决策点与执行点分离（PEP 在 gateway/mesh，PDP 在 OPA 服务）。",
+          "分段：靠身份和标签（not IP）做微隔离；同时 route 容灾。",
+          "监控与审计：trace + policy log 注入身份；异常访问报警。"
+        ],
+        "keyPoints": [
+          "Identity-Aware Proxy 是什么",
+          "OPA Rego 性能",
+          "东西向流量零信任"
+        ]
+      }
+    },
+    {
+      "id": "10-认证与安全-q09",
+      "chapter": "10-认证与安全",
+      "chapterTitle": "认证与安全",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "authn-authz",
+      "nodeTitle": "认证与安全",
+      "prompt": "HTTPS 与 TLS 1.3 的握手流程？证书链与 Let's Encrypt 自动续签的原理？",
+      "answer": {
+        "summary": "TLS 1.3 1-RTT 握手简化并移除了旧弱算法；0-RTT 有重放风险；证书链由 Root CA 逐级签名校验。",
+        "bullets": [
+          "TLS 1.3 握手 1-RTT：去掉 RSA、ECDHE+key_share 同时完成；PSK 可选 0-RTT。",
+          "证书链：Root CA (trusted) -> Intermediate -> Server cert；校验签名链 + 域名匹配。",
+          "Let's Encrypt：ACME protocol，验证域名 ownership (http-01/dns-01) -> 签发短 TTL (90d) 证书 -> cert-manager 自动续。",
+          "HSTS preload：强制 HTTPS，防降级攻击。",
+          "排查：openssl s_client、证书透明度日志、混合内容检测。"
+        ],
+        "keyPoints": [
+          "TLS 1.3 0-RTT 重放风险",
+          "证书链与 OCSP stapling",
+          "HSTS preload 不可逆"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q01",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "TCP 三次握手与四次挥手的过程？为什么需要这些步骤？TIME_WAIT 状态的作用？",
+      "answer": {
+        "summary": "三次握手防历史连接初始化；四次挥手的每边各发 FIN；TIME_WAIT 防止旧报文到达 + 保证最后 ACK 到达。",
+        "bullets": [
+          "三次握手：SYN -> SYN+ACK -> ACK，同步序列号、防旧 SYN 回回；两次握手会有安全风险。",
+          "四次挥手：FIN -> ACK/FIN -> ACK；双方各独立发 FIN；被动关闭端进入 TIME_WAIT 维持 2*MSL。",
+          "TIME_WAIT 作用：1)保证 passive 收 FIN 方最后 ACK 到达 2)防止旧连接的延迟 segment 被新连接接收。",
+          "优化：TCP Fast Open 省 1 RTT；tcp_tw_reuse 允许复用 TIME_WAIT 连接；keepalive 减少握手次数。",
+          "状态机：LISTEN/SYN_RCVD/ESTABLISHED/FIN_WAIT1/FIN_WAIT2/CLOSING/TIME_WAIT/CLOSE_WAIT/LAST_ACK。"
+        ],
+        "keyPoints": [
+          "为什么三次而不是两次",
+          "TIME_WAIT 与端口耗尽",
+          "TCP Fast Open 的安全约束"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q02",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "HTTP/1.1、HTTP/2、HTTP/3 的核心差异与适用场景？多路复用怎么解决队头阻塞？",
+      "answer": {
+        "summary": "HTTP/2 用二进制帧+流彻底解决应用层 HOL；HTTP/3 基于 QUIC/UDP 解决传输层 TCP HOL；0-RTT 互连。",
+        "bullets": [
+          "HTTP/1.1：文本协议，每个连接最多一个请求（队头阻塞），keepalive 可复用但顺序。",
+          "HTTP/2：二进制帧分到流，单 TCP 连接多路复用；HPACK 头压缩；但 TCP 丢包仍会引起整个连接阻塞。",
+          "HTTP/3/QUIC：基于 UDP，每个 stream 独立，不互相阻塞；连接迁移支持 IP 变化不改；0-RTT 可选重放保护。",
+          "升级方式：浏览器 TLS ALPN 协商 HTTP/2/3；服务端 ALPN + Alt-Svc。",
+          "选型：跨域大流量多请求页优先 HTTP/2/3；实时低延迟使用 QUIC。"
+        ],
+        "keyPoints": [
+          "HTTP/2 vs HTTP/3 队头阻塞区别",
+          "HPACK 动态表刷新",
+          "QUIC 连接迁移"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q03",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "DNS 的工作流程是什么？递归与迭代查询的区别？CNAME/A/AAAA/MX/TXT 等记录类型各有什么用途？",
+      "answer": {
+        "summary": "DNS 递归解析器替客户端逐级查询直到获得最终结果；迭代是请求者自己逐级问服务器。每种记录类型有固定用途。",
+        "bullets": [
+          "递归：客户端->本地解析器，逐级替查 root/TLD/权威（一直跟直到获得结果）。",
+          "迭代：客户端每次获得指向下一个 NS 的引用，跳过去再问。",
+          "A：IPv4；AAAA：IPv6；CNAME：别名（把域名映射到另一个域名）；MX：邮件服务器优先级；TXT：SPF/DMARC；NS/SOA：域管控。",
+          "CAA：指定哪些 CA 可以签发证书；SRV：服务发现。",
+          "工程要点：TTL 过低高频查询，过高切流慢；HTTPDNS 防劫持；DNS over HTTPS/TLS 加密。"
+        ],
+        "keyPoints": [
+          "递归 vs 迭代查询",
+          "TTL 在灰度切流中的取舍",
+          "DNS over HTTPS 原理"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q04",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "TLS 1.3 相比 1.2 做了哪些优化？0-RTT 有何风险？证书链校验与 revocation 如何实现？",
+      "answer": {
+        "summary": "TLS 1.3 减少 RTT、禁用弱算法、引入 HKDF/key_share；0-RTT 有重放风险；证书吊销通过 CRL/OCSP stapling 做实。",
+        "bullets": [
+          "TLS 1.3 握手 1-RTT（PSK 可 0-RTT），禁用 RSA key exchange、SHA-1 等；encrypted extensions 提高隐私。",
+          "0-RTT 风险：重放攻击；通过唯一 nonce 或令牌防止 idle 请求被重放。",
+          "证书 revoked：CRL（Certificate Revocation List）大量拉；OCSP stapling（服务器代取 OCSP 响应并嵌入 TLS）。",
+          "证书透明日志（CT logs）确保签发可审计；Let's Encrypt 免费 90 天短 TTL 证书。",
+          "前向保密（Forward Secrecy）：每次连接独立 session key，长期密钥泄露不分新老。",
+          "加密：cipher suites 禁止 RC4、3DES；推荐 ECDHE+RSA/ECDSA+ChaCha20/Poly1305+AES。"
+        ],
+        "keyPoints": [
+          "TLS 1.3 加密 early data",
+          "OCSP stapling vs OCSP must-staple",
+          "CT log 审计"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q05",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "CDN 的工作原理是什么？缓存命中、回源、失效的策略怎么配置？CDN 如何满足 HTTPS 加速？",
+      "answer": {
+        "summary": "CDN 把内容缓存在边缘节点，减少回源延迟；缓存键 URL+Vary+Accept；Cache-Control 控制 TTL。",
+        "bullets": [
+          "节点分布：Anycast DNS 把用户路由到最近边缘节点。",
+          "缓存策略：源站 Cache-Control/CDN-Cache-Control；TTL + stale-while-revalidate。",
+          "purge（purge）失效：精确 purge / tag purge / wildcard；瞬间大量失效注意回源流量。",
+          "回源：边缘未命中时回源站；回源率 < 5% 为目标；分层缓存（edge->shield->origin）。",
+          "HTTPS：在 CDN 层 offload TLS（终止）；回源也 HTTPS；CDN 自管理证书。",
+          "鉴权：signed URL/Cookie 控制私有内容访问；WAF 防护。"
+        ],
+        "keyPoints": [
+          "cache key 策略",
+          "回源率与命中率关系",
+          "edge function 落地"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q06",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 6,
+      "level": "进阶题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "反向代理 / API Gateway / 负载均衡 在入口层的分工是什么？Nginx/Envoy/APISIX 选型？",
+      "answer": {
+        "summary": "反向代理负责转发隐藏后端；LB 负责流量分发；API Gateway 负责统一治理（鉴权/限流/路由/协议转换）。",
+        "bullets": [
+          "反向代理：Nginx/Envoy 接收请求转后端，隐藏结构、做缓存/TLS终止。",
+          "负载均衡：L4（连接级，VS/pool） vs L7（HTTP 头/URL）；算法轮询/加权/最少连接/IP hash。",
+          "API Gateway：鉴权、限流、熔断、路由、灰度、日志、聚合；与 Service Mesh 的分工：Gateway 偏前门、Mesh 偏东西向。",
+          "选型：Nginx 生态成熟、配置简单；Envoy 作为 Service Mesh 数据面，动态配置强；APISIX/Traefik 更云原生。",
+          "工具链套：外部 Nginx/Traefik 做 L7 反代 -> Gateway API -> 内部 Envoy/Kong 做治理。"
+        ],
+        "keyPoints": [
+          "L4 vs L7 负载均衡",
+          "限流算法 令牌桶/滑动窗口",
+          "Gateway/BFF/Service Mesh 分工"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q07",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "设计一个全球高可用的网络入口方案：DNS / CDN / Anycast / 多区域负载均衡如何搭建？",
+      "answer": {
+        "summary": "全球入口需要 DNS 就近解析 + CDN 边缘缓存 + Anycast IP + 跨区域 LB 分配流量。",
+        "bullets": [
+          "DNS：Route53/GeoDNS 按地理返回最近边缘 IP；health check 摘失效节点。",
+          "Anycast：多个 POP 共一个 IP，BGP 路由最近；适合四层网络入口、DNS 根。",
+          "CDN：CloudFront/Fastly/Cloudflare 分发静态与可缓存动态内容；WAF/DDoS 吸净。",
+          "跨区域 LB：在多个 Region 部署，DNS 切流 + 健康检查；后端用 GSLB 把流量指向健康的 origin。",
+          "稳定性：区域故障摘除、快自动切换、回源降级路。"
+        ],
+        "keyPoints": [
+          "DNS 健康检查与切流延迟",
+          "Anycast vs GeoDNS",
+          "CDN 多层次缓存"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q08",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "WebSocket 与 SSE 的选型？长连接如何做心跳/重连/负载均衡/粘性会话？",
+      "answer": {
+        "summary": "WebSocket 双向低延迟适合实时协作；SSE 单向自动重连适合通知。",
+        "bullets": [
+          "WebSocket：HTTP Upgrade 建立全双工；ping/pong 心跳 + 指数退避重连 + jitter 防惊群。",
+          "SSE：单向、EventSource API 浏览器原生；自动重连；适合活动流、通知。",
+          "心跳：WS 每隔 30s ping，无 pong 超时断开重连；SSE 不在协议层，由应用自定义。",
+          "消息确认与幂等：WS 带 msgId；服务端去重；连接断开补偿基于 last_seen 序列。",
+          "服务端负载均衡：sticky session（Cookie/IP hash）把长连接系同一节点；背压控制广播层。",
+          "高可用：连接数多转为 pull/push 模型（单独 agent 建立连接 + 分发）；引入 Redis 作为 broker。"
+        ],
+        "keyPoints": [
+          "heartbeat 与 reconnect backoff",
+          "SSE auto-reconnect",
+          "sticky session 在 WS 中的应用"
+        ]
+      }
+    },
+    {
+      "id": "11-网络-q09",
+      "chapter": "11-网络",
+      "chapterTitle": "网络",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "network-system",
+      "nodeTitle": "网络系统",
+      "prompt": "gRPC 与 WebSocket / REST 的选型矩阵？什么场景用 gRPC 替代 REST？",
+      "answer": {
+        "summary": "gRPC 内部高性能、强契约、双向流良好；REST 外部公开可读性高；WS 适合双向实时。",
+        "bullets": [
+          "gRPC：protobuf 紧凑二进制承载，基于 HTTP/2，支持 Unary/ServerStream/ClientStream/BidiStream。",
+          "适合内部微服务、实时需双向、移动-RPC，多语言跨团队。",
+          "REST：公开 API 首选，JSON 可读，HTTP/1.1 普及，缓存/工具链强。",
+          "WS：轻双向长连接适合聊天/协作；不适合大量单向推送。",
+          "gRPC-web：通过 Envoy proxy 让浏览器调 gRPC 后端；性能一般。",
+          "选型矩阵：外部可读 -> REST；内部高性能/实时 -> gRPC；双向实时长会话 -> WS。",
+          "近期替代：tRPC 把类型安全从服务端直达客户端，前后端 co-located 项目优势。"
+        ],
+        "keyPoints": [
+          "gRPC stream 模式",
+          "protobuf schema backward compatibility",
+          "tRPC 与 gRPC 定位"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q01",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "Linux 常用命令清单：ps/top/kill、ls/cp/mv/rm/find/grep/awk/sed、chmod/chown、df/du/free/ss，各做什么？",
+      "answer": {
+        "summary": "进程管理：ps/top/htop 看进程，kill 发信号；文件管理：ls/cp/mv/rm/find 操作文件，grep/awk/sed 处理文本。",
+        "bullets": [
+          "ps aux 列出所有进程；top/htop 实时看资源；kill -9 强制终止，kill -15 优雅终止。",
+          "ls/cp/mv/rm/find：文件查找与操作；find 用 -name 查找，xargs 配合批量。",
+          "grep 文本过滤；awk 列处理；sed 基于行/正则替换；管道组合极强。",
+          "chmod 修改权限；chown 改属主；chmod 755/644 赋予 rwx/rw/r。",
+          "df -h 磁盘使用量；du -sh 目录大小；free -h 内存；ss -tlnp 看监听的端口和服务。",
+          "less/more 分页；tail -f 跟踪日志。"
+        ],
+        "keyPoints": [
+          "find + xargs 组合",
+          "awk 与 sed 区别",
+          "chmod 权限位详解"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q02",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "Linux 的进程状态（ps STAT）与信号（SIGTERM/SIGKILL/SIGUSR 等）是如何工作的？",
+      "answer": {
+        "summary": "进程状态：R(运行)/S(休眠)/D(磁盘)/Z(僵尸)；信号是发给进程的异步通知，signal handler 处理。",
+        "bullets": [
+          "STAT：R 正在跑或可运行；S 休眠需要事件唤醒；D 不可中断（等 IO）；Z 僵尸已结束但父未回收。",
+          "信号：SIGTERM(15) 可捕获，适合优雅停止；SIGKILL(9) 不可捕获，系统强制杀。",
+          "SIGINT(2)：Ctrl+C 中断；SIGHUP(1)：终端挂断，后者可用于 reload daemon 配置。",
+          "kill -l 列支持信号；trap 在 shell 中捕获。",
+          "nginx reload 靠 SIGHUP；systemd 通过 SIGTERM→SIGKILL 顺序优雅停容器。"
+        ],
+        "keyPoints": [
+          "D 状态进程如何排查",
+          "zombie 与 waitpid",
+          "信号捕获与 trap"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q03",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "从 CPU 高/内存高/磁盘 IO 高/网络丢包四个角度，如何排查 Linux 性能问题？",
+      "answer": {
+        "summary": "CPU 高看 top/perf；内存高看 free/pmap；磁盘看 iostat/iotop；网络看 ss/tcpdump。按 USE 方法（Utilization/Saturation/Errors）三维逐层排查。",
+        "bullets": [
+          "CPU：top/htop 看 %CPU；mpstat 看单核；perf top 定位函数级热点。",
+          "内存：free -h 看 available；vmstat 找 swap；smaps 查进程占用；/proc/meminfo 详细分析。",
+          "磁盘：iostat -x 看 util%/await；iotop 找写盘进程；fio 测吞吐基线。",
+          "网络：ss 查看连接状态（TIME_WAIT/CLOSE_WAIT）；sar -n DEV 流量；tcpdump 抓包。",
+          "strace 追系统调用；dmesg 看内核事件；lsof 查进程打开的文件和端口。",
+          "综合分析：系统维度 + 进程维度 + 调用链维度（perf/bpftrace）；建性能基线后监控。"
+        ],
+        "keyPoints": [
+          "USE 方法在排查中的应用",
+          "load average 在容器/cgroup 下的含义",
+          "bpftrace 的实用场景"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q04",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "Linux 的文件系统（ext4/xfs/btrfs/zfs）各自特点？inode 与硬链接/软链接的区别？",
+      "answer": {
+        "summary": "ext4 稳定通用；xfs 高性能大文件；btrfs CoW 快照；ZFS 最高级但内存大。inode 是元数据索引；硬链接共享 inode；软链接是路径引用。",
+        "bullets": [
+          "ext4：最大 1EB/16T，日志、稳定，广泛用于 VPS/本地盘。",
+          "xfs：并行 IO 好，大文件/大目录性能好，RHEL7+ 默认。",
+          "btrfs：CoW、快照、压缩、subvolume；内存风险较低但数据结构复杂。",
+          "ZFS：最强（checksum、快照、克隆、压缩、dedup），但内存开销大，需调优。",
+          "inode：存文件元数据（权限、时间戳、块指针）；ls -i 看 inode 号。",
+          "硬链接：不同路径共享同一 inode，统计数引用计数；不能跨 FS。软链接：独立 inode，存目标路径；跨 FS 可以。"
+        ],
+        "keyPoints": [
+          "inode 与 block 关系",
+          "硬链接与软链接的差别",
+          "CoW 文件系统下的碎片"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q05",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "systemd 是什么？service/target/socket/timer unit 的含义？journalctl 如何查日志？",
+      "answer": {
+        "summary": "systemd 是现代 init 系统；unit 类型多样化并行启动；journalctl 统一日志查询。",
+        "bullets": [
+          "unit 类型：service（后台服务）、target（group）、socket（socket activation）、timer（替代 cron）、mount/device/swap。",
+          "service：[Unit]/[Service]/[Install]；Type=simple/notify/forking；ExecStart/ExecStop。",
+          "journalctl -u nginx -f -n 100 --since '1 hour ago'；可过滤 priority、时间。",
+          "timer：替代 cron，指定何时启动 service；记录精确执行时间、状态。",
+          "systemd 引导到multi-user target 为多用户模式；systemctl enable/start/status/stop。"
+        ],
+        "keyPoints": [
+          "systemd vs SysVinit",
+          "notify type 的启动报告",
+          "journalctl 持久化与转 SIEM"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q06",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "编写一个 systemd service 文件（含资源限制与日志），并排查这个 service 启动失败的排查路径。",
+      "answer": {
+        "summary": "systemd service 定 [Unit]/[Service]/[Install] 段；排查看 journalctl 与 systemctl status。",
+        "bullets": [
+          "配置：/etc/systemd/system/myapp.service；Type=simple；User/Group；ExecStart；WantedBy=multi-user.target。",
+          "资源限制：CPUQuota=200%/MemoryMax=512M/IOWeight；NoNewPrivileges=yes 禁用 setuid。",
+          "健康+reload：ExecReload=/bin/kill -HUP $MAINPID。",
+          "启动失败排查：systemctl status myapp 看 exit code + 报错描述；journalctl -xe 看具体日志。",
+          "常见错误：ExecStart 路径错、Permissions denied、端口被占用、动态库缺失。",
+          "coredump：coredumpctl list 查找 crash；systemd 替换掉 SIGTERM 后 SIGKILL 等时间控制。"
+        ],
+        "keyPoints": [
+          "systemd 单元模板写法",
+          "RestartSec 与 restart limit",
+          "journalctl -u 的丰富过滤"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q07",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "脚本化处理大日志文件（10GB+）：如何用 grep/awk/sed/管道高效统计并切片？",
+      "answer": {
+        "summary": "处理大文件原则是逐行流式避免内存爆；按管道分层：过滤 -> 清洗 -> 聚合，不二次读取。",
+        "bullets": [
+          "grep 过滤行：grep 'ERROR'; 用 -c 计数；-v 排除噪声。",
+          "awk 提取字段：awk '{count[$3]++} END {for(i in count) print i, count[i]}' 统计第三列频率。",
+          "sed 做 inline 替换或过滤：sed '/skip line/d' 删除多余行；sed -n '100,200p' 切特定范围。",
+          "sort | uniq -c | sort -rn 找 TopK；避免 sort 对大文件做整序（换用临时磁盘）。",
+          "分流：split -l 按行拆成小文件 gzip -c；parallel 并行工具并行处理。",
+          "大数据不要二次扫描：用 tee 或 output 重定向到结构化文件后续再用。"
+        ],
+        "keyPoints": [
+          "grep -P 与 awk 配合",
+          "大文件 sort 的临时磁盘",
+          "parallel 并行分块"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q08",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "在 Linux 上部署一个 Node 服务并将其变成一个 systemd 守护，要求优雅停机、日志轮转、健康检查。",
+      "answer": {
+        "summary": "用 systemd + Node 守护、ExecStop 删除 SIGTERM、logrotate 控制日志、systemctl 健康检查。",
+        "bullets": [
+          "systemd unit：After=network.target；Restart=always；ExecStart=/usr/bin/node /app/index.js。",
+          "优雅停机：Node 监听 SIGTERM -> 断连接、flush pending -> process.exit；TimeoutStopSec=30s。",
+          "日志轮转：/etc/logrotate.d/myapp 每天 rotate、保留 7 天、compress、postrotate systemctl kill -SIGUSR1。",
+          "健康检查：服务自身 expose /health；systemd ExecStartPost 等 verify。",
+          "启动顺序：After=redis.service mysql.service；实现依赖启动。",
+          "资源：CPUQuota/MemoryMax 限制容器内 cgroup。"
+        ],
+        "keyPoints": [
+          "systemd service 的 type 选择",
+          "logrotate 与 SIGUSR1 配合",
+          "pm2 vs systemd 守护取舍"
+        ]
+      }
+    },
+    {
+      "id": "12-Linux-q09",
+      "chapter": "12-Linux",
+      "chapterTitle": "Linux",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "linux-system",
+      "nodeTitle": "Linux 系统",
+      "prompt": "设计一个服务器的自动巡检脚本：CPU/内存/磁盘/网络 + 服务端口 + 证书到期 + 定时执行（cron / systemd timer）。",
+      "answer": {
+        "summary": "巡检脚本：metrics 端口 + service + cert 三块，文件输出和告警管；systemd timer 定时。",
+        "bullets": [
+          "采集：top/cpu utilization > 90% warn、free 可用内存 < 500MB warn、df > 85% full warn；ss port check。",
+          "服务检查：curl http://localhost:3000/health 判断 http status 2xx；tcp check 端口。",
+          "证书到期：openssl x509 -enddate；expire < 7d alert。",
+          "输出到 file 或 通过 webhook 至 Slack/钉钉；异常时 exit 1 触发 systemd unit 的 OnFailure。",
+          "定时：systemd timer OnCalendar=hourly；crontab 也可以。",
+          "脚本语言：bash 或用 Node/Python 更灵活。"
+        ],
+        "keyPoints": [
+          "systemd timer vs cron",
+          "健康检查与告警收敛",
+          "自动巡检的作用边界"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q01",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "Docker 镜像的分层原理是什么？多阶段构建为什么能减小镜像体积？",
+      "answer": {
+        "summary": "镜像每层是一个只读文件层，新层叠加在旧层上；多阶段构建在中间阶段产生构建产物，最终阶段只拷贝成品，丢弃构建工具。",
+        "bullets": [
+          "Layer：Dockerfile 每一行指令创建一个新层，层有缓存复用，相同指令可跳过。",
+          "多阶段构建：FROM builder 处理 compile/setup -> FROM dist 仅 COPY --from=builder artifact，舍弃构建依赖与工具。",
+          "写时复制（Copy-on-Write）：基于镜像启动容器在镜像 layer 上加可写层；不改变原始层。",
+          "技巧：合并 RUN（减少层数）、COPY 在前先稳定依赖层变；利用 layer cache 加速构建。",
+          "docker image history 查看层信息；docker build --cache-from 复用缓存。"
+        ],
+        "keyPoints": [
+          "layer cache 与字序技巧",
+          "COPY vs ADD 选择",
+          "distroless / scratch 镜像"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q02",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "Docker 的网络模式（bridge/host/overlay/macvlan/none）各自适用场景？容器间通信怎么实现？",
+      "answer": {
+        "summary": "bridge 默认隔离+端口映射；host 直用宿主网络高性能但隔离弱；overlay 多机 Swarm/K8s；macvlan 给容器独立 MAC。",
+        "bullets": [
+          "bridge：docker0 Linux bridge，容器间同网络可达，DNS 由 daemon 提供；适合开发/单机。",
+          "host：与宿主共享 namespace，性能最佳，端口与宿主直接映射；无隔离。",
+          "overlay：多机跨节点通信，配合 Swarm 或 K8s CNI；overlay+加密更安全。",
+          "macvlan：容器有独立 MAC/IP，可直接接入物理网络；适合 legacy 应用。",
+          "容器间通信：同一网络下用 service name 或 container：<name>；自定义 bridge 跨不同网络不允许。"
+        ],
+        "keyPoints": [
+          "bridge vs host 性能差异",
+          "overlay 加密",
+          "container network model"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q03",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "Dockerfile 最佳实践：安全（non-root/read-only rootfs/CAP）、体积优化、cache 策略。",
+      "answer": {
+        "summary": "Dockerfile 安全从非 root、最小权限、镜像扫描开始；体积优化靠多阶段构建和移除冗余层。",
+        "bullets": [
+          "安全：USER 非 root、--cap-drop ALL、readOnlyRootFilesystem、seccomp/apparmor。",
+          "体积：alpine 基础镜像最小、slim 版本更小、distroless（无 bash/pacman）。",
+          "cache：COPY 先拷贝依赖清单，再 RUN install，充分利用 layer cache。",
+          "SECCOMP 和 AppArmor 防止危险的系统调用。",
+          "镜像扫描：Trivy/Grype + cosign 签名 + SBOM 物料清单。"
+        ],
+        "keyPoints": [
+          "non-root 与 USER",
+          "CAP drop 的应用",
+          "SBOM 签名与供应链安全"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q04",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "Docker 的 Volume 与 Bind Mount 有什么不同？Named Volume 如何备份与迁移？",
+      "answer": {
+        "summary": "Volume 由 Docker 管理，生产持久化推荐；Bind Mount 直接挂宿主路径，开发热重载方便。",
+        "bullets": [
+          "Volume：docker volume create/ls/rm；存储驱动 local/nfs/cloud；独立于容器。",
+          "Bind Mount：直接挂宿主目录/文件，适开发热加载。",
+          "备份：docker run --rm -v vol:/data -v $(pwd):/backup busybox tar czf /data /backup。",
+          "迁移：先备份然后 restore 到 target docker volume。",
+          "安全问题：volume driver 需审查权限；bind mount 可能扩展攻击面。"
+        ],
+        "keyPoints": [
+          "volume backup 流程",
+          "storage driver 对比",
+          "bind mount 权限"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q05",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "Docker Compose 的作用？多环境（dev/staging/prod）如何用 overrides 与 profiles 管理？",
+      "answer": {
+        "summary": "Docker Compose 用 YAML 定义多容器应用；overrides + profiles 实现多环境配置；production 推荐 K8s。",
+        "bullets": [
+          "compose.yaml 定义 services/networks/volumes；depends_on 控制启动序。",
+          "override：docker-compose.override.yml 合并 config；docker compose -f base.yml -f dev.yml up。",
+          "profiles：为不同环境自定义启动哪些 service（esp 开发工具 vs 生产）。",
+          "生产限制：无原生 HA、扩缩容有限、不支持滚动策略；适合本地/单机/小规模生产。",
+          "替代：生产用 K8s/Standalone；helm/docker-compose 可互转。"
+        ],
+        "keyPoints": [
+          "compose 多文件合并",
+          "profiles 启用工具容器",
+          "compose -> k8s 迁移工具"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q06",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "设计一个生产级 Docker 镜像：从 Dockerfile 到 CI 构建到 deploy，怎么让镜像最小、最安全、最可复用？",
+      "answer": {
+        "summary": "基于 distroless/alpine，多阶段构建、non-root 运行、Trivy 扫描 + cosign 签名 + SBOM。",
+        "bullets": [
+          "Dockerfile：COPY 依赖清单 + RUN install -> COPY 源码 -> RUN build -> distro 阶段 COPY 只成品。",
+          "USER non-root；readOnlyRootFilesystem + tmpfs 写区。",
+          "CI：docker build --cache-from + --cache-to registry 缓存复用；Trivy 扫描镜像。",
+          "签名：cosign sign + cosign verify；SBOM 生成（syft）推送到制品仓库。",
+          "Deploy：docker image push registry -> k8s deployment (imagePullPolicy: IfNotPresent) -> restart via HPA。"
+        ],
+        "keyPoints": [
+          "distroless 镜像",
+          "Trivy 扫描阈值",
+          "SBOM 与 SLSA 等级"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q07",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "从 Docker 单机迁移到 Kubernetes 的思路：镜像怎么改？配置、网络、存储怎么对齐？",
+      "answer": {
+        "summary": "镜像本身仍可用；把 docker-compose 转 K8s YAML，用 Deployment + Service + ConfigMap + PVC + Ingress 替换。",
+        "bullets": [
+          "镜像迁移：无需改 Dockerfile；可能要在 K8s 环境通过 entrypoint/cmd 设运行时参数。",
+          "配置：compose 环境变量转 ConfigMap/Secret。",
+          "网络：compose service 名转 K8s Service + DNS。",
+          "存储：compose named volume 转 PVC/PV。",
+          "运维：变 monolith compose 为 Service+Deployment+Ingress；自动扩缩 HPA；分离配置。"
+        ],
+        "keyPoints": [
+          "compose 到 K8s YAML 对照表",
+          "compose 配置文件转义",
+          "K8s deployment 必需配置差异"
+        ]
+      }
+    },
+    {
+      "id": "13-Docker-q08",
+      "chapter": "13-Docker",
+      "chapterTitle": "Docker",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "docker",
+      "nodeTitle": "Docker",
+      "prompt": "容器编排工具选型：Docker Swarm vs Kubernetes vs Nomad，各自适合什么场景？",
+      "answer": {
+        "summary": "Swarm 轻量、内建、简单；K8s 全功能但复杂；Nomad 非容器化也能调度，轻且易。",
+        "bullets": [
+          "Swarm：Docker 原生编排，部署超简单；适合小规模 / 同一团队开发环境。",
+          "Kubernetes：声明式、丰富生态、全面生产力；适合中大型平台/多集群。",
+          "Nomad：Hashicorp 出品，支持 non-container 工作负载（legacy binary）；架构轻、运维比 K8s 少。",
+          "选型：小规模/单组队快速 Swarm；中大型/必须标准和生态 -> K8s；需要调度遗留 二进制最好 Nomad。",
+          "注意：K8s 复杂但最被支持；长期发展优先择 K8s ecosystem 的团队。"
+        ],
+        "keyPoints": [
+          "Swarm vs K8s 规模阈值",
+          "Nomad 非容器化流程",
+          "编排层的生态考虑"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q01",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "Pod / Deployment / Service / ConfigMap / Secret / PVC 在 K8s 中各自解决什么问题？",
+      "answer": {
+        "summary": "Pod 最小调度单元；Deployment 声明式无状态管理与滚动升级；Service 稳定网络端点；ConfigMap 配置数据；Secret 敏感信息；PVC 持久化存储请求。",
+        "bullets": [
+          "Pod：一个或多个容器共享网络/存储；K8s 调度的最小单元，不直接管理混入。",
+          "Deployment：声明期望副本数 + 更新策略（RollingUpdate/Recreate）；通过 ReplicaSet 管理 Pod。",
+          "Service：ClusterIP/NodePort/LoadBalancer/ExternalName；提供稳定 DNS 与负载分发。",
+          "ConfigMap/Secret：拔配置与安全值从 Pod 抽出来；可按 env 或 volume 挂载。",
+          "PVC：用户声明存储需求（大小/class），controller 绑定 PV；StatefulSet 配合 volumeClaimTemplates。",
+          "这些抽象的分工：不把配置写死在镜像里，不只靠 IP 发现服务。"
+        ],
+        "keyPoints": [
+          "Pod vs Sidecar",
+          "Service 与 DNS 记录",
+          "PV 与 PVC 的绑定模式"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q02",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "HPA 如何工作？VPA 和 Cluster Autoscaler 与 HPA 的协作关系？",
+      "answer": {
+        "summary": "HPA 按 CPU/内存/自定义指标扩缩容 Pod；VPA 自动调整 request/limit；CA 管理节点增减满足 pending Pod。",
+        "bullets": [
+          "HPA：metrics-server 获取 CPU/memory；Prometheus Adapter 提供 custom metrics；缩容有 cooling down。",
+          "VPA：off/initial/auto 模式；auto 模式下删 Pod 重用新的 request；与 HPA 一起用可能冲突。",
+          "Cluster Autoscaler：Pod Pending 触发加节点；低利用率节点 Drain 后缩容。",
+          "KEDA：事件驱动 auto-scaler；基于 MQ lag/Redis/Prom/Cron 的 trigger 从 0 到 N。",
+          "推荐组合：HPA+KEDA 针对 Pod；CA/Karpenter 针对节点；VPA 提供建议但慎用 Auto mode。"
+        ],
+        "keyPoints": [
+          "HPA custom metrics",
+          "VPA vs HPA 冲突",
+          "Karpenter 取代 CA 的优势"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q03",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "StatefulSet vs Deployment 的本质区别是什么？什么时候必须用 StatefulSet？",
+      "answer": {
+        "summary": "StatefulSet 提供稳定网络标识+有序部署删除+持久存储，适合有状态应用；Deployment 无状态无绑。",
+        "bullets": [
+          "稳定网络标识：Pod-<ordinal>.headless service DNS；每个 Pod 有自己的 DNS 地址。",
+          "有序部署与删除：0->N 部署，N->0 删除；适合主从启动序降。",
+          "持久存储：volumeClaimTemplates 为每个 Pod 创建独立 PVC。",
+          "适合：数据库主从、消息队列主备、需要稳定持久连接的应用。",
+          "Deployment 适合无状态 API/前端；纯水平伸缩。"
+        ],
+        "keyPoints": [
+          "StatefulSet 有序升级策略",
+          "为什么 DNS 稳定很重要",
+          "headless service 应用"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q04",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "K8s RBAC 是如何工作的？ServiceAccount / Role / ClusterRole / RoleBinding 的层次与最佳实践？",
+      "answer": {
+        "summary": "RBAC 由 Subject(SA) + Role/ClusterRole + Binding 三体组合；Role 为 namespace 级；ClusterRole 集群级。",
+        "bullets": [
+          "Role：namespace 级权限；verbs (get/list/watch/create/update/patch/delete)。",
+          "ClusterRole：集群范围 + 非 namespace 资源（nodes/persistentvolumes）。",
+          "RoleBinding：把 Role 绑定到 namespace 内的 SA/UserGroup。",
+          "ClusterRoleBinding：全局绑定跨 namespace。",
+          "Best practices：不要 cluster-admin，逐 namespace 分 Role；audit policy log 关建敏感操作；定期审核。",
+          "ServiceAccount Token：1.24+ 默认不自动 mount，TokenRequest 签发短期 token 更安全。"
+        ],
+        "keyPoints": [
+          "Role vs ClusterRole 选择",
+          "SA Token 管理",
+          "audit log 与 RBAC 检查"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q05",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "K8s 的网络模型：Service/Ingress/Gateway API/NetworkPolicy 分工及各层流量如何流转？",
+      "answer": {
+        "summary": "Service 让 Pod 稳定接入；Ingress/Gateway API L7 路由入口；NetworkPolicy 控制 Pod 间流量（L3/L4）。",
+        "bullets": [
+          "Service ClusterIP：kube-proxy ip tables/IPVS 转发。",
+          "Ingress：host/path -> service:port + TLS；IngressClass 对接 nginx/traefik；v1.22+ 正式。",
+          "Gateway API：新一代 L7 标准；HTTPRoute/TLSRoute/TCPRoute 多角色。",
+          "NetworkPolicy：label selectors 定义 pod ingress/egress 白名单；Calico/Cilium 实现。",
+          "CNI 插件选择：Calico（BGP+ipip）/Cilium（eBPF+透明加密）/Flannel。",
+          "流量流转：Client -> LB -> Ingress -> Service -> Endpoint (Pod)。"
+        ],
+        "keyPoints": [
+          "K8s kube-proxy vs Cilium",
+          "Ingress 与 Gateway 选型",
+          "NetworkPolicy 性能影响"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q06",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "设计一个 K8s 多环境部署方案：dev/staging/prod + 独立 namespace/RBAC + ConfigMap/Secrets + GitOps。",
+      "answer": {
+        "summary": "按 namespace 隔离环境；用 GitOps (Argo/Flux) 把 app+config 同步到各自 namespace。",
+        "bullets": [
+          "Namespace 分 env：kubectl create namespace dev/staging/prod。",
+          "每个 namespace 自带 resource quota 与 RBAC (RoleBinding)。",
+          "配置：ConfigMap/Secret 命名 env 做前缀避免混淆；Secret 用 External Secrets Operator 同步 Vault。",
+          "GitOps：每个环境一个 application（ArgoCD ApplicationSet/flux kustomization）。",
+          "部署策略：从 dev 自动 deploy -> staging -> prod 人工 Review（sync Policy manual）。",
+          "认证：各 env 内 SA Token Binding 与 namespace RBAC 对成员最小权限。"
+        ],
+        "keyPoints": [
+          "namespace 与 resource quota",
+          "GitOps 环境目录结构",
+          "secrets 跨命名空间策略"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q07",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "在 K8s 上进行应用的滚动更新、金丝雀发布和蓝绿部署，具体怎么实现？回滚怎么操作？",
+      "answer": {
+        "summary": "滚动更新是 Deployment 默认行为；金丝雀用 weight routing 或 service mesh；蓝绿用两个 Service 切换 Label。",
+        "bullets": [
+          "滚动更新（RollingUpdate）：maxSurge+maxUnavailable 控制节奏；kubectl rollout undo 回滚。",
+          "金丝雀：用 istio virtualService weight 给带新 tag 的 subset 少量流量；监控指标 OK 再渐增。",
+          "蓝绿：新旧两 Deployment 并存，仅一个 Service 选 label；route 切过去即是 blue/green 切换。",
+          "回滚：kubectl rollout undo 回到前一 Revision；helm rollback 回退 chart。",
+          "feature flag：在代码层切换新功能，风险最小但需 coding。",
+          "部署检查：healthcheck/readiness 保证部署不损坏现有流量。"
+        ],
+        "keyPoints": [
+          "滚动 vs 金丝雀 资源开销",
+          "蓝绿 vs 金丝雀 用啥切换",
+          "helm 更新历史"
+        ]
+      }
+    },
+    {
+      "id": "14-Kubernetes-q08",
+      "chapter": "14-Kubernetes",
+      "chapterTitle": "Kubernetes",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "kubernetes",
+      "nodeTitle": "Kubernetes",
+      "prompt": "K8s 集群升级（1.25->1.30）的正规流程与风险规避？如何处理废弃 API 与 etcd 备份？",
+      "answer": {
+        "summary": "依次升级控制平面 -> kubelet -> kubectl；提前用 kubectl convert/deprecations 寻找废弃 API；含 etcd 备份与测试。",
+        "bullets": [
+          "预备：用 `pluto` 或 `kubent` 扫描 deprecated API；按 `kubepug` 查兼容。",
+          "备份 etcd：ETCDCTL snapshot save；务必有备份。",
+          "控制平面升级：kubeadm upgrade plan；apt upgrade kubeadm + kubectl；apply。",
+          "节点升级：drain 旧 node -> upgrade kubelet -> uncordon。",
+          "测试：在 Test 集群测试；生产灰度并跟踪告警。",
+          "恢复：万一 crash，使用 etcd snapshot restore + 重新加入 existing cluster。"
+        ],
+        "keyPoints": [
+          "deprecated API 检测工具",
+          "etcd 快照与恢复",
+          "集群升级前的兼容性矩阵"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q01",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "CI/CD 流水线的核心阶段是什么？Jenkins / GitHub Actions / GitLab CI 的区别？",
+      "answer": {
+        "summary": "CI/CD 串连 lint/测试/构建/安全扫描/制品/部署；各 CI 工具在语法、生态、集成上有差异。",
+        "bullets": [
+          "CI 阶段：lint/单测/构建 -> 集成测试 -> 安全扫描（SAST/SCA/image scan）-> 入库。",
+          "CD 阶段：部署策略 -> 金丝雀/滚动/蓝绿 -> 测试（smoke）-> 生效/回滚。",
+          "Jenkins：老牌灵活 + pipeline as code；插件生态大但需自运维。",
+          "GitHub Actions：YAML 简洁、GitHub 原生、action 生态好；适用于 GitHub 相关项目。",
+          "GitLab CI：与 GitLab 紧密集成、no additional agent 需要；auto devops 功能。"
+        ],
+        "keyPoints": [
+          "CI/CD 安全扫描",
+          "可重复构建",
+          "Artifact registry 的不可变版本"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q02",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "Git 的分支策略对比：Git Flow vs GitHub Flow vs Trunk-Based Development，各有何优缺点？",
+      "answer": {
+        "summary": "Git Flow 复杂但可追溯；GitHub Flow 适于持续部署；Trunk-Based 最小化分支生命周期。",
+        "bullets": [
+          "Git Flow：master + develop + feature/release/hotfix；适合版本化发布（Client/ear package）但分支多复杂。",
+          "GitHub Flow：主 branch + feature branch；merge 到 main 即 deploy；适合持续部署网站/服务。",
+          "Trunk-Based：频繁 small merge 到 main，极少 long-lived branch；配合 feature flags 降低 risk。",
+          "选择：需要版本管理用 Git Flow；持续部署用 GitHub Flow/Trunk-Based。",
+          "实践：small PR、快速 review、自动化测试保证不 break。"
+        ],
+        "keyPoints": [
+          "Git Flow 的版本号管控",
+          "Trunk-Based 的 feature flag 配合",
+          "rebase vs merge"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q03",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "Git 的内部原理：commit/blob/tree 对象的结构是什么？rebase 和 merge 如何影响历史？",
+      "answer": {
+        "summary": "每个 commit 对应一个 tree(目录)和 blob(文件)，引用父 commit 成链。merge 产生合并 commit；rebase 把 commit 重放到目标分支顶部产生线性历史。",
+        "bullets": [
+          "commit 对象：tree, parent(s), author/committer, message；blob 对象存文件内容。",
+          "merge：创建一个合并 commit 将两个分支历史显式保留。",
+          "rebase：把 feature branch 的 commits 一个一个 apply 到 updated base 上；新 commits 有不同 hash。",
+          "rebase 让历史线性但已经 push 过的 commit 不能 rebase（否则强制 push 会破坏他人工作）。",
+          "git reflog 记录本地所有操作，可恢复失误；git bisect 二分查找 bug。",
+          "git cherry-pick：单独把某个 commit 应用到另一分支。"
+        ],
+        "keyPoints": [
+          "merge vs rebase 选择",
+          "rebase 与 force push 风险",
+          "git reflog 恢复误操作"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q04",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "什么是 GitOps？如何用 ArgoCD/Flux 把 Git 里的状态同步到集群？",
+      "answer": {
+        "summary": "GitOps 以 Git 为 single source of truth，Controller 持续 pull 期望状态到集群并自我愈合。",
+        "bullets": [
+          "ArgoCD：Application CRD + UI + project RBAC；支持 Helm/Kustomize；多集群。",
+          "Flux：kustomize/source/helm/notification controllers；轻量 CRD。",
+          "GitOps 三原则：声明式、版本控制、自动拉取；Pull model 更安全（无需外部 token 给集群）。",
+          "多环境 pattern：base + overlay（kustomize）分离环境差异；PR -> CI lint/test -> auto sync to staging -> prod review。",
+          "Secret 管理：Sealed Secrets / External Secrets / SOPS 不要把密钥存 Git。"
+        ],
+        "keyPoints": [
+          "Pull vs Push model",
+          "Kustomize overlay",
+          "Sealed Secrets 与 ESO"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q05",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 5,
+      "level": "场景题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "设计一个从 PR 触发到生产部署的完整 CI/CD 流水线，包含质量门与安全扫描。",
+      "answer": {
+        "summary": "PR -> lint/test/sast/container scan -> build artifact -> deploy to staging -> smoketest -> deploy prod -> monitor。",
+        "bullets": [
+          "PR 触发：lint/typecheck/unit tests/SAST (eslint/semgrep)/dependency scan；branch protection 要求 pass。",
+          "Build：docker build & push (versioned + sha tag)；oss/image scan (Trivy)。",
+          "Staging deploy：ArgoCD image updater -> staging cluster。",
+          "Prod deploy：merge 主分支后自动部署 staging；生产留人工 check 或金丝雀。",
+          "监控后验证：Prometheus/slack deploy notification；failed deploy rollback via ArgoCD sync。",
+          "质量门：覆盖率阈值、SCA (dependabot)、SBOM 签名。"
+        ],
+        "keyPoints": [
+          "PR 质量门设定",
+          "trivy scanning",
+          "rollback 策略"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q06",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "蓝绿部署、金丝雀发布、滚动更新、功能标记（Feature Flag）各适合什么场景？要怎么配合 CI/CD 执行？",
+      "answer": {
+        "summary": "蓝绿通过切换环境实现零停机；金丝雀用小流量试错；滚动渐老替新；Feature Flag 在代码层控制。",
+        "bullets": [
+          "蓝绿：两套完整环境，service 切换 label；最安全回滚。资源消耗翻倍。",
+          "金丝雀：通过 weight routing (istio virtualService) 给新 version 小流量，监控通过后增量。",
+          "滚动更新：K8s RollingUpdate 默认，新 Pod 逐替换旧 Pod；MaxUnavailable 控制风险。",
+          "Feature Flag：代码层开启新功能，关闭时回退；适合与 trunk-based 开发搭配。",
+          "CI/CD 集成：部署策略在 deployment 或 service mesh level 执行；监控结果回调 rollback。"
+        ],
+        "keyPoints": [
+          "蓝绿 vs 金丝雀切换机制",
+          "金丝雀 weight 递增策略",
+          "Feature Flag 与回滚的边界"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q07",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "如何设计一个 GitOps 多集群管理方案：hub-spoke 模式，中央 ArgoCD 管理多个 K8s 集群？",
+      "answer": {
+        "summary": "Hub-spoke 用一台中心 ArgoCD 在 hub 管理多个 spoke cluster；Application/ApplicationSet 按集群拉清单。",
+        "bullets": [
+          "Hub cluster：部署 ArgoCD，auth multi cluster targets。",
+          "Spoke clusters：添加到 ArgoCD cluster list。",
+          "ApplicationSet：矩阵或 cluster generator 给每个集群每个 app 创建对应的 Application。",
+          "RBAC：按 project/app 分权限；多团队 split namespace view。",
+          "Secrets：每集群独立 Secret（不共享 SA token）；外部密钥系统（vault/eso）按 cluster 分发。",
+          "监控：ArgoCD sync status + Prometheus metrics。",
+          "升级：先滚动升级工具 cluster（helm upgrade），再应用。",
+          "注意事项：网络连接中心化风险；跨多云管理 key 最佳。",
+          "备用：Flux 的 fleet manager 也是多集群模式。"
+        ],
+        "keyPoints": [
+          "Hub-spoke vs standalone Argo",
+          "ApplicationSet cluster generator",
+          "多集群密钥隔离"
+        ]
+      }
+    },
+    {
+      "id": "15-DevOps-q08",
+      "chapter": "15-DevOps",
+      "chapterTitle": "DevOps",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "devops",
+      "nodeTitle": "DevOps",
+      "prompt": "设计一个安全的 CI/CD 流水线：防外泄、签名制品、最小权限凭证、策略审计。",
+      "answer": {
+        "summary": "最小权限 CI token、签名的不可变制品、外置密钥轮换、SAST/SCA 扫描+策略审计。",
+        "bullets": [
+          "最小权限：CI service account 只给需要的 repo/registry/RBAC roles；token refresh 短暂过期。",
+          "制品签名：cosign sign + verify before deploy；SLSA provenance 确保构建不篡改。",
+          "安全扫描：SAST (semgrep/codeQL)、SCA (dependabot/snyk)、container scan (Trivy) 拦入 deploy。",
+          "Key rotation：凭据定期转（Github secret / Vault dynamic provider）。",
+          "策略审计：Open Policy Agent (OPA) 或 policy as code (ci-policy) 校验构建产物与签名。",
+          "回滚安全：保留前版本 artifact + signature 可用。"
+        ],
+        "keyPoints": [
+          "cosign 签名与验证",
+          "SLSA levels",
+          "SaST/SCA 在流水线里提前生效"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q01",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "可观测性的三大支柱是什么？Metrics/Logs/Traces 各自回答什么问题？",
+      "answer": {
+        "summary": "Metrics 回答多少/多快；Logs 回答发生了什么；Traces 回答请求路径上的每步耗时与因果。",
+        "bullets": [
+          "Metrics：时序聚合数值，counter/gauge/histogram；用 PromQL 查询速率/分位数；适合告警与容量规划。",
+          "Logs：离散事件结构完成结构化 JSON/trace 关联；Elastic/Loki 集中存储查询。",
+          "Traces：跨服务请求链路，span 记录法随 contex propagation；OpenTelemetry 统一。",
+          "三者的联系：trace span 输出 metrics/日志；exemplar 把 trace id 注入 metrics，关联查询。",
+          "工具链：Prometheus+Grafana/Mimir（metrics）；Loki（logs）；Tempo/Jaeger（traces）。"
+        ],
+        "keyPoints": [
+          "metrics cardinality 代价",
+          "structured logging",
+          "exemplar 关联 trace"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q02",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "OpenTelemetry 的架构（API+SDK+Collector）如何统一跨语言可观测性？",
+      "answer": {
+        "summary": "OTel 定义统一 API 和 SDK（tracer/meter/logger），Collector 聚合 exporter 多后端，避免厂商锁定。",
+        "bullets": [
+          "API：应用调用 tracer/span/meter；SDK 实现 noop 和真实实现。",
+          "Collector：接收 OTLP 信号、加工（filter/attributes/sampling）、export到Prom/Loki/Tempo/Jaeger。",
+          "自动埋点：Java agent / node opentelemetry-js / Instrumentation 库自动跨度；手动添加额外 span。",
+          "跨语言：SDK 提供 Go/Java/Python/Node/.NET/Ruby/JS；统一 W3C TraceContext 传播。",
+          "配置灵活：采样策略、span attributes、资源标签在 Collector 层集中管理。"
+        ],
+        "keyPoints": [
+          "OTLP 协议",
+          "auto-instrumentation",
+          "span attributes 命名"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q03",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "SLO/SLI/Error Budget 的工程实践是什么？怎样让告警收敛到 error budget，而不是每阈值都触？",
+      "answer": {
+        "summary": "SLI 是测量指标，SLO 是目标，Error Budget (1 - SLO) 是发布与回滚的决策依据。告警只围绕 error budget 消耗触发。",
+        "bullets": [
+          "SLI：可用性(可用请求比例)、P99 latency、错误率等；选 3-4 个最关键 SLI。",
+          "SLO：给每个 SLI 设定周期目标(如 99.9%)；不能是 100%否则 error budget=0。",
+          "Error Budget：每人 week 可消耗量，消耗率上升 -> 停止发布/回滚 -> 投入稳定性改进。",
+          "告警：multi-window、multi-burn-rate 告警（高消耗率时 critical，低消耗时 warning）。",
+          "多细粒度：生产不稳定 = API 响应、DB replica lag、事件处理 delay。",
+          "工具：Prometheus recording rules + Alertmanager 计算 burn rate；grafana SLO dashboard。"
+        ],
+        "keyPoints": [
+          "SLO 选和测量",
+          "burn rate 告警",
+          "error budget 记录和消费反馈"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q04",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "Prometheus 的指标模型（counter/gauge/histogram/summary）与 PromQL 常用查询（rate/increase/histogram_quantile）是什么？",
+      "answer": {
+        "summary": "counter 单调递增；gauge 增减；histogram 分桶统计分布；summary 百分位统计。rate 算每秒增率，histogram_quantile 算分位。",
+        "bullets": [
+          "counter：http_requests_total；用 rate() 转每秒；increase() 取时间段总增量。",
+          "gauge：cpu_usage_percent；直接读值用 avg_over_time()。",
+          "histogram_bucket：记录落入各桶的次数；histogram_quantile(0.99, rate(bucket[5m])) 取 P99。",
+          "summary：客户端直出分位数（比 histogram 更省但不可聚合）。",
+          "label 高基数代价大（内存+时间序列膨大）；避免用 userId/requestId 作 label。",
+          "最佳实践：recording rules 预聚合；按常用维度 precompute。"
+        ],
+        "keyPoints": [
+          "histogram 分桶设计",
+          "counter 重置",
+          "label 基数影响"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q05",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "分布式追踪：head sampling vs tail sampling 的取舍？trace context 如何跨服务传播？",
+      "answer": {
+        "summary": "head 在入口随机采样（简单但浪费）；tail 后置按延迟/错误采样（省容量但实现复杂）；W3C traceparent header 全链路 context push。",
+        "bullets": [
+          "head sampling：在 trace 根决定采/不采；百分比控制；掉尾 latency 可能漏。",
+          "tail sampling：在 collector 后置按条件选择 trace；但 collector 需缓冲处理。",
+          "context propagation：W3C Trace Context (traceparent: 00-traceid-spanid-flags) 和 tracestate（vendor-specific）。",
+          "baggage：跨请求传递元数据（org-id、env），不放太多敏感。",
+          "排障：各服务未传 trace context 会导致断链；异步/MQ 需嵌入。"
+        ],
+        "keyPoints": [
+          "head vs tail 采样",
+          "W3C TraceContext 协议",
+          "baggage 安全限制"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q06",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "设计一个多服务系统的可观测性方案：从 instrumentation 到 dashboard 到 alert。",
+      "answer": {
+        "summary": "分层埋点：auto-instrumentation + 自定义 span/metric；统一 collector -> Tempo+Loki+Prom Grafana；SLO 驱动告警。",
+        "bullets": [
+          "instrumentation：OTel auto-instrumentation；自定义 callback span/metric；batch 整合输出。",
+          "collector：接收 OTLP -> filter/sampling -> export to Prom/Loki/Tempo。",
+          "Grafana：为每个 service 建模板 Golden Signals Dashboard（lat/error/saturation/traffic）。",
+          "告警：SLO burn-rate 告警；deploy 关联通知；alertmanager route by team。",
+          "dashboard drill：从 alert -> trace span -> logs，上下文可串联。",
+          "标签规范：统一的 service/version/datacenter/business-domain。"
+        ],
+        "keyPoints": [
+          "OTel auto vs manual",
+          "SLO multi-window burn rate",
+          "Grafan 模板化"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q07",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "如何处理高基数（High Cardinality）指标与日志以控制存储成本？",
+      "answer": {
+        "summary": "精简 label 集合、写入前预聚合、日志按需采样、保留分层。",
+        "bullets": [
+          "指标：禁忌 userId/requestId 作 label；用稀疏指标 aggregates precompute；recording rules 代替原始 query。",
+          "日志：采样（info level 全，debug 采样率低）；聚合日志 pattern（logfmt）存储压缩；短 TTL 冷却陈数据。",
+          "trace：tail sampling 基于 error/slow 条件保留有价值 trace；按分层 rollup 减小跟踪量。",
+          "Mimir/Thanos/Loki 都支持压缩 blob 存储 + TTL 分层。"
+        ],
+        "keyPoints": [
+          "高基数 label 代价",
+          "label 预聚合策略",
+          "日志采样与 TTL"
+        ]
+      }
+    },
+    {
+      "id": "16-可观测性-q08",
+      "chapter": "16-可观测性",
+      "chapterTitle": "可观测性",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "observability",
+      "nodeTitle": "可观测性",
+      "prompt": "故障排查：一个用户报超时，你如何从可观测性出发定位根因？",
+      "answer": {
+        "summary": "从用户体验 metric 出发 -> 查对应 trace -> 找慢段 -> 看对应应用日志和依赖状态。",
+        "bullets": [
+          "用户报：取 requestId -> trace 查出全链路。",
+          "看 trace 慢在哪一段 span（某个 API call / DB query / MQ lag）。",
+          "看那一段对应的 app logs (error/warn) 加 metrics（CPU/saturation/connection pool exhausted）",
+          "分析 root：慢 SQL；连接池占满；网络丢包；缓存 miss 率升高。",
+          "事后修：加告警分位阈值 + 熔断/降级；加缓存预取。"
+        ],
+        "keyPoints": [
+          "requestId 与 trace 关联",
+          "慢 SQL 在 trace 中的定位",
+          "connect pool 与 saturation metric"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q01",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "云原生的核心理念是什么？12-Factor App 的关键要素有哪些？",
+      "answer": {
+        "summary": "云原生以容器化/声明式 API/弹性/可观测/微服务为核心；12-Factor 定义了代码库、依赖、配置、后端服务等的应用准则。",
+        "bullets": [
+          "云原生 5 原则：容器化、动态编排、微服务、声明式 API、可观测性。",
+          "12-Factor：Codebase(一个应用一个代码库)、Dependencies(显式声明依赖隔离)、Config(环境变量跟代码分开)、Backing services(外部资源通过 URL 绑定)、Build/Release/Run 分离。",
+          "进程无状态、日志作事件流、端口绑定、并发按进程；13-15 factor 后增 API-first/telemetry/authentication。",
+          "结果产物：在任何云上可移植，弹性扩展，持续交付；不是改架构口号是减少部署摩擦。",
+          "Cloud Native landscape：大量的开源项目围绕调度、监控、网络、安全、存储。"
+        ],
+        "keyPoints": [
+          "12-Factor 13+",
+          "build vs release 分离",
+          "backing service 是什么"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q02",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "IaC（Infrastructure as Code）是什么？Terraform 核心概念（provider/resource/state/plan/apply）？",
+      "answer": {
+        "summary": "IaC 用声明式代码管理基础设施；Terraform 的核心分离 plan/apply、remote state 协作。",
+        "bullets": [
+          "Provider：云厂商或服务提供插件（aws/azurerm/google/github）；提供 resource/data。",
+          "Resource：描述云资源类型和属性；data 引用已存在资源。",
+          "State：存储资源真实状态；local 或 remote backend（S3+锁 Terraform Cloud）。",
+          "Plan/Apply：先 dry plan 比较，人工验证再 apply；-detailed-exitcode 自动化。",
+          "module 复用与 tfvars 变量；for_each/count 循环生成多资源。",
+          "最佳实践：state 锁 推 remote、最小权限、自动 CI plan+ 人工 review。"
+        ],
+        "keyPoints": [
+          "state lock 后端选型",
+          "module composition",
+          "for_each vs count"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q03",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 3,
+      "level": "基础题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "消息队列选型：Kafka/RabbitMQ/RocketMQ/NATS/Pulsar 各自特点与适合场景？",
+      "answer": {
+        "summary": "Kafka 高吞吐日志流；RabbitMQ 灵活路由；RocketMQ 事务消息；NATS 轻量高性能；Pulsar 云原生分层存储。",
+        "bullets": [
+          "Kafka：topic/partition/consumer group、高吞吐、日志型持久化；适合流处理/数据 pipeline。",
+          "RabbitMQ：AMQP、exchange/queue/binding 路由灵活；适合低中吞吐灵活路由业务。",
+          "RocketMQ：原生事务消息/延迟消息；适合电商交易、金融。",
+          "NATS：Core 极轻量（at-most-once）+ JetStream（at-least-once）；适合边缘 IoT/极简 RPC。",
+          "Pulsar：分层架构（broker+bookkeeper），支持多租户；适合多云流处理/需 geo-replication。",
+          "选型核心：吞吐量 > 持久性 > 功能 > 生态 > 运维复杂度。"
+        ],
+        "keyPoints": [
+          "Kafka partition 与 parallel",
+          "RabbitMQ quorum queue",
+          "RocketMQ 半消息"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q04",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "Terraform 的 state 管理、workspace、backend 如何选？跨团队协作靠什么？",
+      "answer": {
+        "summary": "远程 state backend 集中式版本化 + 锁；分 directory 做 workspace；module + registry 跨团队共享。",
+        "bullets": [
+          "Backend：S3/DynamoDB（state+lock）、Terraform Cloud、Azure azurerm。",
+          "Workspace：多环境状态区分；但推荐用 directory per environment（更显式）。",
+          "Module：source git URL 版本 tag；version constraint；公开/私有 registry。",
+          "跨团队：模块化、git automation（CI plan+apply on PR），state view。",
+          "安全：对 state 严格控制（含敏感值）。sensitive variables 不曝。",
+          "drift detection：定期 plan 结合 `terraform refresh`。"
+        ],
+        "keyPoints": [
+          "directory vs workspace",
+          "state 锁定机制",
+          "sensitive 变量保护"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q05",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "对象存储（S3/OSS/MinIO）的核心能力：分桶、分片上传、生命周期策略、事件通知。",
+      "answer": {
+        "summary": "对象存储按 key 分 bucket、按 part 分片上传大文件、lifecycle 自动转冷/过期；事件触发 ETL。",
+        "bullets": [
+          "bucket：唯一全局名，CORS/版本控制/日志。",
+          "分片上传：分割大文件 -> 各分片独立上传 -> completeMultipart -> 拼接。",
+          "生命周期：按前缀/标签 rule 自动转 IA/Glacier 或过期删除。",
+          "事件：上传/恢复/s3:ObjectCreated -> EventBridge/SQS/Lambda 触发。",
+          "高可用：跨区域复制（跨 region DR）；数据分层(Standard/IA/Archive)。",
+          "安全：存储策略(Bucket policy/IAM policy)、presigned URL 限时访问、encryption (SSE-S3/SSE-KMS)。"
+        ],
+        "keyPoints": [
+          "multipart upload 幂等",
+          "lifecycle policy 成本",
+          "cross-region replication"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q06",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 6,
+      "level": "进阶题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "Kafka 的主要设计：topic/partition/offset/consumer group / ISR / acks / 日志型存储。",
+      "answer": {
+        "summary": "Kafka 按 topic-partition 进行有序追加消费；consumer group 平衡并行；acks=all 保证可靠投递；ISR 防数据丢失。",
+        "bullets": [
+          "Topic：逻辑通道；N partitions 实现 并行。",
+          "Partition：有序追加不可变；offset 指示消费位置；segment + index 日志型存储。",
+          "Consumer group：组内每个 partition 仅一个消费者；rebalance 动态分配。",
+          "acks：0(快但可能丢失)、1(leader确认)、all(ISR all=all conf)。",
+          "ISR：in-sync replicas；未回复的 follower 会移除，以保证 min.insync.replicas 安全。"
+        ],
+        "keyPoints": [
+          "partition 数选择",
+          "compression 与 batch",
+          "ISR 与 leader election"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q07",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "设计一个多云管理方案：terraform+gitops 多 provider，成本治理，统一监控。",
+      "answer": {
+        "summary": "统一 IaC 抽象 + Kubernetes 统一 runtime + GitOps for clustered apps + 多云 cost 工具积。",
+        "bullets": [
+          "IaC：Terraform multi-provider (aws+azurerm+gcp) per env directory；共用 module 跨云。",
+          "Runtime：K8s 统一每个云的集群 -> 服务部署一致。",
+          "GitOps：ArgoCD Fleet 管理多集群。",
+          "监控：Prometheus/Thanos 跨云联邦；logs/traces 统一到 Loki/Tempo aggregated。",
+          "成本：cloud native cost tool (FinOps) + 多维度 tag 成本按 team/product。",
+          "网络：跨云 VPN/Transit Gateway；SD-WAN；DNS 跨平台 GeoDNS。"
+        ],
+        "keyPoints": [
+          "多云 IaC 模块化",
+          "Prom multi-remote write",
+          "成本标签体系"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q08",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "设计一个 IoT 数据采集方案（MQTT + 时序DB + 消息队列 + 流处理）",
+      "answer": {
+        "summary": "MQTT broker 接受百万设备数据 -> Kafka 削峰 -> Flink 流式计算 + 写时序 DB + 告警。",
+        "bullets": [
+          "MQTT（EMQX/Mosquitto）可靠采集；QoS1/2 保丢可重传。",
+          "Kafka：作为 broker 下游缓冲，流处理起点。",
+          "Flink：按时间窗实时聚合、异常检测、写回时序 DB。",
+          "时序 DB：Timescale/Influx；最新 N 点热缓存。",
+          "告警：发现异常指标 -> webhook/钉钉。",
+          "安全：设备 TLS / client cert、ACL；数据端到端加密。"
+        ],
+        "keyPoints": [
+          "MQTT QoS 选择",
+          "Flink watermark",
+          "IoT 设备 cred 管理"
+        ]
+      }
+    },
+    {
+      "id": "17-云原生-q09",
+      "chapter": "17-云原生",
+      "chapterTitle": "云原生与基础设施",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "cloud-native",
+      "nodeTitle": "云原生",
+      "prompt": "在多云上设计一个高可用消息队列方案（Kafka multi-region stretch cluster / MirrorMaker / Pulsar geo-rep）。",
+      "answer": {
+        "summary": "Kafka 跨 region 可用 MirrorMaker 做异地复制；Pulsar 内置 geo-replication。",
+        "bullets": [
+          "Kafka MirrorMaker2：把 topic 复制到远程集群；去中心；消费场景可换多 offset。",
+          "stretch cluster：多 AZ 同步 ISR 的 Kafka cluster；同园可用，跨园区网络 RTT 敏感。",
+          "Pulsar：built-in 集群按租户复制，生产者配置同键 sent 跨 zone。",
+          "灾备：主动-被动；故障时手动切换客户端连接；数据备份 offset。",
+          "一致性：异步 mirror 有延迟，但成本< stretch集群。",
+          "网络：跨 region VPC 连，按需加密，结合 Vault 存储凭证。"
+        ],
+        "keyPoints": [
+          "MirrorMaker 的设计",
+          "stretch cluster 弊端",
+          "Pulsar geo-replication"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q01",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "系统设计面试的标准流程是什么？从需求澄清到容量估算再到高层架构图。",
+      "answer": {
+        "summary": "清需求与边界 -> 容量估算 -> 高层图 -> 关键模块 -> 扩展与容灾 -> 权衡解释。",
+        "bullets": [
+          "需求澄清：功能/非功能（QPS/延迟/一致性/可用性/预算）；列举 use cases。",
+          "容量估算：QPS/storage/bandwidth、读多还是写多、hot data set；按关键链路乘法。",
+          "高层架构图：API Gateway -> 服务层 -> 数据层 -> 缓存/消息；画模块与数据流。",
+          "关键模块设计：DB schema、API contract、缓存策略、分库分表、异步处理。",
+          "扩展与容灾：分片/读副本、多 AZ/region、缓存、熔断降级、限流。",
+          "权衡解释：一致性 vs 可用性、同步 vs 异步、SQL vs NoSQL。"
+        ],
+        "keyPoints": [
+          "需求澄清的边界",
+          "容量估算公式",
+          "高层架构的粒度"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q02",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "CAP 定理与 BASE 理论是什么？分布式系统中的 CP 与 AP 如何选择？",
+      "answer": {
+        "summary": "CAP：一致性(C)/可用性(A)/分区容忍(P)三者不可齐；BASE：Basically Available/Soft-state/Eventually consistent；多数优先 AP/CP 取决于业务一致性容忍。",
+        "bullets": [
+          "CP：强一致优先（银行转账、分布式锁元数据），可用性在 partition 时或许降低。",
+          "AP：高可用性优先（CDN、社交 feed）；一致性最终可接受。",
+          "BASE：比 CAP 更面向现实最终一致的分布式系统核心；柔性可用 + 最终一致。",
+          "选择：读少写多？事务性/金融用 CP；数据分析/用户体验用 AP。",
+          "实践：多系统用 C+R combination，主从短停滞选 CP（主待所有从 sync），异步复制则 AP。",
+          "现实不是绝对的 CP/AP，而是调参数（Quorum size、读副本延迟预算）。"
+        ],
+        "keyPoints": [
+          "CAP 在分区期间的定义",
+          "Quorum NWR 与 CP",
+          "BASE 与最终一致"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q03",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "限流算法的实现原理：令牌桶/漏桶/滑动窗口/固定窗口的各自差异和代码思路？",
+      "answer": {
+        "summary": "令牌桶允许短期突发、固定速率；漏桶恒速出水无突发；滑动窗口平滑但计算稍大；固定窗口简单但有临界突刺。",
+        "bullets": [
+          "固定窗口：同一时间窗配额，窗内计数；窗切瞬间突刺不可接受。",
+          "滑动窗口：以当前时间为准，回溯时间窗计算通过次数；实现比固定窗多维护。",
+          "令牌桶：恒定 tokens 额定速率加入，令牌储蓄；允许短时突发至桶深。",
+          "漏桶：恒定速率处理请求，来多少先排队，出水速率固定，不能突发。",
+          "分布式限流：Redis INCR + EXPIRE(Lua) 实现滑动窗口；Sentinel 聚合；Envoy TAP。",
+          "返回 429 + Retry-After；与熔断/降级配合。"
+        ],
+        "keyPoints": [
+          "令牌桶 burst 实现",
+          "滑动窗口 Redis Lua",
+          "分布式限流误差"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q04",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "分布式 ID 的生成方案：Snowflake/UUID/号段/Leaf，各自的优劣与适用场景？",
+      "answer": {
+        "summary": "Snowflake 高吞吐、趋势递增、依赖时钟；UUID v7 有序，无中心；号段保持独立；Leaf 号段双 buffer。",
+        "bullets": [
+          "Snowflake：64bit 1符号 + 41时间 + 10机器 + 12序列；有序、高性能；时钟回拨需处理。",
+          "UUID v4：随机不高有序，B+Tree 索引膨胀；v7 time-ordered 解决。",
+          "号段模式：DB 分配 interval，本地 buffer 用完后去申请新段；可靠性高，号段大小 trade。",
+          "Leaf（美团）：segment+双buffer 模式结合号段；性能极高。",
+          "选择：高写入高性能选 Snowflake/Leaf；多中心担心时钟回拨用 UUID v7；简单用号段。"
+        ],
+        "keyPoints": [
+          "Snowflake 时钟回拨处理",
+          "号段长度与分配频率",
+          "UUID v7 有序性"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q05",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "CQRS 与 Event Sourcing 的区别与结合点是什么？何时才能不用？",
+      "answer": {
+        "summary": "CQRS 读写分离 Model/storage；Event Sourcing 用事件链存状态变化；二者常一起用但不是捆绑。",
+        "bullets": [
+          "CQRS：command 写侧 (规范化)、query 读侧 (去规范化 + 灵活 materialized view)。",
+          "Event Sourcing：存所有状态变化事件，重放得到当前状态；审计、可回放、纠错。",
+          "结合：写侧事件存入 Event Store，读侧投到 materialized view 供查询。",
+          "缺点：复杂性、调试、跨读延迟；适合需要审计、复杂业务、多投影的系统。",
+          "不用 ES 的情况：简单 CRUD、不需要审计日志、团队不熟复杂存储模型。"
+        ],
+        "keyPoints": [
+          "CQRS 读写拆分",
+          "replay event 流",
+          "Eventual Consistency"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q06",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "设计一个短视频 Feed 流系统（抖音/TikTok 风格的推荐 + 视频上传/转码 + CDN 分发 + 互动）。",
+      "answer": {
+        "summary": "视频上传 -> 转码 -> 对象存储 + CDN；推荐 -> feed ranking；互动 & 实时。",
+        "bullets": [
+          "上传：客户端分片上传到 OSS/S3 + 消息队列触发转码。",
+          "转码：FFmpeg pipeline + 自适应码率 (HLS-DASH/CMAF)，多码率多分辨率 -> 对象存储。",
+          "CDN：分发到全球 Edge；缓存策略自定义；防盗链签署。",
+          "推荐：召回+排序；用户隐式反馈（观看/点赞/分享）实时流更新。",
+          "Feed 生成：离线/在线编选 + user-embedding -> 按 bucket fanout。",
+          "互动：点赞/评论/分享 -> 写 DB（时序）+ 更新缓存 + 通知 MQ。",
+          "容量：read-heavy 用分片+缓存；video meta 主 DB。"
+        ],
+        "keyPoints": [
+          "HLS 分片与 CDN 缓存",
+          "video meta 与关系",
+          "feed pipeline offline/online"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q07",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "设计一个高并发秒杀/抢购系统：从流量前端到库存扣减、削峰、数据一致性的方案。",
+      "answer": {
+        "summary": "前端防流量 + CDN + 限流 + 手拉 Token；后端 Redis 原子扣减 + MQ 削峰 + DB 最终落单。",
+        "bullets": [
+          "流量前端：按钮 loading 防重复；验证码/令牌桶防脚本。",
+          "CDN：静态资源边缘缓存；API 限流挡非必要。",
+          "库存：启动前预装 Redis INVENTORY_KEY；扣减 LUA 原子 DECRBY，<=0 即结束。",
+          "削峰：请求进 Kafka 顺序处理；用户队列按 userId hash 分区。",
+          "下单：MQ 消费写 DB 创建订单+ 扣库存；失败发 `回撤` 补偿回 Redis。",
+          "超时释放：队列到期释放未支付订单回 stock。",
+          "幂等：下单 dedup key (userId+SKU+gmt)，防止重复。"
+        ],
+        "keyPoints": [
+          "Redis DECRBY atomic",
+          "队列 consumer",
+          "超时释放与幂等"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q08",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "设计一个实时聊天系统（WhatsApp/微信风格），1v1 到万人大群的消息流转。",
+      "answer": {
+        "summary": "1v1 用 point-to-point 连接；群聊用消息扩散 + 推送；存储方案附消息 ID 与已读偏移。",
+        "bullets": [
+          "接入：长连接 WebSocket；按 userId shard connection server；消息序列化 protobuf。",
+          "1v1：发送->投递到另一侧连接；离线消息存 mailbox。",
+          "小群（<500）：写扩散（每成员写消息 copy）；大群（>500）转发只给在线成员 + mailbox pointer。",
+          "已读上报：每个用户记录 last_seen_seq；客户端排序去重。",
+          "存储：Kafka 写入消息 log；消息落 HBase/TiDB；媒体 ftf store OSS + CDN。",
+          "拉人入群：通告事件，client pull 历史。",
+          "安全：端到端加密（Signal protocol）或 server side TSL。"
+        ],
+        "keyPoints": [
+          "写扩散 vs 读扩散",
+          "群成员广播",
+          "消息序列化"
+        ]
+      }
+    },
+    {
+      "id": "18-系统设计-q09",
+      "chapter": "18-系统设计",
+      "chapterTitle": "系统设计",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "system-design",
+      "nodeTitle": "系统设计",
+      "prompt": "设计一个 URL 短链接系统（bit.ly style）：全球唯一、高性能重定向、短链生成、点击分析。",
+      "answer": {
+        "summary": "Snowflake ID 生成短 key -> 62 进制编码；Redis 缓存 + DB 持久；302 redirect；分析通过 Kafka 异步落 metrics。",
+        "bullets": [
+          "短链生成：请求 URL -> hash(a MURMUR) 或 Snowflake -> 62进制短码 store。",
+          "存储：DB mapping (short_key, original_url, user_id, create_time)；唯一索引。",
+          "重定向：用户请求 short key -> Redis 命中直接 302；miss 查 DB + 写 cache。",
+          "分析：每个访问写 Kafka event (key, IP, browser, referrer, ts) -> 异步聚合到分析 DB。",
+          "高可用：多 AZ 部署， Redis cluster 分片，无单点。",
+          "防滥用：Rate limit / 域名白名单；监控长 URL 是否恶链。",
+          "自定义短链：用户可选，需要更多冲突检测。"
+        ],
+        "keyPoints": [
+          "base62 编码",
+          "murmur hash vs ID",
+          "clickstream 分析"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q01",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "LLM 基础概念：Token/Embedding/Context Window/Temperature/Top-p/Top-k 各起什么作用？",
+      "answer": {
+        "summary": "Token 是模型计费与处理单位；Embedding 将语义表达为稠密向量；Context Window 决定最大输入长度；Temperature 控制随机性。",
+        "bullets": [
+          "Token：文本分词后的最小单元（BPE/WordPiece）；API 按 input+output token 收费。",
+          "Embedding：文本/图片映射到稠密向量空间；余弦相似度度量语义相关性。",
+          "Context Window：模型一次可处理的最大 token 数（从 4k 到 128k+）。超出截断或摘要。",
+          "Temperature (0-2)：越低越确定/保守；越高越多变/创意。Top-p (nucleus sampling)：只保留概率累计至 p 的 token。",
+          "Top-k：只保留前 k 个最可能 token；通常 k=40-50。",
+          "一般规则：事实/代码答用 low temp；创意/写作略高 temp。"
+        ],
+        "keyPoints": [
+          "BPE 编码原理",
+          "Embedding 量化",
+          "temperature vs top-p 互补"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q02",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "Prompt Engineering 的核心原则是什么？Few-shot / Chain-of-Thought / ReAct 各怎么设计？",
+      "answer": {
+        "summary": "Prompt 把任务/约束/输出格式编码为稳定指令；Few-shot 给示例对齐格式；CoT 增加思维链；ReAct 串推理-行动循环。",
+        "bullets": [
+          "System prompt 设长期约束（角色、输出语言、格式）；Instruction 给出任务步骤；Output format 指定 JSON/Markdown。",
+          "Few-shot：2-5 示例 + 固定格式对齐；选好代表性样例很关键。",
+          "Chain-of-Thought：在 prompt 中要求模型\"一步一步推理\"或提供示例中间步骤。",
+          "ReAct：Reason+Act 循环（模型输出 thought->action->observation->thought...）；适合 Agent。",
+          "结构化输出：function calling / JSON Mode / schema 约束输出格式最稳定。",
+          "Prompt injection：把不可信输入与指令隔离，最好分层防止。"
+        ],
+        "keyPoints": [
+          "CoT 与 self-consistency",
+          "ReAct 循环",
+          "system vs user prompt 边界"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q03",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "RAG（检索增强生成）的完整 Pipeline 是什么？分块/embedding/检索/重排 如何影响召回质量？",
+      "answer": {
+        "summary": "RAG pipeline 是 chunk 分段 -> embed -> 存向量库 -> 按 query 召回 top-K -> rerank -> append context -> LLM 生成。",
+        "bullets": [
+          "分块（chunking）：按语义切分（按标题/段落/固定窗口+重叠）；大小 affects recall/precision（一般 256-1024 token）。",
+          "embedding & 索引：常用 text-embedding-3-small / BGE / Cohere；index store milvus/pgvector/weaviate。",
+          "检索：hybrid search（BM25+vector） + 多路召回（query rewriting）。",
+          "重排（reranker）：cross-encoder 对候选打分，排取 top-N 喂给 LLM。",
+          "评估：context precision/recall、answer faithfulness、LLM-as-judge。",
+          "引用与可追溯来源验证。"
+        ],
+        "keyPoints": [
+          "chunk 重叠与召回",
+          "hybrid search 融合",
+          "reranker 模型选择"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q04",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "Agent 与 Function Calling / Tool Use 的设计模式与安全护栏？MCP 是什么？",
+      "answer": {
+        "summary": "Agent 让模型通过工具完成多步任务；MCP 是工具供给的标准协议；安全需分层控制。",
+        "bullets": [
+          "Agent 模型：ReAct/Plan-and-Execute/Reflexion；模型产出 function call -> executor 执行 -> 结果回灌。",
+          "Function calling：将工具定义 schema (name/description/parameters) 发给模型，模型返回 call；工程完成执行。",
+          "MCP (Model Context Protocol)：Client-Server 协议，Server 提供 resources/tools/prompts；避免每个工具重复开发。",
+          "安全：工具最小权限、白名单操作、人工确认、审计日志、失败回滚；不要靠 system prompt 做权限。",
+          "陷阱：无限循环/步数不收敛/幻觉工具调用；加 max_steps、超时、状态机收敛。"
+        ],
+        "keyPoints": [
+          "ReAct vs Plan-and-Execute",
+          "MCP 与传统 API 对比",
+          "Agent 状态持久化"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q05",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "AI 应用的可观测性、成本与评估体系如何搭建？LangSmith/LangFuse 的作用是什么？",
+      "answer": {
+        "summary": "LLM trace 保留 prompt/response/tokens/latency/tool call；成本按 token 计价 + 缓存节省；评测靠 golden set + LLM-as-judge。",
+        "bullets": [
+          "tracing：LangSmith/LangFuse/Phoenix 记录每步调用，分析 chain 与 agent 链路。",
+          "成本：模型路由（haiku/4o-mini for simple）、prompt cache、batch API、token 预算 + 限流。",
+          "评估维度：准确率、忠实度（faithfulness）、相关性、安全性、成本/延迟。",
+          "evaluation：golden set + LLM-as-judge (DeepEval/Ragas)；线上 A/B + 用户反馈。",
+          "护栏（Guardrails）：输入输出过滤+内容安全+PII脱敏+红队测试。",
+          "SLO：token latency P99、成功率；成本 per session；幻觉率每 1000 query。"
+        ],
+        "keyPoints": [
+          "tracing 与 eval 闭环",
+          "LLM-as-judge 偏差",
+          "成本模型与预算"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q06",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "设计一个智能客服 RAG 系统：含 FAQ 匹配 + 知识库检索 + 人工转接。",
+      "answer": {
+        "summary": "FAQ 用 semantic similarity + 关键词匹配；deep FAQ 走 RAG 知识库；不匹配转人工。",
+        "bullets": [
+          "FAQ 匹配：query embedding + cosine threshold + exact keyword match；快速首应。",
+          "知识库 RAG：FAQ 未匹配即检索+重排->append context-> LLM answer with citations。",
+          "人工转接：LLM 判断不可答 or 情绪升级 -> 生成工单推 push WebSocket -> 人工座席接上。",
+          "缓存：语义缓存 (semantic cache) 接近似问题复用后续答案减少 LLM 调用。",
+          "评估：转人工率、用户满意度、首次解决率、幻觉率。"
+        ],
+        "keyPoints": [
+          "semantic cache",
+          "fallback 转人工",
+          "引用可追溯"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q07",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "设计一个 AI Code Review 系统：PR diff -> 提建议、安全检测、性能优化、风格规范。",
+      "answer": {
+        "summary": "LLM review 按 diff + 项目规则 + Harden 分析；分层覆盖安全/性能/风格/logic。",
+        "bullets": [
+          "输入：PR diff + 项目 coding_style.md + 历史 issue patterns。",
+          "分析维度：逻辑正确、安全漏洞、性能（N+1/函数复杂度）、可维护（命名/注释）、测试覆盖。",
+          "安全检测：injection/SSRF/XSS/secret leak 规则。",
+          "流程：提交 PR -> CI 把 diff 发 LLM -> 返回 review comment + 严重度 -> post as draft。",
+          "信任边界：AI 建议不可自动 merge；人工批准仍为必须。",
+          "评测：对比人工 review 的准确率/误报率；feedback loop 迭代 prompt 与检测规则。"
+        ],
+        "keyPoints": [
+          "PR diff 分词策略",
+          "custom rules 注入",
+          "误报与信任"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q08",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "AI 辅助面试：从题库抽题、实时追问、自动评分到报告生成，系统如何设计？",
+      "answer": {
+        "summary": "面试按章节抽取题目，LLM 对回答进行综合评价（准确性/深度/关键点），可自动追问考察深度。",
+        "bullets": [
+          "抽题：按章节+难度随机抽取 1-3 题；平衡 interval。",
+          "自然追问：对回答里含糊/不完整地方 deep follow-up question。",
+          "评分模型：对 correctness(正确性)、depth(深度)、keypoints 覆盖度、有条理综合打分。",
+          "报告生成：每道题的正确+缺失点汇总，给出改善建议+推荐学习路径。",
+          "题库维护：统一 JSON 题 format + 答案自评估。",
+          "安全：不把答案喂回去训练；隐私脱敏。"
+        ],
+        "keyPoints": [
+          "follow-up 生成",
+          "scoring criteria",
+          "题库版本管理"
+        ]
+      }
+    },
+    {
+      "id": "19-AI工程化-q09",
+      "chapter": "19-AI工程化",
+      "chapterTitle": "AI 工程化",
+      "order": 9,
+      "level": "场景题",
+      "nodeId": "ai-engineering",
+      "nodeTitle": "AI 工程化",
+      "prompt": "设计一个 GPT-to-App 的对话式应用：多轮对话、工具调用、模态输出。",
+      "answer": {
+        "summary": "用 OpenAI Assistants API / LangChain 等，支持 multi-step reasoning + tools + streaming output。",
+        "bullets": [
+          "对话状态：Conversation memory (short-term via session context, long-term stored DB)。",
+          "Tools：function calling 查天气/订机票/搜索文档；工具输出 inject 回 context。",
+          "streaming response：SSE socket 把 text 块 push 到前端，逐字展示。",
+          "多模态：如果需要图片理解，可选 GPT-4V/Claude with Vision。",
+          "安全：内容审核、prompt injection 防御、速率限制 + 用户配额。"
+        ],
+        "keyPoints": [
+          "conversation memory",
+          "streaming 实现",
+          "function calling 序列化"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q01",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "测试金字塔是什么？单元/集成/E2E 各自的定位与比例是多少？",
+      "answer": {
+        "summary": "测试金字塔自下而上：单元宽底(多/快/便宜) -> 集成(中等) -> E2E 塔尖(少/慢/贵)。",
+        "bullets": [
+          "单元测试：单个函数/组件， mock dependencies； 覆盖面广；适合逻辑密集型 code。",
+          "集成测试：多组件交互 -> 真实 DB/network stubs；定位契约与边界错误。",
+          "E2E：从用户视角走完整场景； 脆弱、维护高、应少但关键。",
+          "反模式：冰淇淋锥（E2E 多、单元少）或沙漏；反向比例调整。",
+          "关键：不是追求覆盖率数字，而是让每层测该测的风险。"
+        ],
+        "keyPoints": [
+          "金字塔比例与实际",
+          "E2E vs 集成择",
+          "fake vs stub vs mock"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q02",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "Vitest 与 Jest 的区别是什么？什么时候选 Vitest？",
+      "answer": {
+        "summary": "Vitest 基于 Vite 原生 ESM 与极快 HMR；Jest 生态成熟 CJS 主流但慢；新项目用 Vitest。",
+        "bullets": [
+          "Vitest：原生 ESM、依赖 Vite 转译；启动极快；HMR 模式热反馈；适合 Vite 项目。",
+          "Jest：CommonJS 标准、生态丰富；插件多稳定性高；老项目用。",
+          "API 相似：expect/mock/snapshot；迁移 chart subtle 某些环节。",
+          "Vitest 与 Cypress/Playwright 配合平行跑测试。",
+          "选型：新 Vite monorepo 选 Vitest；已有 Jest pipeline 暂时保留。"
+        ],
+        "keyPoints": [
+          "Vitest vs Jest 差异点",
+          "C8 覆盖率",
+          "workspace per test"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q03",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "Playwright 的核心功能是什么？与 Cypress 的区别？如何处理视觉回归？",
+      "answer": {
+        "summary": "Playwright 跨 Chromium/Firefox/Safari/Edge，自带 trace viewer、网络拦截、自动等待、视觉截图对比。",
+        "bullets": [
+          "跨浏览器支持：Playwright 支持 4 种，Cypress 仅 Chrome 系列。",
+          "自动等待：await 元素就绪后才操作，不需要手写 sleep。",
+          "trace viewer：记录所有 network/dom/screenshot/action。",
+          "网络 mock：route() 拦截请求返回 fixture/error。",
+          "视觉回归：toHaveScreenshot 与 baseline 对比；Percy/Chromatic 商业化；threshold pixel ratio。",
+          "vs Cypress：Cypress 调试 UX 更好；跨 tab/多 domain 难；Playwright 更全能力。",
+          "Best: 低频关键路径；不应每个 PR 全跑。"
+        ],
+        "keyPoints": [
+          "trace viewer",
+          "visual regression 阈值",
+          "Playwright 与 Percy 集成"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q04",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "Testcontainers 是如何在测试中启动真实数据库/中间件的？与 in-memory DB 的差别？",
+      "answer": {
+        "summary": "Testcontainers 通过 Docker API 按需启停真实依赖容器；避免了 in-memory DB 的行为差异。",
+        "bullets": [
+          "容器类型：Generic/PostgreSQL/Redis/Kafka/LocalStack；封装 docker image 运行参数。",
+          "复用容器：重用 container 避免每例程启动花销；Clean 可事务回滚。",
+          "与 in-memory DB 差异：H2/SQLite 功能简化、不兼容迁移/SQL；真实 PG/MySQL 才测准。",
+          "CI 使用：需要 Docker daemon (docker-in-docker/sidecar)。",
+          "wait strategy：Wait.forHttp/Wait.forLog 条件。"
+        ],
+        "keyPoints": [
+          "in-memory vs real DB 差异",
+          "CI 中 docker-in-docker",
+          "test speed 与启动时间"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q05",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "契约测试（Pact/Spring Cloud Contract）解决什么问题？与 E2E 测试的边界在哪？",
+      "answer": {
+        "summary": "契约测试验证消费者与提供者的通信契约一致；不测业务逻辑，只测 schema/constraint；比 E2E 轻量更聚焦。",
+        "bullets": [
+          "Pact：消费者触发生成 pact 文件 -> broker 存储 -> provider 验证；CI 执行 can-i-deploy。",
+          "Spring Cloud Contract：与 Spring Web 配合生成 stub；provider-first 风格。",
+          "契约 failure 意味着 breaking change；阻止 merge。",
+          "vs E2E：契约不测端到端工作流和UI；只测交互边界。"
+        ],
+        "keyPoints": [
+          "consumer-driven vs provider-driven",
+          "can-i-deploy",
+          "pact broker 版本管理"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q06",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "设计一个前端测试体系：单元(Vitest) + 组件(RTL) + E2E(Playwright) + 视觉回归 + 契约。",
+      "answer": {
+        "summary": "层层覆盖：业务逻辑测单元；组件渲染测 RTL；关键路径 E2E Playwright；契约测 API；视觉回归测 UI 变化。",
+        "bullets": [
+          "单元：函数/Hook 测试用 Vitest；mock service。",
+          "组件：Testing Library React 用 userEvent + render + screen。",
+          "E2E：playwright 覆盖关键 flow；按 PR 在 CI 跑 smoke。",
+          "视觉回归：chromatic/percy 只拿重要组件及页面；阈值阈值。",
+          "契约：前端用 pact consumer test 对每个 service endpoint 检查。"
+        ],
+        "keyPoints": [
+          "playwright 并行",
+          "RTL 交互测试",
+          "E2E 在 CI 中速度"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q07",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "设计一个后端测试策略：单元 + 集成(Testcontainers) + 契约 + 性能测试(k6/Gatling)。",
+      "answer": {
+        "summary": "后端按金字塔：逻辑单元测试 + DB/依赖集成测试 + 关键接口性能测试 + 契约测试保证边界。",
+        "bullets": [
+          "单元：Spring/@WebMvcTest；NestJS useValue mocks。",
+          "集成：Testcontainers 启动 PG/Redis/Kafka + 分阶段：repository -> service -> HTTP。",
+          "契约：provider pact-test + Spring Cloud Contract。",
+          "性能：K6/ wrk/Locust 对核心 API 建 baseline；CI 后跑短压测。",
+          "Flaky 检测：retry + isolate；平台质量门。",
+          "数据：使用 Factories + seed + snapshot 隔离数据。"
+        ],
+        "keyPoints": [
+          "Testcontainers orm 映射",
+          "locust/k6 baseline",
+          "flaky test 检测"
+        ]
+      }
+    },
+    {
+      "id": "20-测试工程-q08",
+      "chapter": "20-测试工程",
+      "chapterTitle": "测试工程",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "testing-engineering",
+      "nodeTitle": "测试工程",
+      "prompt": "CI 中的测试编排：如何加速测试、并行分片、选择性运行、缓存测试结果？",
+      "answer": {
+        "summary": "选择性测试、test sharding、缓存 node_modules & build、affected module only。",
+        "bullets": [
+          "选择性：Nx/Turborepo affected detection (fast only what changed)。",
+          "分片：jest --shard、cypress parallel；平衡各分片时间；CI 多 agent。",
+          "缓存：docker layer cache、action/cache for node_modules、Testcontainers reuse。",
+          "预构建镜像：先 build production image，测试使用 ； test cache 中间产物。",
+          "并行：maxWorkers；Docker compose sidecar for test services。"
+        ],
+        "keyPoints": [
+          "affected 模块检测",
+          "sharding 与耗时平衡",
+          "cache hit 设计"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q01",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 1,
+      "level": "基础题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "技术方案评审的目的是什么？标准流程与 ADR 如何配合？",
+      "answer": {
+        "summary": "技术方案评审是动手前对齐边界/风险/依赖的决策点；ADR 记录不可逆的架构决策。",
+        "bullets": [
+          "评审目的：对齐目标/边界/取舍/依赖/风险；降低返工、提升共识、保留上下文。",
+          "标准流程：需求澄清 -> 上下文约束 -> 候选方案评估 -> 细节设计 -> 评审会 -> 决议与 ADR。",
+          "ADR (Architecture Decision Record)：context/decision/consequences/status；Git 仓库 + 命名按序号。",
+          "评审参与者：架构师/业务 owner /上下游代表/安全/运维；人数收敛、决策权明确。",
+          "最佳实践：评审前 async 读；会上只决策分歧点；会后发 ADR。"
+        ],
+        "keyPoints": [
+          "ADR 模板",
+          "评审反模式",
+          "决策 revisit interval"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q02",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 2,
+      "level": "基础题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "敏捷开发/Scrum/Kanban 的核心价值、角色与工件是什么？什么时候选 Kanban 而不是 Scrum？",
+      "answer": {
+        "summary": "敏捷价值观（Agile Manifesto）：个体互动/可工作软件/客户协作/响应变化；Scrum 角色 PO/SM/DevTeam，Kanban 卡 WIP 与视觉化。",
+        "bullets": [
+          "Scrum 角色：Product Owner（产品价值）、Scrum Master（流程协助）、Development Team（自组织交付）。",
+          "Scrum 事件：Sprint、Sprint Planning、Daily Standup、Sprint Review、Sprint Retrospective。",
+          "Scrum 工件：Product Backlog、Sprint Backlog、Increment、Definition of Done。",
+          "Kanban：可视化面板 限制 WIP、管理流动、显式策略、反馈闭环；适配需求不可预测的运营/服务团队。",
+          "混合：不少团队用 Scrum 做 sprint，Kanban 限制 WIP。"
+        ],
+        "keyPoints": [
+          "Scrum 与 Kanban 应用边界",
+          "Sprint Backlog vs Product Backlog",
+          "Definition of Done 意义"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q03",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 3,
+      "level": "进阶题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "技术债务的识别、量化与管理策略是什么？如何为重构要资源？",
+      "answer": {
+        "summary": "技术债影响交付速度与质量；用 quadrant（reckless/prudent + deliberate/inadvertent）分类；按业务 impact + 还款预算管理。",
+        "bullets": [
+          "识别：代码 smell、覆盖率低、修复太多、CI 耗时、事故频率、新人 onboarding 慢。",
+          "分类：Fowler 4 象限（reckless vs prudent, deliberate vs inadvertent）；区分该不该还。",
+          "定量化：用 SONAR 债指标、缺陷率、TDD 覆盖率差距、事故时间。",
+          "还款策略：20% 法则每 Sprint 留改良空间；跟业务一并排 priority；写 ADR 记录还债影响。",
+          "为重构要资源：量化对业务影响（功能交付速度/事故次数）+ 对比不還代价。"
+        ],
+        "keyPoints": [
+          "tech debt quadrant",
+          "bug ratio vs debt",
+          "TDD 覆盖率差距"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q04",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 4,
+      "level": "进阶题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "工程效能的度量（DORA 4 指标与 SPACE 框架）如何建立？怎样避免指标扭曲？",
+      "answer": {
+        "summary": "DORA 4 指标：部署频率/变更前置时间/变更失败率/MTTR；SPACE 框架扩展全维度评价，避免单一指标异化。",
+        "bullets": [
+          "DORA 4：deploy frequency、lead time for changes、change failure rate、MTTR。",
+          "DORA culture: use for continuous improvement, not punitive。",
+          "SPACE：Satisfaction/Performance/Activity/Communication/Efficiency 全维度。",
+          "避坑：不能只看 deploy frequency 而忽略变更质量；不能目标导致 non-measurable 行为。",
+          "建立：先选定关键指标 -> 基线测量 -> 季度反馈 -> 周期性复盘。"
+        ],
+        "keyPoints": [
+          "DORA 4 指标联动",
+          "how to avoid Goodhart's Law",
+          "SPACE survey design"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q05",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 5,
+      "level": "进阶题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "代码审查的最佳实践与 Checklist？如何平衡审代码与交付节奏？",
+      "answer": {
+        "summary": "代码审查把质量/知识共享前移；小 PR、Checklist、分支保护、Review time SLA 保障有效。",
+        "bullets": [
+          "最佳实践：小 PR、描述清晰、Reviewer 分配给领域最佳；审批>1 人但无冗余。",
+          "Checklist：功能、logical、test、naming、security、performance、DX。",
+          "节奏： >12h review 时间 SLA；自动流程如 CI lint/test 先通过；不评审草稿（Draft PR）。",
+          "反模式：micromanaging 无关细节、push-to-main bypass。",
+          "工具：GitHub PR / GitLab MR；Reviewdog 自动 comment。"
+        ],
+        "keyPoints": [
+          "PR size ideal",
+          "SLA 与 reviewer rotation",
+          "审查反模式"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q06",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 6,
+      "level": "场景题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "设计一个团队的工程效能提升方案：从指标基线到工具链到文化培养。",
+      "answer": {
+        "summary": "选定 DORA+SPACE 指标 -> baseline -> 自动化 CI/tooling/onboarding -> 文化迭代。",
+        "bullets": [
+          "phase 1 - baseline：收集 deploy freq/lead time/MTTR/survey 满意度。",
+          "phase 2 - 工具链痛点解决：加速 CI、统一环境、自动化 deploy、PR 模板。",
+          "phase 3 - 文化：Blameless postmortem、持续改进、内部社区 fortnight 分享。",
+          "phase 4 - measure improvement：周期性复盘指标变化；目标与表现对齐。",
+          "风险：只量化部署频率奖励草率；需要配合质量指标（change failure rate reduce）。"
+        ],
+        "keyPoints": [
+          "baseline 选定",
+          "持续改善循环",
+          "DX platform"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q07",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 7,
+      "level": "场景题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "跨团队协作的痛点在哪儿？如何通过接口契约、文档、RACI 改善？",
+      "answer": {
+        "summary": "痛点在目标不一致、知识孤岛、接口模糊；契约化接口+同步文档+RACI 责任明确。",
+        "bullets": [
+          "痛点：优先级冲突、Owner 缺失、知识孤岛、接口变未知、依赖阻塞。",
+          "对策：接口契约化 (OpenAPI/Schema/gRPC proto) + 修改通知、定期 demo/sync。",
+          "RACI：每个关键责任谁负责/谁批准/谁查询/谁告知；避免职责模糊。",
+          "文档文化：设计决策 ADR、接口文档 auto-gen、system map 共享。",
+          "跨团队 sync：每周状态短会 + 按需主题工作坊。"
+        ],
+        "keyPoints": [
+          "接口契约化",
+          "RACI 与 owner",
+          "memo culture"
+        ]
+      }
+    },
+    {
+      "id": "21-软技能-q08",
+      "chapter": "21-软技能",
+      "chapterTitle": "软技能与工程效能",
+      "order": 8,
+      "level": "场景题",
+      "nodeId": "engineering-effectiveness",
+      "nodeTitle": "工程效能",
+      "prompt": "冲突解决：团队内部或跨团队出现技术分歧时，采用什么方法解？",
+      "answer": {
+        "summary": "聚焦目标而非立场、以数据/指标作为论据、引入中立第三方仲裁。",
+        "bullets": [
+          "第一步：明确双方真实诉求与目标（不是谁对谁错）。",
+          "用数据/实验支撑决策（prototype/POC 对比）。",
+          "分级递进：组内 direct discussion -> tech lead / EM 仲裁 -> 跨 team 负责人。",
+          "避免：人身攻击和问题扩散；会后复盘总结改善协作。",
+          "决策者明确：RFC/ADR 记录最终决策与参与方。",
+          "文化：鼓励 failing forward，但把教训制度化。"
+        ],
+        "keyPoints": [
+          "target-vs-position",
+          "ADR 作为终决策",
+          "数据驱动的分歧解决"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "generatedAt": "2026-07-08T02:52:15.539Z"
+  }
+}

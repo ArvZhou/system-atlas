@@ -1,4 +1,5 @@
-import story from "@/data/articles/backend-evolution.json";
+import backendStory from "@/data/articles/backend-evolution.json";
+import frontendStory from "@/data/articles/frontend-evolution.json";
 
 export type StoryIncident = {
   title: string;
@@ -24,4 +25,12 @@ export type StoryDocument = {
   chapters: StoryChapter[];
 };
 
-export const backendEvolutionStory = story as StoryDocument;
+export const backendEvolutionStory = backendStory as StoryDocument;
+export const frontendEvolutionStory = frontendStory as StoryDocument;
+
+export type StorySlug = "backend" | "frontend";
+
+export const stories: Record<StorySlug, StoryDocument & { slug: StorySlug }> = {
+  backend: { ...(backendEvolutionStory as StoryDocument & { slug: StorySlug }), slug: "backend" },
+  frontend: { ...(frontendEvolutionStory as StoryDocument & { slug: StorySlug }), slug: "frontend" }
+};

@@ -1,0 +1,176 @@
+{
+  "title": "从切图到 RSC：一个前端的八章演进",
+  "subtitle": "按工程现场顺序写：先把页面跑起来，再被浏览器、加载速度和团队协作逼着一层层重做。",
+  "readTime": "20 分钟",
+  "tags": ["前端架构", "模块化", "组件化", "SSR", "AI 辅助"],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "year": "起点",
+      "title": "第一章：三个人，一份需求，一个跑在 IE6 上的页面",
+      "summary": "第一版没有构建工具，只有 jQuery、表格布局和一台共用电脑。",
+      "paragraphs": [
+        "那会儿前端的书不叫前端，叫「切图」。设计师把 PSD 发过来，前端同学把图片切完嵌进 HTML。表格布局、float、clearfix，每改一段都要在 IE6、IE7、Firefox 三个窗口里来回刷。一周五天里，至少有两天是用来问「为什么在 IE6 下少一个像素」的。",
+        "上线那一周，产品把页面拿去给老板看，凌晨的截图瞬间白屏。前端同学想都没想就猜到：jQuery 用了高版本，IE6 加载时报错。改回 1.4 那天晚上，打印机还在响，UI 当时就出图了。第二天没人谈 npm，没人谈打包，大家争的是按钮里的圆角能不能用 CSS3，还是只能放一张带边角的 GIF。",
+        "协作也很直接。前端改完把页面塞进 SVN，后端在 JSP 里把 HTML 换成 <c:forEach>，谁动了谁的样式，谁改了谁的脚本，只能从工位上站起来走到对方身边看。没 issue、没 PR，调试靠在浏览器里 console.log。"
+      ],
+      "bullets": [
+        "前端一辈子的开头，是「为什么 IE6 少一个像素」。",
+        "没有构建工具之前，文件多了就开始互相覆盖、命名撞车。",
+        "jQuery 是事实标准，但版本和插件总是乱跑。"
+      ],
+      "incident": {
+        "title": "jQuery 版本走偏，首页白屏",
+        "detail": "高版本 jQuery 不支持 IE6，凌晨客户截图返回白屏。前端改回 1.4 才恢复。第二天立下规矩：jQuery 版本写死在公共 header，谁也不许单独换。"
+      },
+      "lesson": "那时候前端不是没工具，是工具从版本管理开始就既脆弱又得手动盯。"
+    },
+    {
+      "id": "chapter-2",
+      "year": "模块化",
+      "title": "第二章：插件多了开始失控，模块加载第一次进项目",
+      "summary": "jQuery 插件像水一样涌进来，全局变量打架，「模块」这个概念第一次进前端。",
+      "paragraphs": [
+        "jQuery 插件像水一样涌进来：轮播、分页、灯箱、剪贴板、表单校验，谁能上谁先上。每接一个插件 <script> 就多一截，加载顺序错了就崩。有一次团队接了 lightbox 又再装 lightbox2，两个 $('a[rel=lightbox]') 在同一页面抢同一节点，弹窗闪一下又消失。QA 盯了半个下午才发现是同名插件被两个开发各装了一份。",
+        "那段时间 Sea.js、RequireJS 第一次被搬到桌上。前端第一次知道：原来脚本也能「按需加载 + 命名空间」。但模块化的「前端版本」和后端不一样——后端的 require 是文件系统，前端要管 URL，要管加载顺序，要管浏览器解析顺序。改一段老代码，把内嵌的 <script> 拆成模块，比写新功能还慢。",
+        "最有影响的一次发布，是上线后某页用了 require 但没配 paths，整个生产用户打不开购物车。前端同学悔得一晚没睡，第二天干脆把所有模块路径打印贴到边上。有人开始在群里抱怨「为什么这事不能在打包阶段验出来」——这句话后来成了 Webpack 出现的引爆点之一。"
+      ],
+      "bullets": [
+        "全局变量是免费的，代价就是脚本之间互相打架。",
+        "RequireJS 不擅长让旧页面重写，但它让「模块」在前端第一次有了硬概念。",
+        "加载失败是用户能直接看见的事故，比构建报错更早暴露问题。"
+      ],
+      "incident": {
+        "title": "两个同名插件抢同一节点",
+        "detail": "同一页面被两个 jQuery 插件声明同一个选择器，弹窗一闪就消失。从那次起前端开始把「插件按 namespace 归类」写进团队守则，公共库也由一个人统一维护。"
+      },
+      "lesson": "模块化不是「用上 require 就好」，是要先把命名空间这件事弄明白。"
+    },
+    {
+      "id": "chapter-3",
+      "year": "双向绑定",
+      "title": "第三章：AngularJS 拉大家跳进双向绑定，半年后又把项目跳回 jQuery",
+      "summary": "双向绑定让所有人觉得前端「也能像应用」，但很快有人开始算 digest 性能。",
+      "paragraphs": [
+        "2013 年办公室茶水间天天讨论 AngularJS。指令、scope、依赖注入都是新词，最让人兴奋的是 ng-model 一行让表单和模型同步。产品同事第一次看到改完 input 立刻就在另一处看见，眼里的激动像一夜之间把前端和数据库的边界擦掉了。几个团队直接照着 demo 把整个 CRM 前端重写上去。",
+        "可半年之后问题就出来。一张 CRUD 列表上几千行数据，每改一个 ng-repeat 的字段，digest 把整个 scope 走一遍，浏览器卡到默认无响应。产品拿着旧 jQuery 版给前端看：「以前这个页面滚动很顺。」 前端同学开会那天说了句被念了很久的话：「原来把数据绑定给你，性能自己也得还回来。」",
+        "那个时期 Ember、Knockout、Backbone 也都在抢项目，谁也不敢说自己是赢家。办公室里有人开始读 React 介绍 virtual DOM 的博客，有人还在用 Backbone 抢紧急项目，理由是「架构越轻越好」。前端第一次出现「框架有生命周期」这件事——选框架不光是看当下省不省力，还要看两年后能不能维护下去。"
+      ],
+      "bullets": [
+        "双向绑定最值钱的是「少写胶水代码」，最贵的也是「少了就难看清谁重渲染」。",
+        "scope 体积大一定要做 manually mark dirty，否则 digest 失控。",
+        "这轮混战第一次让大家正面承认前端是有运行模型的。"
+      ],
+      "incident": {
+        "title": "digest 把列表页卡到无响应",
+        "detail": "一张大客户表挂上 ng-repeat，每次输入过滤 digest 都满屏。产品把旧 jQuery 版翻出来对比，前端临时加了 limitTo 和 track by。后来这页直接换回 Backbone，团队会议第一次承认：框架选型得算算运行代价。"
+      },
+      "lesson": "双向绑定是个工程账，不是省了胶水代码就等于省了维护成本。"
+    },
+    {
+      "id": "chapter-4",
+      "year": "打包与 SPA",
+      "title": "第四章：Webpack 出来那天，前端第一次能像后端一样写代码",
+      "summary": "生成 dist 的那一刻，page 不再是 page，而是 route。",
+      "paragraphs": [
+        "Webpack 的 release note 第一次传到群里时，前端还没当回事。直到有人把整个项目里的 CSS、图片、字体都通过 import 拉进 JS，第一次跑 build 几行警告后吐出一个 dist/bundle.js，大家的表情都不一样。后端都说我们这儿有 maven、有 gradle，前端这一晚也有「打包」了。",
+        "Babel 也是同一段时间来的。一行 import * as React from 'react' 浏览器看不懂，没关系，Babel 在构建期帮你翻译，新语法不再是「等浏览器上齐再敢用」。也就是这段，开始有人写 ES6、Modules、解构、async/await，前端第一次和「什么版本浏览器支持什么语法」拉开了距离——浏览器凑齐支持要等好几年，先写出来再说。",
+        "那时 SPA 也开始普及。React Router 把 URL 拆成组件树，第一次页是客户端组件，而不是模板文件。后端开始从「渲染页面」变成「发数据」，一个 REST API 加一个 SPA 前端，开发分了工。这一年前端工程的边界第一次变得明显：视图、路由、状态、构建、依赖，五件事都得有人自己管。"
+      ],
+      "bullets": [
+        "Webpack/Babel 把前端构建和「工程」对齐，代价是配置文件开始比代码还难读。",
+        "SPA 把「页面」变成「路由组件」，URL 第一次能被前端主导。",
+        "Babel 不是写 ES6 的工具，是让你不用等浏览器的工具。"
+      ],
+      "incident": {
+        "title": "CSS Modules 配置写歪，样式塌了一整页",
+        "detail": "第一波改用 CSS Modules 的同学没经验，一份 webpack.config.js 写了 200 多行 Loader，发布时一个全局样式没被打进去，整页样式塌掉，当天晚上被回滚到 inline <style>。后来 CSS Modules 单独写了一份模板，谁动谁负责。"
+      },
+      "lesson": "构建工具解放前端，但也把「构建配置写歪」变成整页事故。"
+    },
+    {
+      "id": "chapter-5",
+      "year": "组件与类型",
+      "title": "第五章：Vue 把组件化偷偷普及，TypeScript 把野生 JS 收下",
+      "summary": "SFC 让组件成为日常，TS 第一次把「看 prop 就能知道」做出来。",
+      "paragraphs": [
+        "Vue 2.0 一出来，办公室态度分两派：一派说这只是 angular 换皮，一派把五行单文件组件贴到墙上展示。SFC 文档一看就懂，template + script + style 三段对齐，组件一拽就是一个 .vue 文件，很多原本 jQuery 写的功能被换成了 v-for 和 v-model。前后端工位之间开始有人问「这个能不能拆成 list-item 组件，给我另一个页面也用」。",
+        "同一时期，后端同学过来做了一次前端 demo，他们接受得最快的是「绑定」，最抗拒的是「没类型」。一次重构，有人把 props.user 错写成 props.users，QA 直到上线才发现体验错乱。这件事把团队 TypeScript 试点逼了出来：先 .d.ts 写公共组件类型，再到页面，再到 store，一步步把隐性 bug 漏出来变编译错误。",
+        "组件化真正解决了「同一个 list-card 被复制实现很多遍、顺序还都不一样」那一类的事。但组件的边界也带来真正的问题：状态该不该放父组件；放父组件，子组件就「内部状态泛滥」；不放，孙组件之间的联动又得一层层 context props。这个问题在两年后才被 React Context 与 Hooks 慢慢接住。"
+      ],
+      "bullets": [
+        "组件化让前端第一次知道「这页是组件堆，不是脚本堆」。",
+        "TypeScript 不是减代码量，是把「上线前的 bug 提前到一次失败编译」。",
+        "状态位置一直是组件化时代最大的隐形复杂度。"
+      ],
+      "incident": {
+        "title": "props 名错一时没人发现",
+        "detail": "改一处 list-card 组件，把 user 写成 users，前端 .ts 没开 strictNullChecks，到运行期才报错，晚了一个版本上线。那周团队立了一条规矩：所有新组件必须 TS，旧组件重构时同步带上 TS。"
+      },
+      "lesson": "组件化的真正分水岭不是写得漂亮，是能不能靠类型在编译期把 typo 拦下来。"
+    },
+    {
+      "id": "chapter-6",
+      "year": "SSR 回归",
+      "title": "第六章：首屏不能等六秒，SSR 第一次被前端拉回来",
+      "summary": "SPA 深得用户心也进了 SEO 黑名单，Next.js 把 SSR 拉回前端桌。",
+      "paragraphs": [
+        "团队的电商站跑了两年 SPA，第二年开始算账。客户问为什么搜索引擎里看到的商品页都是「加载中」两字，市场问为什么分享卡片拉不到图片。后端看了眼站点，叹一口气：「你们做了 SPA，首屏六秒只有 loading。」 那次评审上，前端第一次同时面对 SEO、首屏、爬虫这几件事被点出来，产品投票投给了「先做 SSR」。",
+        "Next.js 那段时间被搬进项目。服务端一渲染，首屏 HTML 直接命中 DOM，爬虫一打开就有完整内容，时间一下降到一秒以内，外链分享涨了一倍。不过同一段时间新的混乱也出现：服务端和客户端的 hydration mismatch 报错初次让大家头大，「为什么 this 在 server 和 client 里不一样」在 issue 里堆成了 50 多条。",
+        "那段工程里项目第一次同时有「客户端」和「服务端」两段运行时。同一段组件代码，服务端跑要小心 window、document、useEffect；客户端跑要小心首屏的 stale state；SSR 之外还有 getStaticProps / getInitialProps / getServerSideProps 哪个本事大的争议。前端第一次没法假装「只有浏览器一个运行时」。"
+      ],
+      "bullets": [
+        "SSR 不是「做不做」的问题，是「这个页要不要被快速看见、被搜索引擎抓住」的问题。",
+        "SSR 和 hydration 带来了对运行时一致性的新要求，window/document 一次都不能在服务端访问。",
+        "SSG、SSR、ISR 各有适配场景，团队要按页类型分发，而不是按偏好。"
+      ],
+      "incident": {
+        "title": "window 在服务端被访问，首屏 500",
+        "detail": "一个第三方埋点 SDK 在模块顶层用 window，首次线上 SSR 一打开就 500，影响首页三分钟。第二次工程约定：所有依赖浏览器环境的代码封进 useEffect，第三方 SDK 一律 dynamic import with ssr:false。"
+      },
+      "lesson": "SSR 拉回了「首屏可被搜索引擎抓」，顺带也把运行时一致性推上台。"
+    },
+    {
+      "id": "chapter-7",
+      "year": "构建与边缘",
+      "title": "第七章：Vite 出来，dev server 五秒起了，Webpack 配置像古董",
+      "summary": "esbuild / SWC / Vite / Rollup 把开发体验拉回快车道，Edge 也开始进视野。",
+      "paragraphs": [
+        "Vite 第一次 demo 时前端都很怀疑：一个新建项目，冷启动怎么可能在 5 秒内进页面。后来现场一起跑：`npm create vite@latest demo`，五秒不到页面就出来了，HMR 又轻又准，没在看 webpack output 和 cache 日志上等半天。会议室里有人开玩笑：「今天的前端，文档得读五分钟，dev server 得五秒。」",
+        "esbuild 和 SWC 让转译第一次不再是性能瓶颈。原本一次 Babel 跑完十几秒很常见，迁到 esbuild 项目编译时间从压缩几秒变几乎不打扰；SWC 在 Next.js 里接管转译，CI 上「Type check + build」总时长从 90 秒掉到 20 秒以下。前端开始不再接受「慢的构建工具」，并对 Loader 配置的复杂度第一次说出「不」。",
+        "边缘也开始挤进项目。Cloudflare Workers、Vercel Edge Functions 让一段代码不再走 main region，而贴着 CDN 跑。中间件、A/B、拦截、auth 检查变得更薄、更快。那段工程里前端第一次明白：「这个页面跑在边缘节点里，不是离我八千公里外的机房。」"
+      ],
+      "bullets": [
+        "开发体验不只看 HMR，要看「冷启动可不可以立刻看到点上的页面」。",
+        "原生语言工具让构建配置不再需要「边吃饭边等回来」。",
+        "边缘运行时让前端代码不靠近 origin，而是靠近用户。"
+      ],
+      "incident": {
+        "title": "edge middleware 把密钥打到 bundle",
+        "detail": "迁到 edge middleware 第一周，前端把 process.env.SESSION_SECRET 直接打到 bundle，机密被传到 CDN 边缘缓存。当晚报警回滚，团队随即定下规则：edge 代码可使用 process.env 的字段只走白名单，密钥一律在服务端 ahead-of-time 处理。"
+      },
+      "lesson": "边缘不是「哪都能跑的更快的后端」，是「看得见的代码更多，能放的秘密更少」。"
+    },
+    {
+      "id": "chapter-8",
+      "year": "今天",
+      "title": "第八章：RSC 把前端又拉回服务端，AI 开始替前端写样板",
+      "summary": "「在浏览器里跑」这件事又被重新定义一遍，前端又回到「哪种代码该跑在哪」。",
+      "paragraphs": [
+        "React Server Components 出来时，办公室每个人都半信半疑。RSC 把「不携带 JS 的组件」摆上台：组件在服务端跑、跑完结果下发成序列化的描述，浏览器只 hydrate 必要的那块。新功能第一次让一个详情页 bundle 体积从 80 KB 掉到 25 KB。身边的人开始重写「逻辑边界」：哪些组件该用 hooks/events，哪些就老老实实做 server，不再是凭感觉。",
+        "Server Actions 把表单做 mutation 那条线又简化一层。「use server」加上去，函数编译成 RPC + CSRF token，前端不用再写 fetch / axios / 错误格式。但这又把 csrf 与权限校验原原本本拉回 server 端做。第一版有人忘了写 zod 校验也忘了检查权限，第二天 PR 被打回；那次 review 备了一份模板：每个 Server Action 要标「校验来源 / 权限 / 失效缓存」三件套才能 merge。",
+        "AI 也正式进前端流程。Cursor、Copilot、Claude Code 在一个新人入职的两周里帮他写完了 80% 的组件模板和 60% 的样式；可一旦开始处理复杂 hydration 边界或处理 RSC 与 client 之间 props 序列化，AI 也跟着迷茫。前端第一次明白「AI 在前端最值钱的是样板与样式，最不能依赖的是组件态/作用域/序列化边界」。"
+      ],
+      "bullets": [
+        "RSC 把「零客户端 JS 的组件」做出来，组件不再只能「跑在浏览器」。",
+        "Server Actions 不只是少 fetch，是让 mutation 收敛回一个有 csrf+权限的服务端通道。",
+        "AI 在前端最值钱的是样板与样式，最不能依赖的是组件态/作用域/序列化边界。"
+      ],
+      "incident": {
+        "title": "Server Action 漏 zod 校验，前端提交被绕过",
+        "detail": "一个 server action 写完忘了 zod 校验成员资格，前端直接传任何 user id 都能改动别人的地址。Code review 把这种 PR 打回并立下模板：每个 action 在 commit 里单独列出「校验来源 / 权限校验 / 失效缓存」三项才能 merge。"
+      },
+      "lesson": "今天的复杂度又回到「代码该跑在哪」，不再是「前端只能在浏览器」。"
+    }
+  ]
+}

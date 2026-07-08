@@ -249,7 +249,7 @@ export function InterviewWorkbench({ root = atlasRoot }: InterviewWorkbenchProps
                                     placeholder="在这里写答案..."
                                     rows={4}
                                   />
-                                  <InterviewAnswer node={nodeMap.get(group.nodeId) ?? selectedNode} prompt={question.prompt} />
+                                  <InterviewAnswer node={nodeMap.get(group.nodeId) ?? selectedNode} prompt={question.prompt} answer={question.answer} />
                                 </div>
                               ))}
                             </div>

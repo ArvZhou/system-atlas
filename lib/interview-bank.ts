@@ -1,21 +1,28 @@
 import type { GraphNode, Node } from "@/lib/types";
 import { flattenTree } from "@/lib/graph";
-import bank from "@/data/interview/interview-bank.json";
-import { buildInterviewAnswer } from "@/lib/interview-answer";
+import bank from "@/data/interview/interview-bank-refined.json";
+
+export type BankAnswer = {
+  summary: string;
+  bullets: string[];
+  keyPoints?: string[];
+};
 
 export type BankQuestion = {
   id: string;
-  file: string;
-  section: string;
-  subsection: string;
+  chapter: string;
+  chapterTitle: string;
+  level: string;
   nodeId: string;
   nodeTitle: string;
   prompt: string;
+  answer: BankAnswer;
 };
 
 export type InterviewQuestion = {
   id: string;
   prompt: string;
+  answer?: BankAnswer;
 };
 
 export type InterviewSection = {
@@ -73,7 +80,7 @@ type BankFile = {
 const interviewBank = bank as BankFile;
 
 function sectionKey(question: BankQuestion): string {
-  return question.subsection ? `${question.section} · ${question.subsection}` : question.section;
+  return question.level ? `${question.chapterTitle} · ${question.level}` : question.chapterTitle;
 }
 
 function buildNodeTitleMap(root: Node) {
@@ -108,7 +115,8 @@ function buildInterviewGroupsForIds(root: Node, nodeIds: string[]): InterviewGro
         }
         sectionsByKey.get(key)!.push({
           id: question.id,
-          prompt: question.prompt
+          prompt: question.prompt,
+          answer: question.answer
         });
       }
 
@@ -218,13 +226,13 @@ export function buildInterviewCatalog(root: Node, includeAnswers = false): Inter
   >();
 
   for (const question of interviewBank.questions) {
-    const questionKey = [question.file, question.section, question.subsection, question.nodeId, question.prompt.trim()].join("||");
+    const questionKey = [question.chapter, question.level, question.nodeId, question.prompt.trim()].join("||");
     if (seenQuestions.has(questionKey)) continue;
     seenQuestions.add(questionKey);
 
-    const fileGroup = files.get(question.file) ?? new Map();
-    const sectionGroup = fileGroup.get(question.section) ?? new Map();
-    const subsectionTitle = question.subsection || "未分类";
+    const fileGroup = files.get(question.chapter) ?? new Map();
+    const sectionGroup = fileGroup.get(question.chapterTitle) ?? new Map();
+    const subsectionTitle = question.level || "未分类";
     const subsectionGroup = sectionGroup.get(subsectionTitle) ?? new Map();
     const node = nodeMap.get(question.nodeId);
     const nodeTitle = node?.title ?? question.nodeTitle ?? question.nodeId;
@@ -236,17 +244,14 @@ export function buildInterviewCatalog(root: Node, includeAnswers = false): Inter
     };
 
     if (includeAnswers) {
-      if (node) {
-        const answer = buildInterviewAnswer(node, question.prompt);
-        catalogQuestion.answer = answer;
-      }
+      catalogQuestion.answer = question.answer;
     }
 
     nodeGroup.questions.push(catalogQuestion);
     subsectionGroup.set(question.nodeId, nodeGroup);
     sectionGroup.set(subsectionTitle, subsectionGroup);
-    fileGroup.set(question.section, sectionGroup);
-    files.set(question.file, fileGroup);
+    fileGroup.set(question.chapterTitle, sectionGroup);
+    files.set(question.chapter, fileGroup);
   }
 
   return [...files.entries()].map(([file, sectionsMap]) => ({

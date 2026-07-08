@@ -945,3 +945,99 @@ input {
     font-size: 1.45rem;
   }
 }
+
+.story-index {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  padding: 4.5rem 2rem 4rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.story-index-header {
+  margin-bottom: 2.5rem;
+}
+
+.story-index-header h1 {
+  margin: 0.6rem 0 0.7rem;
+  font-size: 2rem;
+  letter-spacing: 0.01em;
+}
+
+.story-index-header p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 540px;
+}
+
+.story-index-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.story-card {
+  display: block;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+}
+
+.story-card:hover {
+  border-color: rgba(77, 224, 201, 0.45);
+  background: var(--panel-strong);
+  transform: translateY(-1px);
+}
+
+.story-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+
+.story-card-title svg {
+  color: var(--accent);
+  transition: transform 0.18s ease;
+}
+
+.story-card:hover .story-card-title svg {
+  transform: translateX(3px);
+}
+
+.story-card-subtitle {
+  margin: 0 0 0.7rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.story-card-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+.story-card-meta span::before {
+  content: "·";
+  margin-right: 0.5rem;
+  color: var(--border);
+}
+
+.story-card-meta span:first-child::before {
+  content: "";
+  margin: 0;
+}

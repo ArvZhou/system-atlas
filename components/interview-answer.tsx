@@ -2,16 +2,18 @@
 
 import { ChevronDown, Eye } from "lucide-react";
 import type { GraphNode } from "@/lib/types";
+import type { AnswerCard } from "@/lib/interview-answer";
 import { buildInterviewAnswer } from "@/lib/interview-answer";
 
 type InterviewAnswerProps = {
   node: Pick<GraphNode, "id" | "title" | "description" | "systemRole" | "problemSolved" | "tradeOffs" | "tags" | "type">;
   prompt: string;
+  answer?: AnswerCard;
   compact?: boolean;
 };
 
-export function InterviewAnswer({ node, prompt, compact = false }: InterviewAnswerProps) {
-  const answer = buildInterviewAnswer(node, prompt);
+export function InterviewAnswer({ node, prompt, answer: inlineAnswer, compact = false }: InterviewAnswerProps) {
+  const answer = inlineAnswer ?? buildInterviewAnswer(node, prompt);
 
   return (
     <details className="answer-reveal" data-compact={compact || undefined}>

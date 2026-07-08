@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { BookOpen, Home, Minus, Plus, BriefcaseBusiness } from "lucide-react";
+import { BookOpen, Home, Minus, Plus, BriefcaseBusiness, ChevronLeft } from "lucide-react";
 import type { StoryDocument } from "@/lib/story";
 
 type StoryReaderProps = {
@@ -37,6 +37,9 @@ export function StoryReader({ story }: StoryReaderProps) {
         </div>
 
         <div className="toolbar">
+          <Link className="chip" href="/story">
+            <ChevronLeft size={15} /> 故事目录
+          </Link>
           <Link className="chip" href="/">
             <Home size={15} /> 首页
           </Link>
