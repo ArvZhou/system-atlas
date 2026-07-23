@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowLeftRight, Home, Search, Sigma, Layers3, Filter, RefreshCcw, BriefcaseBusiness, BookOpen } from "lucide-react";
+import { ArrowLeft, ArrowLeftRight, Home, Search, Sigma, Layers3, Filter, RefreshCcw, BriefcaseBusiness, BookOpen, GitBranch } from "lucide-react";
 import { atlasRoot } from "@/lib/graph-data";
 import { buildIndex, buildSearch, findNode, getModeRoot, pathToNode } from "@/lib/graph";
 import { useAtlasStore } from "@/lib/use-atlas-store";
@@ -141,6 +141,9 @@ export function SystemAtlasApp() {
           </Link>
           <Link className="chip" href="/story">
             <BookOpen size={15} /> 故事
+          </Link>
+          <Link className="chip" href="/evolution">
+            <GitBranch size={15} /> 演化史
           </Link>
           <button className="icon-button" onClick={() => handleMode(mode)} title="重置当前模式">
             <RefreshCcw size={15} />
